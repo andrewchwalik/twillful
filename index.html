@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Syne:wght@500;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600;1,700&family=Manrope:wght@400;500;600;700;800&family=Syne:wght@500;700;800&display=swap"
     rel="stylesheet"
   />
 
@@ -125,106 +125,95 @@
       animation: float-arrow 2.6s ease-in-out infinite;
     }
 
-    @keyframes painter-drift {
+    @keyframes quill-float {
       0%,
       100% {
         transform: translateY(0);
       }
       50% {
-        transform: translateY(6px);
+        transform: translateY(4px);
       }
     }
 
-    @keyframes painter-peek {
+    @keyframes quill-write {
       0%,
-      48%,
+      14%,
       100% {
-        transform: translateX(0);
-      }
-      56% {
-        transform: translateX(40px);
-      }
-      64% {
-        transform: translateX(58px);
-      }
-      74% {
-        transform: translateX(50px);
-      }
-      86% {
-        transform: translateX(0);
-      }
-    }
-
-    @keyframes painter-arm {
-      0%,
-      36%,
-      100% {
-        transform: rotate(-7deg) translateY(0);
-        opacity: 1;
-      }
-      10% {
-        transform: rotate(4deg) translateY(-5px);
-      }
-      22% {
-        transform: rotate(-10deg) translateY(3px);
-      }
-      32% {
-        transform: rotate(6deg) translateY(-4px);
-      }
-      44%,
-      82% {
-        transform: rotate(-16deg) translateY(10px);
-        opacity: 0.35;
-      }
-    }
-
-    @keyframes splatter-bloom {
-      0%,
-      10%,
-      100% {
-        opacity: 0;
-        transform: scale(0.72);
-      }
-      16% {
-        opacity: 0.95;
-        transform: scale(1);
+        transform: scaleX(0);
       }
       24% {
-        opacity: 0;
-        transform: scale(1.18);
+        transform: scaleX(0.1);
+      }
+      58% {
+        transform: scaleX(1);
+      }
+      82% {
+        transform: scaleX(1);
+      }
+      92% {
+        transform: scaleX(0.96);
       }
     }
 
-    .painter-scene {
-      animation: painter-drift 6.5s ease-in-out infinite;
+    @keyframes quill-glide {
+      0%,
+      12% {
+        transform: translate(112px, 146px) rotate(-20deg);
+        opacity: 0;
+      }
+      18% {
+        opacity: 1;
+      }
+      56% {
+        transform: translate(512px, 136px) rotate(-6deg);
+        opacity: 1;
+      }
+      76% {
+        transform: translate(512px, 136px) rotate(-6deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(560px, 116px) rotate(8deg);
+        opacity: 0;
+      }
     }
 
-    .painter-head,
-    .painter-arm,
-    .splatter {
+    @keyframes ink-dot {
+      0%,
+      16%,
+      100% {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      26% {
+        opacity: 0.9;
+        transform: scale(1);
+      }
+      42% {
+        opacity: 0;
+        transform: scale(1.2);
+      }
+    }
+
+    .quill-scene {
+      animation: quill-float 6s ease-in-out infinite;
+    }
+
+    .story-mask {
+      transform-origin: left center;
+      animation: quill-write 5.2s cubic-bezier(0.2, 0.75, 0.2, 1) infinite;
+    }
+
+    .quill-pen {
       transform-box: fill-box;
       transform-origin: center;
+      animation: quill-glide 5.2s ease-in-out infinite;
     }
 
-    .painter-head {
-      animation: painter-peek 7.4s cubic-bezier(0.2, 0.84, 0.2, 1) infinite;
-    }
-
-    .painter-arm {
-      transform-origin: 100% 16%;
-      animation: painter-arm 7.4s ease-in-out infinite;
-    }
-
-    .splatter {
-      animation: splatter-bloom 7.4s ease-out infinite;
-    }
-
-    .splatter-delay-1 {
-      animation-delay: 0.15s;
-    }
-
-    .splatter-delay-2 {
-      animation-delay: 0.35s;
+    .ink-pulse {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: ink-dot 5.2s ease-out infinite;
     }
   </style>
 </head>
@@ -269,117 +258,49 @@
       }
     ];
 
-    function PainterScene() {
+    function QuillScene() {
       return (
-        <div className="painter-scene mx-auto w-full max-w-[13rem] sm:max-w-[17rem] md:max-w-[20rem] lg:max-w-[23rem]">
-          <svg viewBox="0 0 760 620" role="img" aria-label="Animated painter behind an easel" className="w-full overflow-visible">
+        <div className="quill-scene mx-auto w-full max-w-[18rem] sm:max-w-[24rem] md:max-w-[30rem] lg:max-w-[36rem]">
+          <svg viewBox="0 0 760 280" role="img" aria-label="Animated quill writing Tell your brand's story" className="w-full overflow-visible">
             <defs>
-              <radialGradient id="studioGlow" cx="50%" cy="46%" r="60%">
-                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.68" />
-                <stop offset="38%" stopColor="#eaf5e2" stopOpacity="0.24" />
-                <stop offset="100%" stopColor="#eaf5e2" stopOpacity="0" />
-              </radialGradient>
-              <linearGradient id="easelBack" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#f7f8f1" />
-                <stop offset="100%" stopColor="#dfe8d5" />
+              <linearGradient id="quillFeather" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#f8fbf4" />
+                <stop offset="58%" stopColor="#deebd5" />
+                <stop offset="100%" stopColor="#b1c99a" />
               </linearGradient>
-              <linearGradient id="woodTone" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#edf3e7" />
-                <stop offset="100%" stopColor="#d1dcc1" />
+              <linearGradient id="quillShaft" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#6f4d31" />
+                <stop offset="100%" stopColor="#b18457" />
               </linearGradient>
-              <linearGradient id="apronTone" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#6f9b45" />
-                <stop offset="100%" stopColor="#4d6f2e" />
-              </linearGradient>
+              <clipPath id="storyReveal">
+                <rect className="story-mask" x="110" y="74" width="520" height="112" rx="12" />
+              </clipPath>
             </defs>
 
-            <ellipse cx="380" cy="275" rx="228" ry="180" fill="url(#studioGlow)" opacity="0.92" />
-            <ellipse cx="380" cy="535" rx="188" ry="36" fill="#142012" opacity="0.16" />
+            <ellipse cx="370" cy="132" rx="260" ry="74" fill="#ffffff" opacity="0.08" />
 
-            <g className="splatter">
-              <circle cx="270" cy="194" r="8" fill="#edf5e8" />
-              <circle cx="248" cy="177" r="4.5" fill="#d8ebd4" />
-              <circle cx="289" cy="169" r="5.5" fill="#f5fbf2" />
-              <path d="M259 209C267 198 281 198 287 210C279 214 266 214 259 209Z" fill="#edf5e8" />
-            </g>
-            <g className="splatter splatter-delay-1">
-              <circle cx="503" cy="245" r="7" fill="#e8f2e4" />
-              <circle cx="527" cy="227" r="4" fill="#f7faf4" />
-              <circle cx="531" cy="254" r="5.5" fill="#d9e7cb" />
-              <path d="M493 257C502 249 514 250 520 261C512 266 500 266 493 257Z" fill="#edf5e8" />
-            </g>
-            <g className="splatter splatter-delay-2">
-              <circle cx="488" cy="350" r="6.5" fill="#f6faf1" />
-              <circle cx="515" cy="339" r="4.5" fill="#dbe8cf" />
-              <circle cx="475" cy="327" r="3.8" fill="#eef5e8" />
+            <g clipPath="url(#storyReveal)">
+              <text
+                x="112"
+                y="150"
+                fill="#f8fbf4"
+                fontSize="58"
+                style={{ fontFamily: '"Cormorant Garamond", serif', fontStyle: "italic", fontWeight: 600, letterSpacing: "0.01em" }}
+              >
+                Tell your brand&apos;s story
+              </text>
             </g>
 
-            <g opacity="0.96">
-              <ellipse cx="420" cy="385" rx="124" ry="104" fill="#3a542a" opacity="0.24" />
-              <path
-                d="M383 443C376 389 394 329 439 302C481 276 534 283 564 326C591 364 587 419 555 450C523 480 455 488 383 443Z"
-                fill="url(#apronTone)"
-              />
-              <path
-                d="M426 328C445 311 470 306 489 314C480 332 466 347 444 358C429 350 422 341 426 328Z"
-                fill="#7cad4c"
-                opacity="0.95"
-              />
-              <path d="M454 327C476 323 495 329 510 343C494 349 477 350 460 347C453 340 451 333 454 327Z" fill="#95bc63" opacity="0.95" />
-            </g>
+            <path d="M112 168C194 168 261 164 327 157C403 149 470 144 514 145" stroke="#f8fbf4" strokeOpacity="0.22" strokeWidth="2.4" strokeLinecap="round" />
+            <circle className="ink-pulse" cx="520" cy="144" r="6" fill="#f8fbf4" opacity="0.85" />
 
-            <g className="painter-arm">
-              <path d="M468 364C495 349 522 344 547 349C566 353 579 363 584 377C561 380 540 385 520 394C503 402 488 413 476 427L455 409C456 392 460 377 468 364Z" fill="#8fbd5d" />
-              <path d="M548 346C568 346 588 354 598 372L582 381C573 366 561 359 544 358L548 346Z" fill="#5d8a3a" />
-              <rect x="583" y="355" width="70" height="9" rx="4.5" transform="rotate(25 583 355)" fill="#f8faf4" />
-              <rect x="644" y="384" width="15" height="9" rx="4.5" transform="rotate(25 644 384)" fill="#7c9c62" />
-              <circle cx="464" cy="413" r="13" fill="#82ad52" />
-              <circle cx="470" cy="410" r="4" fill="#dff0cf" opacity="0.7" />
-            </g>
-
-            <g className="painter-head">
-              <ellipse cx="446" cy="238" rx="52" ry="45" fill="#7fb24c" />
-              <ellipse cx="426" cy="205" rx="21" ry="22" fill="#84b651" />
-              <ellipse cx="467" cy="203" rx="21" ry="22" fill="#84b651" />
-              <ellipse cx="444" cy="243" rx="36" ry="27" fill="#90c060" />
-              <path d="M409 219C415 193 435 178 463 176C491 173 511 189 520 212C506 206 489 204 469 206C447 208 428 212 409 219Z" fill="#6ca240" />
-              <path d="M415 194C425 180 441 171 459 169C478 167 495 172 510 183C507 190 501 196 495 201C481 195 467 193 452 194C439 194 427 195 415 194Z" fill="#ce3b31" />
-              <path d="M421 180C430 170 445 164 462 164C480 164 496 169 510 180" stroke="#dd5950" strokeWidth="8" strokeLinecap="round" />
-              <path d="M421 190C430 181 445 176 461 176C478 176 494 181 507 190" stroke="#a72e28" strokeWidth="4.5" strokeLinecap="round" opacity="0.8" />
-              <path d="M422 198C431 190 445 186 460 186C476 186 490 191 502 199" stroke="#922722" strokeWidth="4" strokeLinecap="round" opacity="0.75" />
-              <circle cx="426" cy="209" r="18" fill="#0f5f8f" />
-              <circle cx="466" cy="207" r="18" fill="#0f5f8f" />
-              <circle cx="426" cy="209" r="13" fill="#3ca3d8" />
-              <circle cx="466" cy="207" r="13" fill="#3ca3d8" />
-              <path d="M441 208C447 211 452 211 457 208" stroke="#0f5f8f" strokeWidth="4.5" strokeLinecap="round" />
-              <path d="M409 210C405 210 401 212 398 216" stroke="#0f5f8f" strokeWidth="4" strokeLinecap="round" />
-              <path d="M483 206C490 206 497 210 501 216" stroke="#0f5f8f" strokeWidth="4" strokeLinecap="round" />
-              <ellipse cx="444" cy="246" rx="18" ry="10" fill="#a8d57a" />
-              <path d="M434 247C438 251 447 252 454 247" stroke="#375125" strokeWidth="3.4" strokeLinecap="round" />
-              <circle cx="412" cy="236" r="5" fill="#709b46" opacity="0.85" />
-              <circle cx="480" cy="235" r="5" fill="#709b46" opacity="0.85" />
-            </g>
-
-            <g>
-              <ellipse cx="408" cy="355" rx="18" ry="12" fill="#7ba84b" />
-              <ellipse cx="427" cy="364" rx="16" ry="10" fill="#90bc60" />
-            </g>
-
-            <g>
-              <path d="M266 520L338 146" stroke="url(#woodTone)" strokeWidth="10" strokeLinecap="round" />
-              <path d="M492 520L420 146" stroke="url(#woodTone)" strokeWidth="10" strokeLinecap="round" />
-              <path d="M379 540L379 120" stroke="url(#woodTone)" strokeWidth="11" strokeLinecap="round" />
-              <rect x="274" y="174" width="212" height="278" rx="18" fill="url(#easelBack)" />
-              <rect x="295" y="196" width="170" height="234" rx="12" fill="#edf3e7" />
-              <path d="M304 204L454 423" stroke="#c4d0b2" strokeWidth="8" strokeLinecap="round" />
-              <path d="M454 204L304 423" stroke="#c4d0b2" strokeWidth="8" strokeLinecap="round" />
-              <rect x="255" y="446" width="248" height="18" rx="9" fill="#e8efe0" />
-              <rect x="300" y="464" width="158" height="16" rx="8" fill="#d8e2cb" opacity="0.92" />
-              <ellipse cx="316" cy="312" rx="15" ry="18" fill="#7fb24c" />
-              <ellipse cx="320" cy="312" rx="7" ry="8" fill="#dff0cf" opacity="0.76" />
-              <circle cx="350" cy="456" r="6" fill="#bfd4a7" />
-              <circle cx="378" cy="456" r="6" fill="#95b475" />
-              <circle cx="406" cy="456" r="6" fill="#7e9d64" />
+            <g className="quill-pen">
+              <path d="M-6 10C21 -19 61 -8 90 6C71 29 43 49 9 54C-5 42 -7 24 -6 10Z" fill="url(#quillFeather)" />
+              <path d="M11 17C30 15 48 21 62 35" stroke="#c0d3ae" strokeWidth="3" strokeLinecap="round" opacity="0.75" />
+              <path d="M23 5C41 7 57 17 68 31" stroke="#dbe8cf" strokeWidth="2.4" strokeLinecap="round" opacity="0.9" />
+              <rect x="70" y="23" width="66" height="9" rx="4.5" transform="rotate(-8 70 23)" fill="url(#quillShaft)" />
+              <path d="M132 18L151 24L135 33Z" fill="#f3ebdf" />
+              <path d="M149 22L158 25L150 29Z" fill="#23301a" />
             </g>
           </svg>
         </div>
@@ -425,7 +346,7 @@
                   <div className="mb-8 text-xs font-medium tracking-[0.45em] text-white/78 sm:text-sm">
                     creative content studio
                   </div>
-                  <PainterScene />
+                  <QuillScene />
                   <p className="mx-auto mt-8 max-w-3xl text-balance px-2 text-base font-medium leading-7 text-white/88 sm:text-lg md:text-xl md:leading-9">
                     Every brand has a story — Twillful brings it to life with creative content and immersive digital experiences.
                   </p>

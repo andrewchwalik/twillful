@@ -124,6 +124,108 @@
     .scroll-arrow {
       animation: float-arrow 2.6s ease-in-out infinite;
     }
+
+    @keyframes painter-drift {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(6px);
+      }
+    }
+
+    @keyframes painter-peek {
+      0%,
+      48%,
+      100% {
+        transform: translateX(0);
+      }
+      56% {
+        transform: translateX(52px);
+      }
+      64% {
+        transform: translateX(76px);
+      }
+      74% {
+        transform: translateX(66px);
+      }
+      86% {
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes painter-arm {
+      0%,
+      36%,
+      100% {
+        transform: rotate(-7deg) translateY(0);
+        opacity: 1;
+      }
+      10% {
+        transform: rotate(4deg) translateY(-5px);
+      }
+      22% {
+        transform: rotate(-10deg) translateY(3px);
+      }
+      32% {
+        transform: rotate(6deg) translateY(-4px);
+      }
+      44%,
+      82% {
+        transform: rotate(-16deg) translateY(10px);
+        opacity: 0.35;
+      }
+    }
+
+    @keyframes splatter-bloom {
+      0%,
+      10%,
+      100% {
+        opacity: 0;
+        transform: scale(0.72);
+      }
+      16% {
+        opacity: 0.95;
+        transform: scale(1);
+      }
+      24% {
+        opacity: 0;
+        transform: scale(1.18);
+      }
+    }
+
+    .painter-scene {
+      animation: painter-drift 6.5s ease-in-out infinite;
+    }
+
+    .painter-head,
+    .painter-arm,
+    .splatter {
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+
+    .painter-head {
+      animation: painter-peek 7.4s cubic-bezier(0.2, 0.84, 0.2, 1) infinite;
+    }
+
+    .painter-arm {
+      transform-origin: 100% 16%;
+      animation: painter-arm 7.4s ease-in-out infinite;
+    }
+
+    .splatter {
+      animation: splatter-bloom 7.4s ease-out infinite;
+    }
+
+    .splatter-delay-1 {
+      animation-delay: 0.15s;
+    }
+
+    .splatter-delay-2 {
+      animation-delay: 0.35s;
+    }
   </style>
 </head>
 <body>
@@ -167,75 +269,96 @@
       }
     ];
 
-    function EyeMark() {
-      const [mouse, setMouse] = React.useState({
-        x: typeof window !== "undefined" ? window.innerWidth / 2 : 0,
-        y: typeof window !== "undefined" ? window.innerHeight / 2 : 0
-      });
-
-      React.useEffect(() => {
-        let frame = null;
-
-        function handleMove(event) {
-          if (frame) {
-            cancelAnimationFrame(frame);
-          }
-
-          frame = requestAnimationFrame(() => {
-            setMouse({ x: event.clientX, y: event.clientY });
-          });
-        }
-
-        window.addEventListener("mousemove", handleMove);
-
-        return () => {
-          if (frame) {
-            cancelAnimationFrame(frame);
-          }
-          window.removeEventListener("mousemove", handleMove);
-        };
-      }, []);
-
-      function pupilStyle(centerX, centerY, range) {
-        if (typeof window === "undefined") {
-          return { transform: "translate(0px, 0px)" };
-        }
-
-        const dx = mouse.x - centerX;
-        const dy = mouse.y - centerY;
-        const distance = Math.max(Math.hypot(dx, dy), 1);
-        const limited = Math.min(range, distance / 18);
-        const offsetX = (dx / distance) * limited;
-        const offsetY = (dy / distance) * limited;
-
-        return {
-          transform: "translate(" + offsetX + "px, " + offsetY + "px)"
-        };
-      }
-
-      const leftCenterX = typeof window !== "undefined" ? window.innerWidth / 2 - 110 : 0;
-      const rightCenterX = typeof window !== "undefined" ? window.innerWidth / 2 + 110 : 0;
-      const centerY = typeof window !== "undefined" ? window.innerHeight / 2 + 8 : 0;
-
+    function PainterScene() {
       return (
-        <div className="relative mx-auto flex w-[18rem] items-center justify-center gap-5 sm:w-[26rem] md:w-[34rem] lg:w-[40rem]">
-          {[
-            { id: "left", cx: leftCenterX },
-            { id: "right", cx: rightCenterX }
-          ].map((eye) => (
-            <div
-              key={eye.id}
-              className="relative flex h-28 w-28 items-center justify-center rounded-full bg-white shadow-glow sm:h-40 sm:w-40 md:h-52 md:w-52 lg:h-64 lg:w-64"
-            >
-              <div className="absolute inset-[10%] rounded-full border border-black/5" />
-              <div
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-ink transition-transform duration-75 sm:h-10 sm:w-10 md:h-14 md:w-14 lg:h-16 lg:w-16"
-                style={pupilStyle(eye.cx, centerY, 18)}
-              >
-                <div className="h-2.5 w-2.5 rounded-full bg-white/60 sm:h-3 sm:w-3 md:h-4 md:w-4" />
-              </div>
-            </div>
-          ))}
+        <div className="painter-scene mx-auto w-full max-w-[22rem] sm:max-w-[30rem] md:max-w-[36rem] lg:max-w-[42rem]">
+          <svg viewBox="0 0 760 620" role="img" aria-label="Animated painter behind an easel" className="w-full overflow-visible">
+            <defs>
+              <radialGradient id="studioGlow" cx="50%" cy="46%" r="60%">
+                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.68" />
+                <stop offset="38%" stopColor="#eaf5e2" stopOpacity="0.24" />
+                <stop offset="100%" stopColor="#eaf5e2" stopOpacity="0" />
+              </radialGradient>
+              <linearGradient id="easelBack" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#f7f8f1" />
+                <stop offset="100%" stopColor="#dfe8d5" />
+              </linearGradient>
+              <linearGradient id="woodTone" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#edf3e7" />
+                <stop offset="100%" stopColor="#d1dcc1" />
+              </linearGradient>
+              <linearGradient id="apronTone" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#5f7b48" />
+                <stop offset="100%" stopColor="#3c502c" />
+              </linearGradient>
+            </defs>
+
+            <ellipse cx="380" cy="275" rx="228" ry="180" fill="url(#studioGlow)" opacity="0.92" />
+            <ellipse cx="380" cy="535" rx="188" ry="36" fill="#142012" opacity="0.16" />
+
+            <g className="splatter">
+              <circle cx="270" cy="194" r="8" fill="#edf5e8" />
+              <circle cx="248" cy="177" r="4.5" fill="#d8ebd4" />
+              <circle cx="289" cy="169" r="5.5" fill="#f5fbf2" />
+              <path d="M259 209C267 198 281 198 287 210C279 214 266 214 259 209Z" fill="#edf5e8" />
+            </g>
+            <g className="splatter splatter-delay-1">
+              <circle cx="503" cy="245" r="7" fill="#e8f2e4" />
+              <circle cx="527" cy="227" r="4" fill="#f7faf4" />
+              <circle cx="531" cy="254" r="5.5" fill="#d9e7cb" />
+              <path d="M493 257C502 249 514 250 520 261C512 266 500 266 493 257Z" fill="#edf5e8" />
+            </g>
+            <g className="splatter splatter-delay-2">
+              <circle cx="488" cy="350" r="6.5" fill="#f6faf1" />
+              <circle cx="515" cy="339" r="4.5" fill="#dbe8cf" />
+              <circle cx="475" cy="327" r="3.8" fill="#eef5e8" />
+            </g>
+
+            <g opacity="0.96">
+              <ellipse cx="420" cy="385" rx="124" ry="104" fill="#3a542a" opacity="0.24" />
+              <path
+                d="M383 443C376 389 394 329 439 302C481 276 534 283 564 326C591 364 587 419 555 450C523 480 455 488 383 443Z"
+                fill="url(#apronTone)"
+              />
+              <path
+                d="M429 327C448 309 473 304 491 311C483 329 468 344 444 354C429 347 423 339 429 327Z"
+                fill="#2b391f"
+                opacity="0.9"
+              />
+            </g>
+
+            <g className="painter-arm">
+              <path d="M470 362C498 345 525 339 548 344C566 349 579 359 584 372C560 376 537 380 517 389C501 397 486 408 474 423L452 406C454 389 459 374 470 362Z" fill="#f2d3c1" />
+              <path d="M548 341C568 341 588 349 598 367L582 377C573 362 561 354 544 352L548 341Z" fill="#40552f" />
+              <rect x="583" y="355" width="70" height="9" rx="4.5" transform="rotate(25 583 355)" fill="#f8faf4" />
+              <rect x="644" y="384" width="15" height="9" rx="4.5" transform="rotate(25 644 384)" fill="#7c9c62" />
+            </g>
+
+            <g className="painter-head">
+              <circle cx="451" cy="236" r="47" fill="#f5d8c6" />
+              <path d="M413 220C419 184 446 167 476 172C499 176 517 193 521 219C508 208 493 202 475 202C453 202 433 210 413 220Z" fill="#274122" />
+              <path d="M419 241C423 224 442 213 460 212C482 210 503 220 519 238C513 226 511 207 502 194C491 177 473 166 450 168C431 169 415 182 408 202C402 219 405 233 419 241Z" fill="#1f3118" />
+              <circle cx="466" cy="237" r="4.4" fill="#162214" />
+              <circle cx="487" cy="239" r="4.4" fill="#162214" />
+              <path d="M459 259C469 264 482 263 491 256" stroke="#9a6b58" strokeWidth="3.4" strokeLinecap="round" />
+              <circle cx="497" cy="249" r="5.5" fill="#efc0af" opacity="0.7" />
+            </g>
+
+            <g>
+              <path d="M266 520L338 146" stroke="url(#woodTone)" strokeWidth="10" strokeLinecap="round" />
+              <path d="M492 520L420 146" stroke="url(#woodTone)" strokeWidth="10" strokeLinecap="round" />
+              <path d="M379 540L379 120" stroke="url(#woodTone)" strokeWidth="11" strokeLinecap="round" />
+              <rect x="274" y="174" width="212" height="278" rx="18" fill="url(#easelBack)" />
+              <rect x="295" y="196" width="170" height="234" rx="12" fill="#edf3e7" />
+              <path d="M304 204L454 423" stroke="#c4d0b2" strokeWidth="8" strokeLinecap="round" />
+              <path d="M454 204L304 423" stroke="#c4d0b2" strokeWidth="8" strokeLinecap="round" />
+              <rect x="255" y="446" width="248" height="18" rx="9" fill="#e8efe0" />
+              <rect x="300" y="464" width="158" height="16" rx="8" fill="#d8e2cb" opacity="0.92" />
+              <circle cx="350" cy="456" r="6" fill="#bfd4a7" />
+              <circle cx="378" cy="456" r="6" fill="#95b475" />
+              <circle cx="406" cy="456" r="6" fill="#7e9d64" />
+            </g>
+          </svg>
         </div>
       );
     }
@@ -279,7 +402,7 @@
                   <div className="mb-8 text-xs font-medium tracking-[0.45em] text-white/78 sm:text-sm">
                     creative content studio
                   </div>
-                  <EyeMark />
+                  <PainterScene />
                   <p className="mx-auto mt-8 max-w-3xl text-balance px-2 text-base font-medium leading-7 text-white/88 sm:text-lg md:text-xl md:leading-9">
                     Every brand has a story — Twillful brings it to life through creative content and immersive digital experiences.
                   </p>

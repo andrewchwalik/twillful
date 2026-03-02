@@ -1,387 +1,209 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Twillful | Creative Marketing Studio</title>
-  <meta
-    name="description"
-    content="Twillful is a creative marketing studio focused on content creation and website design for brands that want sharper digital presence."
-  />
-  <meta name="theme-color" content="#95b475" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Syne:wght@500;700;800&display=swap"
-    rel="stylesheet"
-  />
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: "#95b475",
-            brandDeep: "#4d6637",
-            surface: "#f4f1e8",
-            sand: "#e5ddcd",
-            ink: "#151814",
-            muted: "#5f6557"
-          },
-          fontFamily: {
-            sans: ["Manrope", "sans-serif"],
-            display: ["Syne", "sans-serif"]
-          },
-          boxShadow: {
-            soft: "0 24px 80px rgba(21, 24, 20, 0.12)"
-          }
-        }
-      }
-    }
-  </script>
-
-  <style>
-    :root {
-      --brand: #95b475;
-      --brand-deep: #4d6637;
-      --surface: #f4f1e8;
-      --sand: #e5ddcd;
-      --ink: #151814;
-      --muted: #5f6557;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      background:
-        radial-gradient(circle at top left, rgba(149, 180, 117, 0.38), transparent 30%),
-        radial-gradient(circle at 80% 20%, rgba(77, 102, 55, 0.18), transparent 24%),
-        linear-gradient(180deg, #faf7ef 0%, #f1ede2 48%, #ece7da 100%);
-      color: var(--ink);
-      font-family: "Manrope", sans-serif;
-    }
-
-    .grid-glow {
-      background-image:
-        linear-gradient(rgba(21, 24, 20, 0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(21, 24, 20, 0.06) 1px, transparent 1px);
-      background-size: 32px 32px;
-      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), transparent 90%);
-    }
-
-    .panel-outline {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .panel-outline::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border: 1px solid rgba(77, 102, 55, 0.14);
-      border-radius: inherit;
-      pointer-events: none;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Snackable</title>
+  <link href="style.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div id="root"></div>
+  <div class="sprinkle-container">
+      <div class="sprinkle sprinkle1"></div>
+      <div class="sprinkle sprinkle2"></div>
+      <div class="sprinkle sprinkle3"></div>
+      <div class="sprinkle sprinkle4"></div>
+      <div class="sprinkle sprinkle5"></div>
+      <div class="sprinkle sprinkle6"></div>
+      <div class="sprinkle sprinkle7"></div>
+      <div class="sprinkle sprinkle8"></div>
+      <div class="sprinkle sprinkle9"></div>
+      <div class="sprinkle sprinkle10"></div>
+      <div class="sprinkle sprinkle11"></div>
+      <div class="sprinkle sprinkle12"></div>
+      <div class="sprinkle sprinkle13"></div>
+      <div class="sprinkle sprinkle14"></div>
+      <div class="sprinkle sprinkle15"></div>
+      <div class="sprinkle sprinkle16"></div>
+      <div class="sprinkle sprinkle17"></div>
+      <div class="sprinkle sprinkle18"></div>
+      <div class="sprinkle sprinkle19"></div>
+      <div class="sprinkle sprinkle20"></div>
+    </div>
+  
+  <header class="header">
+    <nav class="navbar">
+      <img src="assets/snackable_logo.png" alt="Snackable Logo" class="logo" />
+      <div class="nav-links">
+      </div>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSd5bYO-vYU-NXJWLBcUbHsOWGI4RDhKm1oqS_mbE3mHKaszmg/viewform?usp=header" class="cta-button" target="_blank" rel="noopener noreferrer">Get in Touch →</a>
+    </nav>
 
-  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <div class="hero-content">
+      <div class="hero-text-block">
+        <h1 class="hero-line1">Thumb-stopping content</h1>
+        <h1 class="hero-line2">your audience will <span class="crave">crave.</span></h1>
+      </div>
+      <p class="hero-subtext">
+        Content should be cool. We're a marketing studio that helps brands<br />
+        create digital goodies that audiences can't help but snack on.
+      </p>
+    </div>
+  </header>
 
-  <script type="text/babel">
-    const services = [
-      {
-        number: "01",
-        title: "Content Creation",
-        text: "Campaign concepts, social content, and brand storytelling designed to make your audience stop, stay, and respond."
-      },
-      {
-        number: "02",
-        title: "Website Design",
-        text: "Clean, high-conviction web experiences that turn brand clarity into pages people actually want to explore."
-      },
-      {
-        number: "03",
-        title: "Creative Direction",
-        text: "Visual systems, messaging, and rollout planning that keep every touchpoint aligned and distinct."
-      }
-    ];
+<section class="client-logos">
+  <h3 class="client-heading">Some of our favorite snackers.</h3>
+  <div class="logo-grid">
+    <img src="assets/firealnds_united_logo.png" alt="Firelands United Logo" />
+    <img src="assets/nucamp_logo.png" alt="nuCamp Logo" />
+    <img src="assets/terra_state_logo.png" alt="Terra State Logo" />
+    <img src="assets/st_andrews_logo.png" alt="St. Andrews Logo" />
+    <img src="assets/homebuys_logo.png" alt="HomeBuys Logo" />
+    <img src="assets/terra_state_athletics.png" alt="Terra State Atheltics Logo" />
+  </div>
+</section>
 
-    const highlights = [
-      "Editorial-level brand presentation",
-      "Fast-moving creative partnership",
-      "Strategy translated into usable assets"
-    ];
+  <section class="scroll-banner">
+   <div class="scroll-heading">
+      <h2 class="client-heading">Our secret recipe.</h2>
+    </div>
+  <div class="scroll-row">
+    <div class="scroll-track">
+      <span class="scroll-word">
+        <span class="keyword">STRATEGY</span>
+        <span class="adjective-overlay">sharp</span>
+      </span>
+      <span class="scroll-word">
+        <span class="keyword">STRATEGY</span>
+        <span class="adjective-overlay">sharp</span>
+      </span>
+      <span class="scroll-word">
+        <span class="keyword">STRATEGY</span>
+        <span class="adjective-overlay">sharp</span>
+      </span>
+      <span class="scroll-word">
+        <span class="keyword">STRATEGY</span>
+        <span class="adjective-overlay">sharp</span>
+      </span>
+      <span class="scroll-word">
+        <span class="keyword">STRATEGY</span>
+        <span class="adjective-overlay">sharp</span>
+      </span>
+      <span class="scroll-word">
+        <span class="keyword">STRATEGY</span>
+        <span class="adjective-overlay">sharp</span>
+      </span>
+      <span class="scroll-word">
+        <span class="keyword">STRATEGY</span>
+        <span class="adjective-overlay">sharp</span>
+      </span>
+      <span class="scroll-word">
+        <span class="keyword">STRATEGY</span>
+        <span class="adjective-overlay">sharp</span>
+      </span>
+    </div>
+  </div>
 
-    const process = [
-      {
-        title: "Discover",
-        text: "We map your offer, audience, and existing friction so the creative direction solves the right problem."
-      },
-      {
-        title: "Design",
-        text: "We develop the visual language, page structure, and content framework that sharpen how your brand feels online."
-      },
-      {
-        title: "Deploy",
-        text: "You leave with polished assets, a stronger website presence, and a system that is easier to keep building on."
-      }
-    ];
+  <div class="scroll-row reverse">
+    <div class="scroll-track">
+      <span class="scroll-word">
+        <span class="keyword">CONTENT</span>
+        <span class="adjective-overlay">crisp</span>
+      </span>
+      <span class="scroll-word">
+        <span class="keyword">CONTENT</span>
+        <span class="adjective-overlay">crisp</span>
+      </span>
+      <span class="scroll-word">
+        <span class="keyword">CONTENT</span>
+        <span class="adjective-overlay">crisp</span>
+      </span>
+      <span class="scroll-word">
+        <span class="keyword">CONTENT</span>
+        <span class="adjective-overlay">crisp</span>
+      </span>
+      <span class="scroll-word">
+        <span class="keyword">CONTENT</span>
+        <span class="adjective-overlay">crisp</span>
+      </span>
+      <span class="scroll-word">
+        <span class="keyword">CONTENT</span>
+        <span class="adjective-overlay">crisp</span>
+      </span>
+      <span class="scroll-word">
+        <span class="keyword">CONTENT</span>
+        <span class="adjective-overlay">crisp</span>
+      </span>
+      <span class="scroll-word">
+        <span class="keyword">CONTENT</span>
+        <span class="adjective-overlay">crisp</span>
+      </span>
+    </div>
+  </div>
 
-    const stats = [
-      { value: "Content", label: "built for campaigns and everyday visibility" },
-      { value: "Web", label: "designed to feel premium and work hard" },
-      { value: "Studio", label: "support without agency bloat" }
-    ];
+  <div class="scroll-row">
+    <div class="scroll-track">
+      <span class="scroll-word">
+        <span class="keyword">MARKETING</span>
+        <span class="adjective-overlay">memorable</span>
+      </span>
+      <span class="scroll-word">
+        <span class="keyword">MARKETING</span>
+        <span class="adjective-overlay">memorable</span>
+      </span>
+      <span class="scroll-word">
+        <span class="keyword">MARKETING</span>
+        <span class="adjective-overlay">memorable</span>
+      </span>
+      <span class="scroll-word">
+        <span class="keyword">MARKETING</span>
+        <span class="adjective-overlay">memorable</span>
+      </span>
+      <span class="scroll-word">
+        <span class="keyword">MARKETING</span>
+        <span class="adjective-overlay">memorable</span>
+      </span>
+      <span class="scroll-word">
+        <span class="keyword">MARKETING</span>
+        <span class="adjective-overlay">memorable</span>
+      </span>
+      <span class="scroll-word">
+        <span class="keyword">MARKETING</span>
+        <span class="adjective-overlay">memorable</span>
+      </span>
+      <span class="scroll-word">
+        <span class="keyword">MARKETING</span>
+        <span class="adjective-overlay">memorable</span>
+      </span>
+    </div>
+  </div>
+</section>
+  
+<!-- Snack Drawer Portfolio -->
+<section class="portfolio">
+  <div class="portfolio-heading">
+    <h2 class="client-heading">Take a peek into our snack drawer.</h2>
+  </div>
+  <div class="portfolio-row">
+  <div class="portfolio-item">
+    <img src="assets/homebuys.jpg" alt="Homebuys Project">
+    <div class="overlay">
+      <h3>HomeBuys</h3>
+      <p>Branding, Social Strategy, Digital Ads</p>
+    </div>
+  </div>
+  <div class="portfolio-item">
+    <img src="assets/firelandsunited.jpg" alt="Firelands United Project">
+    <div class="overlay">
+      <h3>Firelands United</h3>
+      <p>Kit Design, Livestream, Graphics</p>
+    </div>
+  </div>
+</div>
+</section>
 
-    function TwillfulSite() {
-      return (
-        <div className="min-h-screen">
-          <div className="fixed inset-0 grid-glow opacity-40 pointer-events-none" />
-
-          <header className="sticky top-0 z-20 border-b border-brandDeep/10 bg-surface/70 backdrop-blur-xl">
-            <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
-              <a href="#top" className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-brandDeep/15 bg-white shadow-soft">
-                  <span className="font-display text-lg font-extrabold tracking-tight text-brandDeep">T</span>
-                </div>
-                <div>
-                  <div className="font-display text-xl font-extrabold tracking-tight text-ink">twillful</div>
-                  <div className="text-xs uppercase tracking-[0.22em] text-muted">Creative Marketing Studio</div>
-                </div>
-              </a>
-
-              <nav className="hidden items-center gap-8 text-sm font-semibold text-muted md:flex">
-                <a href="#services" className="transition hover:text-ink">Services</a>
-                <a href="#process" className="transition hover:text-ink">Process</a>
-                <a href="#contact" className="transition hover:text-ink">Contact</a>
-              </nav>
-
-              <a
-                href="#contact"
-                className="rounded-full border border-brandDeep/15 bg-ink px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brandDeep"
-              >
-                Start a Project
-              </a>
-            </div>
-          </header>
-
-          <main id="top">
-            <section className="px-5 pb-16 pt-10 md:px-8 md:pb-24 md:pt-16">
-              <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-                <div className="rounded-[2rem] border border-brandDeep/10 bg-white/75 p-8 shadow-soft backdrop-blur md:p-12 panel-outline">
-                  <div className="inline-flex items-center gap-3 rounded-full border border-brandDeep/10 bg-brand/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-brandDeep">
-                    <span className="h-2 w-2 rounded-full bg-brandDeep" />
-                    Sleek digital presence for modern brands
-                  </div>
-
-                  <h1 className="mt-8 max-w-4xl font-display text-5xl font-extrabold leading-[0.95] tracking-tight text-ink md:text-7xl">
-                    Twillful shapes sharper brands through content and web design.
-                  </h1>
-
-                  <p className="mt-6 max-w-2xl text-lg leading-8 text-muted md:text-xl">
-                    We are a creative marketing studio building elevated content, high-impact websites, and visual direction that helps brands look more intentional online.
-                  </p>
-
-                  <div className="mt-9 flex flex-wrap gap-3">
-                    <a
-                      href="#services"
-                      className="rounded-full bg-brand px-6 py-3 text-sm font-bold text-ink transition hover:bg-brandDeep hover:text-white"
-                    >
-                      Explore Services
-                    </a>
-                    <a
-                      href="#contact"
-                      className="rounded-full border border-brandDeep/15 bg-white px-6 py-3 text-sm font-bold text-ink transition hover:border-brandDeep hover:bg-brandDeep hover:text-white"
-                    >
-                      Book a Discovery Call
-                    </a>
-                  </div>
-
-                  <div className="mt-10 grid gap-3 md:grid-cols-3">
-                    {highlights.map((item) => (
-                      <div key={item} className="rounded-2xl border border-brandDeep/10 bg-surface/80 px-4 py-4 text-sm font-semibold text-ink">
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="grid gap-6">
-                  <div className="rounded-[2rem] bg-ink p-8 text-white shadow-soft panel-outline">
-                    <div className="text-xs uppercase tracking-[0.28em] text-brand">Studio Focus</div>
-                    <div className="mt-4 font-display text-3xl font-bold leading-tight">
-                      Content that feels current. Websites that feel considered.
-                    </div>
-                    <p className="mt-4 text-sm leading-7 text-white/72">
-                      Twillful blends creative instinct with practical execution so your brand presence looks refined without becoming overbuilt.
-                    </p>
-                    <div className="mt-8 grid gap-4 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-                      {stats.map((stat) => (
-                        <div key={stat.value} className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                          <div className="font-display text-2xl font-bold text-brand">{stat.value}</div>
-                          <div className="mt-2 text-sm leading-6 text-white/70">{stat.label}</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="rounded-[2rem] border border-brandDeep/10 bg-brand/15 p-8 shadow-soft panel-outline">
-                    <div className="flex items-center justify-between">
-                      <div className="text-xs uppercase tracking-[0.28em] text-brandDeep">Positioning</div>
-                      <div className="rounded-full border border-brandDeep/10 px-3 py-1 text-xs font-bold text-brandDeep">Creative Studio</div>
-                    </div>
-                    <p className="mt-6 text-2xl font-semibold leading-9 text-ink">
-                      Built for founders and growing brands who need stronger visuals, smarter messaging, and a site that looks like the next version of their business.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <section id="services" className="px-5 py-12 md:px-8 md:py-20">
-              <div className="mx-auto max-w-7xl">
-                <div className="max-w-2xl">
-                  <div className="text-xs font-bold uppercase tracking-[0.3em] text-brandDeep">Services</div>
-                  <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-ink md:text-5xl">
-                    The core offers are simple. The output is anything but generic.
-                  </h2>
-                </div>
-
-                <div className="mt-10 grid gap-6 lg:grid-cols-3">
-                  {services.map((service) => (
-                    <article
-                      key={service.number}
-                      className="rounded-[2rem] border border-brandDeep/10 bg-white/80 p-8 shadow-soft panel-outline transition hover:-translate-y-1"
-                    >
-                      <div className="text-sm font-extrabold tracking-[0.2em] text-brandDeep">{service.number}</div>
-                      <h3 className="mt-10 font-display text-2xl font-bold text-ink">{service.title}</h3>
-                      <p className="mt-4 text-base leading-7 text-muted">{service.text}</p>
-                    </article>
-                  ))}
-                </div>
-              </div>
-            </section>
-
-            <section id="process" className="px-5 py-12 md:px-8 md:py-20">
-              <div className="mx-auto grid max-w-7xl gap-8 rounded-[2.5rem] border border-brandDeep/10 bg-white/70 p-8 shadow-soft backdrop-blur md:grid-cols-[0.9fr_1.1fr] md:p-12 panel-outline">
-                <div>
-                  <div className="text-xs font-bold uppercase tracking-[0.3em] text-brandDeep">Process</div>
-                  <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-ink md:text-5xl">
-                    A focused approach from strategy to final polish.
-                  </h2>
-                  <p className="mt-5 max-w-xl text-lg leading-8 text-muted">
-                    Every engagement is designed to create momentum quickly without sacrificing the finish. Clear decisions, clean execution, and deliverables you can actually use.
-                  </p>
-                </div>
-
-                <div className="space-y-4">
-                  {process.map((step, index) => (
-                    <div key={step.title} className="rounded-[1.75rem] border border-brandDeep/10 bg-surface/90 p-6">
-                      <div className="flex items-center gap-4">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand text-sm font-extrabold text-ink">
-                          {index + 1}
-                        </div>
-                        <h3 className="font-display text-2xl font-bold text-ink">{step.title}</h3>
-                      </div>
-                      <p className="mt-4 pl-14 text-base leading-7 text-muted">{step.text}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </section>
-
-            <section className="px-5 py-12 md:px-8 md:py-20">
-              <div className="mx-auto max-w-7xl rounded-[2.5rem] bg-brandDeep p-8 text-white shadow-soft md:p-12 panel-outline">
-                <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
-                  <div>
-                    <div className="text-xs font-bold uppercase tracking-[0.3em] text-brand/80">What Twillful delivers</div>
-                    <h2 className="mt-4 max-w-3xl font-display text-4xl font-bold tracking-tight md:text-5xl">
-                      Modern brand presentation without the clutter, vagueness, or agency drag.
-                    </h2>
-                  </div>
-                  <a
-                    href="#contact"
-                    className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-bold text-ink transition hover:bg-surface"
-                  >
-                    Start the Conversation
-                  </a>
-                </div>
-              </div>
-            </section>
-
-            <section id="contact" className="px-5 pb-20 pt-8 md:px-8 md:pb-24">
-              <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-                <div className="rounded-[2rem] border border-brandDeep/10 bg-white/75 p-8 shadow-soft panel-outline">
-                  <div className="text-xs font-bold uppercase tracking-[0.3em] text-brandDeep">Contact</div>
-                  <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-ink">
-                    Ready to make the brand look the part?
-                  </h2>
-                  <p className="mt-5 text-lg leading-8 text-muted">
-                    Tell us what you are building, what feels outdated, and what kind of presence you want next. We will map the right direction from there.
-                  </p>
-                  <div className="mt-8 space-y-3 text-sm text-muted">
-                    <div>Focus: Content creation, website design, creative direction</div>
-                    <div>Best next step: send a short project brief through the inquiry form.</div>
-                  </div>
-                </div>
-
-                <div className="rounded-[2rem] border border-brandDeep/10 bg-surface/85 p-8 shadow-soft panel-outline">
-                  <form className="grid gap-4 md:grid-cols-2">
-                    <input
-                      className="rounded-2xl border border-brandDeep/10 bg-white px-4 py-3 text-sm text-ink outline-none transition focus:border-brandDeep"
-                      placeholder="Name"
-                    />
-                    <input
-                      type="email"
-                      className="rounded-2xl border border-brandDeep/10 bg-white px-4 py-3 text-sm text-ink outline-none transition focus:border-brandDeep"
-                      placeholder="Email"
-                    />
-                    <input
-                      className="rounded-2xl border border-brandDeep/10 bg-white px-4 py-3 text-sm text-ink outline-none transition focus:border-brandDeep md:col-span-2"
-                      placeholder="Brand or company"
-                    />
-                    <textarea
-                      rows="6"
-                      className="rounded-2xl border border-brandDeep/10 bg-white px-4 py-3 text-sm text-ink outline-none transition focus:border-brandDeep md:col-span-2"
-                      placeholder="What do you need help with?"
-                    />
-                    <button
-                      type="button"
-                      className="rounded-full bg-ink px-6 py-3 text-sm font-bold text-white transition hover:bg-brandDeep md:col-span-2"
-                    >
-                      Send Inquiry
-                    </button>
-                  </form>
-                </div>
-              </div>
-            </section>
-          </main>
-
-          <footer className="border-t border-brandDeep/10 px-5 py-8 md:px-8">
-            <div className="mx-auto flex max-w-7xl flex-col gap-3 text-sm text-muted md:flex-row md:items-center md:justify-between">
-              <div>© <span id="year"></span> Twillful. Creative marketing studio.</div>
-              <div className="flex items-center gap-4">
-                <a href="#services" className="transition hover:text-ink">Services</a>
-                <a href="#contact" className="transition hover:text-ink">Contact</a>
-              </div>
-            </div>
-          </footer>
-        </div>
-      );
-    }
-
-    const root = ReactDOM.createRoot(document.getElementById("root"));
-    root.render(<TwillfulSite />);
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
-</body>
-</html>
+<!-- Footer -->
+<!-- Footer -->
+<footer class="simple-footer">
+  <p>© 2025 Snackable — Crave-worthy content that keeps them coming back for more.</p>
+</footer>

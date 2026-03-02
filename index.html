@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600;1,700&family=Manrope:wght@400;500;600;700;800&family=Syne:wght@500;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Syne:wght@500;700;800&display=swap"
     rel="stylesheet"
   />
 
@@ -125,95 +125,81 @@
       animation: float-arrow 2.6s ease-in-out infinite;
     }
 
-    @keyframes quill-float {
+    @keyframes plant-float {
       0%,
       100% {
         transform: translateY(0);
       }
       50% {
-        transform: translateY(4px);
+        transform: translateY(6px);
       }
     }
 
-    @keyframes quill-write {
+    @keyframes leaf-sway-left {
       0%,
-      14%,
       100% {
-        transform: scaleX(0);
+        transform: rotate(-1.5deg) translateY(0);
       }
-      24% {
-        transform: scaleX(0.1);
-      }
-      58% {
-        transform: scaleX(1);
-      }
-      82% {
-        transform: scaleX(1);
-      }
-      92% {
-        transform: scaleX(0.96);
+      50% {
+        transform: rotate(1.5deg) translateY(-4px);
       }
     }
 
-    @keyframes quill-glide {
+    @keyframes leaf-sway-center {
       0%,
-      12% {
-        transform: translate(112px, 146px) rotate(-20deg);
-        opacity: 0;
-      }
-      18% {
-        opacity: 1;
-      }
-      56% {
-        transform: translate(512px, 136px) rotate(-6deg);
-        opacity: 1;
-      }
-      76% {
-        transform: translate(512px, 136px) rotate(-6deg);
-        opacity: 1;
-      }
       100% {
-        transform: translate(560px, 116px) rotate(8deg);
-        opacity: 0;
+        transform: rotate(0deg) translateY(0);
+      }
+      50% {
+        transform: rotate(-1.25deg) translateY(-5px);
       }
     }
 
-    @keyframes ink-dot {
+    @keyframes leaf-sway-right {
       0%,
-      16%,
       100% {
-        opacity: 0;
-        transform: scale(0.5);
+        transform: rotate(1deg) translateY(0);
       }
-      26% {
-        opacity: 0.9;
-        transform: scale(1);
-      }
-      42% {
-        opacity: 0;
-        transform: scale(1.2);
+      50% {
+        transform: rotate(-1.75deg) translateY(-4px);
       }
     }
 
-    .quill-scene {
-      animation: quill-float 6s ease-in-out infinite;
+    .plant-scene {
+      animation: plant-float 7.5s ease-in-out infinite;
     }
 
-    .story-mask {
-      transform-origin: left center;
-      animation: quill-write 5.2s cubic-bezier(0.2, 0.75, 0.2, 1) infinite;
+    .plant-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
     }
 
-    .quill-pen {
-      transform-box: fill-box;
-      transform-origin: center;
-      animation: quill-glide 5.2s ease-in-out infinite;
+    .leaf-overlay-left,
+    .leaf-overlay-center,
+    .leaf-overlay-right {
+      transform-origin: center top;
+      will-change: transform;
     }
 
-    .ink-pulse {
-      transform-box: fill-box;
-      transform-origin: center;
-      animation: ink-dot 5.2s ease-out infinite;
+    .leaf-overlay-left {
+      clip-path: polygon(7% 0%, 38% 0%, 46% 46%, 20% 57%, 0% 44%);
+      animation: leaf-sway-left 5.8s ease-in-out infinite;
+    }
+
+    .leaf-overlay-center {
+      clip-path: polygon(34% 0%, 69% 0%, 66% 50%, 46% 62%, 30% 44%);
+      animation: leaf-sway-center 6.2s ease-in-out infinite;
+      animation-delay: 0.35s;
+    }
+
+    .leaf-overlay-right {
+      clip-path: polygon(63% 0%, 100% 0%, 100% 42%, 78% 57%, 58% 45%);
+      animation: leaf-sway-right 6s ease-in-out infinite;
+      animation-delay: 0.2s;
     }
   </style>
 </head>
@@ -258,51 +244,15 @@
       }
     ];
 
-    function QuillScene() {
+    function PlantScene() {
       return (
-        <div className="quill-scene mx-auto w-full max-w-[18rem] sm:max-w-[24rem] md:max-w-[30rem] lg:max-w-[36rem]">
-          <svg viewBox="0 0 760 280" role="img" aria-label="Animated quill writing Tell your brand's story" className="w-full overflow-visible">
-            <defs>
-              <linearGradient id="quillFeather" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#f8fbf4" />
-                <stop offset="58%" stopColor="#deebd5" />
-                <stop offset="100%" stopColor="#b1c99a" />
-              </linearGradient>
-              <linearGradient id="quillShaft" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#6f4d31" />
-                <stop offset="100%" stopColor="#b18457" />
-              </linearGradient>
-              <clipPath id="storyReveal">
-                <rect className="story-mask" x="110" y="74" width="520" height="112" rx="12" />
-              </clipPath>
-            </defs>
-
-            <ellipse cx="370" cy="132" rx="260" ry="74" fill="#ffffff" opacity="0.08" />
-
-            <g clipPath="url(#storyReveal)">
-              <text
-                x="112"
-                y="150"
-                fill="#f8fbf4"
-                fontSize="58"
-                style={{ fontFamily: '"Cormorant Garamond", serif', fontStyle: "italic", fontWeight: 600, letterSpacing: "0.01em" }}
-              >
-                Tell your brand&apos;s story
-              </text>
-            </g>
-
-            <path d="M112 168C194 168 261 164 327 157C403 149 470 144 514 145" stroke="#f8fbf4" strokeOpacity="0.22" strokeWidth="2.4" strokeLinecap="round" />
-            <circle className="ink-pulse" cx="520" cy="144" r="6" fill="#f8fbf4" opacity="0.85" />
-
-            <g className="quill-pen">
-              <path d="M-6 10C21 -19 61 -8 90 6C71 29 43 49 9 54C-5 42 -7 24 -6 10Z" fill="url(#quillFeather)" />
-              <path d="M11 17C30 15 48 21 62 35" stroke="#c0d3ae" strokeWidth="3" strokeLinecap="round" opacity="0.75" />
-              <path d="M23 5C41 7 57 17 68 31" stroke="#dbe8cf" strokeWidth="2.4" strokeLinecap="round" opacity="0.9" />
-              <rect x="70" y="23" width="66" height="9" rx="4.5" transform="rotate(-8 70 23)" fill="url(#quillShaft)" />
-              <path d="M132 18L151 24L135 33Z" fill="#f3ebdf" />
-              <path d="M149 22L158 25L150 29Z" fill="#23301a" />
-            </g>
-          </svg>
+        <div className="plant-scene mx-auto w-full max-w-[13rem] sm:max-w-[16rem] md:max-w-[19rem] lg:max-w-[22rem]">
+          <div className="relative aspect-square">
+            <img src="assets/plant-hero.svg" alt="Illustrated plant" className="relative z-10 h-full w-full object-contain drop-shadow-[0_28px_50px_rgba(20,32,18,0.18)]" />
+            <img src="assets/plant-hero.svg" alt="" aria-hidden="true" className="plant-layer leaf-overlay-left z-20" />
+            <img src="assets/plant-hero.svg" alt="" aria-hidden="true" className="plant-layer leaf-overlay-center z-20" />
+            <img src="assets/plant-hero.svg" alt="" aria-hidden="true" className="plant-layer leaf-overlay-right z-20" />
+          </div>
         </div>
       );
     }
@@ -346,7 +296,7 @@
                   <div className="mb-8 text-xs font-medium tracking-[0.45em] text-white/78 sm:text-sm">
                     creative content studio
                   </div>
-                  <QuillScene />
+                  <PlantScene />
                   <p className="mx-auto mt-8 max-w-3xl text-balance px-2 text-base font-medium leading-7 text-white/88 sm:text-lg md:text-xl md:leading-9">
                     Every brand has a story — Twillful brings it to life with creative content and immersive digital experiences.
                   </p>

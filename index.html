@@ -142,13 +142,13 @@
         transform: translateX(0);
       }
       56% {
-        transform: translateX(52px);
+        transform: translateX(40px);
       }
       64% {
-        transform: translateX(76px);
+        transform: translateX(58px);
       }
       74% {
-        transform: translateX(66px);
+        transform: translateX(50px);
       }
       86% {
         transform: translateX(0);
@@ -271,7 +271,7 @@
 
     function PainterScene() {
       return (
-        <div className="painter-scene mx-auto w-full max-w-[22rem] sm:max-w-[30rem] md:max-w-[36rem] lg:max-w-[42rem]">
+        <div className="painter-scene mx-auto w-full max-w-[16rem] sm:max-w-[21rem] md:max-w-[25rem] lg:max-w-[29rem]">
           <svg viewBox="0 0 760 620" role="img" aria-label="Animated painter behind an easel" className="w-full overflow-visible">
             <defs>
               <radialGradient id="studioGlow" cx="50%" cy="46%" r="60%">
@@ -335,13 +335,17 @@
             </g>
 
             <g className="painter-head">
-              <circle cx="451" cy="236" r="47" fill="#f5d8c6" />
-              <path d="M413 220C419 184 446 167 476 172C499 176 517 193 521 219C508 208 493 202 475 202C453 202 433 210 413 220Z" fill="#274122" />
-              <path d="M419 241C423 224 442 213 460 212C482 210 503 220 519 238C513 226 511 207 502 194C491 177 473 166 450 168C431 169 415 182 408 202C402 219 405 233 419 241Z" fill="#1f3118" />
-              <circle cx="466" cy="237" r="4.4" fill="#162214" />
-              <circle cx="487" cy="239" r="4.4" fill="#162214" />
-              <path d="M459 259C469 264 482 263 491 256" stroke="#9a6b58" strokeWidth="3.4" strokeLinecap="round" />
-              <circle cx="497" cy="249" r="5.5" fill="#efc0af" opacity="0.7" />
+              <ellipse cx="446" cy="236" rx="42" ry="45" fill="#f6d8c8" />
+              <path d="M409 222C413 189 437 171 468 174C491 176 510 193 516 216C500 205 484 201 465 201C442 201 423 209 409 222Z" fill="#365129" />
+              <path d="M414 228C421 212 436 202 455 201C477 200 497 210 511 227C507 203 489 180 463 176C438 173 416 188 409 212C407 219 408 224 414 228Z" fill="#22341c" />
+              <path d="M478 200C488 209 493 220 494 232C504 229 512 223 516 214C511 202 502 190 489 183L478 200Z" fill="#22341c" />
+              <circle cx="458" cy="237" r="3.5" fill="#1a2517" />
+              <circle cx="477" cy="239" r="3.5" fill="#1a2517" />
+              <circle cx="459" cy="236" r="1.1" fill="#ffffff" opacity="0.8" />
+              <circle cx="478" cy="238" r="1.1" fill="#ffffff" opacity="0.8" />
+              <path d="M453 256C461 262 471 262 479 255" stroke="#9f705f" strokeWidth="3" strokeLinecap="round" />
+              <circle cx="485" cy="248" r="5.3" fill="#efc1b1" opacity="0.72" />
+              <circle cx="431" cy="247" r="4.6" fill="#efc1b1" opacity="0.52" />
             </g>
 
             <g>

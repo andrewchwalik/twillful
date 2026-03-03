@@ -138,6 +138,32 @@
     .phone-scene {
       animation: phone-float 7.5s ease-in-out infinite;
     }
+
+    .iphone-shell {
+      background: linear-gradient(180deg, #2f3130 0%, #1f211f 100%);
+      border-radius: 2.7rem;
+      box-shadow:
+        0 30px 80px rgba(20, 32, 18, 0.2),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    }
+
+    .iphone-screen {
+      position: absolute;
+      inset: 0.42rem;
+      overflow: hidden;
+      border-radius: 2.42rem;
+      background: #000;
+    }
+
+    .iphone-video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 118%;
+      height: 118%;
+      transform: translate(-50%, -50%);
+      border: 0;
+    }
   </style>
 </head>
 <body>
@@ -184,21 +210,28 @@
     function PhoneMockupScene() {
       return (
         <div className="phone-scene mx-auto w-full max-w-[8rem] sm:max-w-[9.25rem] md:max-w-[10.5rem] lg:max-w-[11.25rem]">
-          <div className="relative mx-auto aspect-[500/995] w-full drop-shadow-[0_30px_80px_rgba(20,32,18,0.2)]">
-            <div className="absolute left-[6.2%] right-[6.2%] top-[2.4%] bottom-[2.5%] overflow-hidden rounded-[2.2rem] bg-black">
+          <div className="relative mx-auto aspect-[500/995] w-full">
+            <div className="iphone-shell absolute inset-0" />
+
+            <div className="absolute -left-[2px] top-[20.5%] h-10 w-[2px] rounded-l-full bg-[#3a3c3a]" />
+            <div className="absolute -left-[2px] top-[27%] h-14 w-[2px] rounded-l-full bg-[#3a3c3a]" />
+            <div className="absolute -left-[2px] top-[36.5%] h-14 w-[2px] rounded-l-full bg-[#3a3c3a]" />
+            <div className="absolute -right-[2px] top-[29.5%] h-[4.6rem] w-[2px] rounded-r-full bg-[#3a3c3a]" />
+
+            <div className="absolute inset-[2px] rounded-[2.62rem] border border-white/10" />
+
+            <div className="iphone-screen">
+              <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex justify-center pt-[0.48rem]">
+                <div className="h-[0.72rem] w-[4.15rem] rounded-full bg-[#2e302f] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]" />
+              </div>
               <iframe
-                className="absolute inset-0 h-full w-full"
+                className="iphone-video"
                 src="https://www.youtube.com/embed/__MMPLvXtXc?autoplay=1&mute=1&controls=0&loop=1&playlist=__MMPLvXtXc&playsinline=1&rel=0&modestbranding=1"
                 title="Twillful featured video"
                 allow="autoplay; encrypted-media; picture-in-picture"
                 allowFullScreen
               />
             </div>
-            <img
-              src="assets/iphone-mockup.png"
-              alt="iPhone mockup frame"
-              className="relative z-10 h-full w-full object-contain"
-            />
           </div>
         </div>
       );

@@ -125,18 +125,18 @@
       animation: float-arrow 2.6s ease-in-out infinite;
     }
 
-    @keyframes header-graphic-float {
+    @keyframes phone-float {
       0%,
       100% {
         transform: translateY(0);
       }
       50% {
-        transform: translateY(5px);
+        transform: translateY(6px);
       }
     }
 
-    .header-graphic-scene {
-      animation: header-graphic-float 7.5s ease-in-out infinite;
+    .phone-scene {
+      animation: phone-float 7.5s ease-in-out infinite;
     }
   </style>
 </head>
@@ -181,14 +181,23 @@
       }
     ];
 
-    function HeaderGraphicScene() {
+    function PhoneMockupScene() {
       return (
-        <div className="header-graphic-scene mx-auto w-full max-w-[14rem] sm:max-w-[18rem] md:max-w-[21rem] lg:max-w-[24rem]">
-          <img
-            src="assets/header-graphic.gif"
-            alt="Animated illustrated storytelling graphic"
-            className="h-full w-full object-contain drop-shadow-[0_28px_50px_rgba(20,32,18,0.14)]"
-          />
+        <div className="phone-scene mx-auto w-full max-w-[13rem] sm:max-w-[15rem] md:max-w-[17rem] lg:max-w-[18.5rem]">
+          <div className="relative rounded-[2.8rem] border border-white/35 bg-[#11130f] p-[0.45rem] shadow-[0_30px_80px_rgba(20,32,18,0.22)]">
+            <div className="relative overflow-hidden rounded-[2.35rem] bg-black aspect-[9/19.5]">
+              <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex justify-center pt-2">
+                <div className="h-6 w-28 rounded-full bg-black/88 shadow-[0_1px_0_rgba(255,255,255,0.08)]" />
+              </div>
+              <iframe
+                className="absolute inset-0 h-full w-full"
+                src="https://www.youtube.com/embed/__MMPLvXtXc?autoplay=1&mute=1&controls=0&loop=1&playlist=__MMPLvXtXc&playsinline=1&rel=0&modestbranding=1"
+                title="Twillful featured video"
+                allow="autoplay; encrypted-media; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          </div>
         </div>
       );
     }
@@ -202,10 +211,17 @@
             <header className="relative z-10 flex items-start justify-between px-6 pb-0 pt-6 md:px-10 md:pt-10 lg:px-16">
               <a
                 href="#top"
-                className="font-display text-4xl font-extrabold tracking-[-0.06em] text-white sm:text-5xl md:text-6xl"
-                style={{ fontFamily: '"Canva Sans", "Manrope", sans-serif', fontWeight: 800 }}
+                className="block"
               >
-                twillful.
+                <div
+                  className="font-display text-4xl font-extrabold tracking-[-0.06em] text-white sm:text-5xl md:text-6xl"
+                  style={{ fontFamily: '"Canva Sans", "Manrope", sans-serif', fontWeight: 800 }}
+                >
+                  twillful.
+                </div>
+                <div className="mt-2 text-[10px] font-medium tracking-[0.34em] text-white/74 sm:text-[11px]">
+                  creative content studio
+                </div>
               </a>
 
               <div className="flex items-center gap-5">
@@ -229,10 +245,7 @@
             <main id="top" className="relative z-10 flex min-h-[calc(100vh-6rem)] flex-col justify-center px-6 pb-8 pt-6 md:px-10 lg:px-16">
               <div className="relative mx-auto flex w-full max-w-[1600px] flex-1 flex-col justify-center">
                 <div className="mx-auto text-center">
-                  <div className="mb-8 text-xs font-medium tracking-[0.45em] text-white/78 sm:text-sm">
-                    creative content studio
-                  </div>
-                  <HeaderGraphicScene />
+                  <PhoneMockupScene />
                   <p className="mx-auto mt-8 max-w-3xl text-balance px-2 text-base font-medium leading-7 text-white/88 sm:text-lg md:text-xl md:leading-9">
                     Every brand has a story — Twillful brings it to life with creative content and immersive digital experiences.
                   </p>

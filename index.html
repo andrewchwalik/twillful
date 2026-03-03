@@ -125,81 +125,18 @@
       animation: float-arrow 2.6s ease-in-out infinite;
     }
 
-    @keyframes plant-float {
+    @keyframes header-graphic-float {
       0%,
       100% {
         transform: translateY(0);
       }
       50% {
-        transform: translateY(6px);
+        transform: translateY(5px);
       }
     }
 
-    @keyframes leaf-sway-left {
-      0%,
-      100% {
-        transform: rotate(-1.5deg) translateY(0);
-      }
-      50% {
-        transform: rotate(1.5deg) translateY(-4px);
-      }
-    }
-
-    @keyframes leaf-sway-center {
-      0%,
-      100% {
-        transform: rotate(0deg) translateY(0);
-      }
-      50% {
-        transform: rotate(-1.25deg) translateY(-5px);
-      }
-    }
-
-    @keyframes leaf-sway-right {
-      0%,
-      100% {
-        transform: rotate(1deg) translateY(0);
-      }
-      50% {
-        transform: rotate(-1.75deg) translateY(-4px);
-      }
-    }
-
-    .plant-scene {
-      animation: plant-float 7.5s ease-in-out infinite;
-    }
-
-    .plant-layer {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      pointer-events: none;
-    }
-
-    .leaf-overlay-left,
-    .leaf-overlay-center,
-    .leaf-overlay-right {
-      transform-origin: center top;
-      will-change: transform;
-    }
-
-    .leaf-overlay-left {
-      clip-path: polygon(7% 0%, 38% 0%, 46% 46%, 20% 57%, 0% 44%);
-      animation: leaf-sway-left 5.8s ease-in-out infinite;
-    }
-
-    .leaf-overlay-center {
-      clip-path: polygon(34% 0%, 69% 0%, 66% 50%, 46% 62%, 30% 44%);
-      animation: leaf-sway-center 6.2s ease-in-out infinite;
-      animation-delay: 0.35s;
-    }
-
-    .leaf-overlay-right {
-      clip-path: polygon(63% 0%, 100% 0%, 100% 42%, 78% 57%, 58% 45%);
-      animation: leaf-sway-right 6s ease-in-out infinite;
-      animation-delay: 0.2s;
+    .header-graphic-scene {
+      animation: header-graphic-float 7.5s ease-in-out infinite;
     }
   </style>
 </head>
@@ -244,15 +181,14 @@
       }
     ];
 
-    function PlantScene() {
+    function HeaderGraphicScene() {
       return (
-        <div className="plant-scene mx-auto w-full max-w-[13rem] sm:max-w-[16rem] md:max-w-[19rem] lg:max-w-[22rem]">
-          <div className="relative aspect-square">
-            <img src="assets/plant-hero.svg" alt="Illustrated plant" className="relative z-10 h-full w-full object-contain drop-shadow-[0_28px_50px_rgba(20,32,18,0.18)]" />
-            <img src="assets/plant-hero.svg" alt="" aria-hidden="true" className="plant-layer leaf-overlay-left z-20" />
-            <img src="assets/plant-hero.svg" alt="" aria-hidden="true" className="plant-layer leaf-overlay-center z-20" />
-            <img src="assets/plant-hero.svg" alt="" aria-hidden="true" className="plant-layer leaf-overlay-right z-20" />
-          </div>
+        <div className="header-graphic-scene mx-auto w-full max-w-[14rem] sm:max-w-[18rem] md:max-w-[21rem] lg:max-w-[24rem]">
+          <img
+            src="assets/header-graphic.gif"
+            alt="Animated illustrated storytelling graphic"
+            className="h-full w-full object-contain drop-shadow-[0_28px_50px_rgba(20,32,18,0.14)]"
+          />
         </div>
       );
     }
@@ -296,7 +232,7 @@
                   <div className="mb-8 text-xs font-medium tracking-[0.45em] text-white/78 sm:text-sm">
                     creative content studio
                   </div>
-                  <PlantScene />
+                  <HeaderGraphicScene />
                   <p className="mx-auto mt-8 max-w-3xl text-balance px-2 text-base font-medium leading-7 text-white/88 sm:text-lg md:text-xl md:leading-9">
                     Every brand has a story — Twillful brings it to life with creative content and immersive digital experiences.
                   </p>

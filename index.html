@@ -183,21 +183,9 @@
 
     function PhoneMockupScene() {
       return (
-        <div className="phone-scene mx-auto w-full max-w-[8.5rem] sm:max-w-[10rem] md:max-w-[11rem] lg:max-w-[12rem]">
-          <div className="relative mx-auto aspect-[9/19.5] w-full">
-            <div className="absolute inset-0 rounded-[3rem] bg-[#1a1a1a] shadow-[0_30px_80px_rgba(20,32,18,0.22)]" />
-
-            <div className="absolute -left-[3px] top-[22%] h-11 w-[3px] rounded-l-full bg-[#2d2d2d]" />
-            <div className="absolute -left-[3px] top-[29%] h-16 w-[3px] rounded-l-full bg-[#2d2d2d]" />
-            <div className="absolute -left-[3px] top-[39%] h-16 w-[3px] rounded-l-full bg-[#2d2d2d]" />
-            <div className="absolute -right-[3px] top-[31%] h-20 w-[3px] rounded-r-full bg-[#2d2d2d]" />
-
-            <div className="absolute inset-[3px] rounded-[2.85rem] border border-white/10" />
-
-            <div className="absolute inset-[0.22rem] overflow-hidden rounded-[2.78rem] bg-black">
-              <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex justify-center pt-3">
-                <div className="h-3.5 w-20 rounded-full bg-[#242424] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]" />
-              </div>
+        <div className="phone-scene mx-auto w-full max-w-[8rem] sm:max-w-[9.25rem] md:max-w-[10.5rem] lg:max-w-[11.25rem]">
+          <div className="relative mx-auto aspect-[500/995] w-full drop-shadow-[0_30px_80px_rgba(20,32,18,0.2)]">
+            <div className="absolute left-[6.2%] right-[6.2%] top-[2.4%] bottom-[2.5%] overflow-hidden rounded-[2.2rem] bg-black">
               <iframe
                 className="absolute inset-0 h-full w-full"
                 src="https://www.youtube.com/embed/__MMPLvXtXc?autoplay=1&mute=1&controls=0&loop=1&playlist=__MMPLvXtXc&playsinline=1&rel=0&modestbranding=1"
@@ -206,6 +194,11 @@
                 allowFullScreen
               />
             </div>
+            <img
+              src="assets/iphone-mockup.png"
+              alt="iPhone mockup frame"
+              className="relative z-10 h-full w-full object-contain"
+            />
           </div>
         </div>
       );
@@ -253,26 +246,11 @@
 
             <main id="top" className="relative z-10 flex min-h-[calc(100vh-6rem)] flex-col justify-center px-6 pb-8 pt-6 md:px-10 lg:px-16">
               <div className="relative mx-auto flex w-full max-w-[1600px] flex-1 flex-col justify-center">
-                <div className="mx-auto text-center">
+                <div className="mx-auto -mt-8 text-center sm:-mt-10 md:-mt-14">
                   <PhoneMockupScene />
                   <p className="mx-auto mt-8 max-w-3xl text-balance px-2 text-base font-medium leading-7 text-white/88 sm:text-lg md:text-xl md:leading-9">
                     Every brand has a story — Twillful brings it to life with creative content and immersive digital experiences.
                   </p>
-                </div>
-
-                <div className="mt-12 flex justify-center gap-3 sm:gap-4">
-                  <a
-                    href="#services"
-                    className="rounded-full border border-white/28 bg-white px-6 py-3 text-sm font-extrabold uppercase tracking-[0.18em] text-brandDeep transition hover:bg-mist"
-                  >
-                    Explore
-                  </a>
-                  <a
-                    href="#contact"
-                    className="rounded-full border border-white/28 bg-transparent px-6 py-3 text-sm font-extrabold uppercase tracking-[0.18em] text-white transition hover:bg-white/12"
-                  >
-                    Start a Project
-                  </a>
                 </div>
 
                 <a

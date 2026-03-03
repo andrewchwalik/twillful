@@ -184,10 +184,19 @@
     function PhoneMockupScene() {
       return (
         <div className="phone-scene mx-auto w-full max-w-[13rem] sm:max-w-[15rem] md:max-w-[17rem] lg:max-w-[18.5rem]">
-          <div className="relative rounded-[2.8rem] border border-white/35 bg-[#11130f] p-[0.45rem] shadow-[0_30px_80px_rgba(20,32,18,0.22)]">
-            <div className="relative overflow-hidden rounded-[2.35rem] bg-black aspect-[9/19.5]">
-              <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex justify-center pt-2">
-                <div className="h-6 w-28 rounded-full bg-black/88 shadow-[0_1px_0_rgba(255,255,255,0.08)]" />
+          <div className="relative mx-auto aspect-[9/19.5] w-full">
+            <div className="absolute inset-0 rounded-[3rem] bg-[#1a1a1a] shadow-[0_30px_80px_rgba(20,32,18,0.22)]" />
+
+            <div className="absolute -left-[3px] top-[22%] h-11 w-[3px] rounded-l-full bg-[#2d2d2d]" />
+            <div className="absolute -left-[3px] top-[29%] h-16 w-[3px] rounded-l-full bg-[#2d2d2d]" />
+            <div className="absolute -left-[3px] top-[39%] h-16 w-[3px] rounded-l-full bg-[#2d2d2d]" />
+            <div className="absolute -right-[3px] top-[31%] h-20 w-[3px] rounded-r-full bg-[#2d2d2d]" />
+
+            <div className="absolute inset-[3px] rounded-[2.85rem] border border-white/10" />
+
+            <div className="absolute inset-[0.45rem] overflow-hidden rounded-[2.45rem] bg-black">
+              <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex justify-center pt-3">
+                <div className="h-3.5 w-20 rounded-full bg-[#242424] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]" />
               </div>
               <iframe
                 className="absolute inset-0 h-full w-full"

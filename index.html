@@ -137,18 +137,18 @@
       }
     }
 
-    @keyframes phone-float {
+    @keyframes stage-float {
       0%,
       100% {
         transform: translateY(0);
       }
       50% {
-        transform: translateY(6px);
+        transform: translateY(5px);
       }
     }
 
-    .phone-scene {
-      animation: phone-float 7.5s ease-in-out infinite;
+    .mockup-stage {
+      animation: stage-float 8s ease-in-out infinite;
     }
 
     @keyframes decor-float-a {
@@ -204,30 +204,66 @@
       animation: decor-float-c 6.6s ease-in-out infinite;
     }
 
-    .iphone-shell {
-      background: linear-gradient(180deg, #2f3130 0%, #1f211f 100%);
-      border-radius: 2.7rem;
-      box-shadow:
-        0 30px 80px rgba(20, 32, 18, 0.2),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    @keyframes desktop-site-scroll {
+      0%,
+      12% {
+        transform: translateY(0);
+      }
+      45%,
+      58% {
+        transform: translateY(-24%);
+      }
+      86%,
+      100% {
+        transform: translateY(-44%);
+      }
     }
 
-    .iphone-screen {
+    .desktop-screen {
       position: absolute;
-      inset: 0.42rem;
+      left: 3.73%;
+      top: 13.33%;
+      width: 92.53%;
+      height: 73.33%;
       overflow: hidden;
-      border-radius: 2.42rem;
+      border-radius: 0.55rem;
+      background: #f4f4f4;
+    }
+
+    .desktop-scroll-track {
+      position: absolute;
+      inset: 0;
+      animation: desktop-site-scroll 26s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+      will-change: transform;
+    }
+
+    .desktop-iframe {
+      width: 220%;
+      height: 220%;
+      transform: scale(0.455);
+      transform-origin: top left;
+      border: 0;
+      pointer-events: none;
+    }
+
+    .phone-screen {
+      position: absolute;
+      left: 27.73%;
+      top: 3.8%;
+      width: 44.55%;
+      height: 92.4%;
+      overflow: hidden;
+      border-radius: 2.3rem;
       background: #000;
     }
 
-    .iphone-video {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 118%;
-      height: 118%;
-      transform: translate(-50%, -50%);
+    .phone-video {
+      width: 220%;
+      height: 220%;
+      transform: scale(0.455);
+      transform-origin: top left;
       border: 0;
+      pointer-events: none;
     }
   </style>
 </head>
@@ -272,30 +308,51 @@
       }
     ];
 
-    function PhoneMockupScene() {
+    function HeaderMockupScene() {
       return (
-        <div className="phone-scene mx-auto w-full max-w-[8rem] sm:max-w-[9.25rem] md:max-w-[10.5rem] lg:max-w-[11.25rem]">
-          <div className="relative mx-auto aspect-[500/995] w-full">
-            <div className="iphone-shell absolute inset-0" />
-
-            <div className="absolute -left-[2px] top-[20.5%] h-10 w-[2px] rounded-l-full bg-[#3a3c3a]" />
-            <div className="absolute -left-[2px] top-[27%] h-14 w-[2px] rounded-l-full bg-[#3a3c3a]" />
-            <div className="absolute -left-[2px] top-[36.5%] h-14 w-[2px] rounded-l-full bg-[#3a3c3a]" />
-            <div className="absolute -right-[2px] top-[29.5%] h-[4.6rem] w-[2px] rounded-r-full bg-[#3a3c3a]" />
-
-            <div className="absolute inset-[2px] rounded-[2.62rem] border border-white/10" />
-
-            <div className="iphone-screen">
-              <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex justify-center pt-[0.46rem]">
-                <div className="h-[0.55rem] w-[3.35rem] rounded-full bg-[#2e302f] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]" />
+        <div className="mockup-stage relative mx-auto w-full max-w-[36rem] sm:max-w-[42rem] lg:max-w-[47rem]">
+          <div className="relative mx-auto aspect-[1000/760] w-full">
+            <div className="absolute left-[20%] top-[8%] w-[72%]">
+              <div className="relative aspect-square w-full">
+                <div className="desktop-screen">
+                  <div className="desktop-scroll-track">
+                    <iframe
+                      className="desktop-iframe"
+                      src="https://firelandsunited.com"
+                      title="Firelands United homepage"
+                      loading="eager"
+                      tabIndex="-1"
+                    />
+                  </div>
+                </div>
+                <img
+                  src="assets/header-design-elements/mac-desktop-mockup.svg"
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute inset-0 h-full w-full select-none"
+                />
               </div>
-              <iframe
-                className="iphone-video"
-                src="https://www.youtube.com/embed/__MMPLvXtXc?autoplay=1&mute=1&controls=0&loop=1&playlist=__MMPLvXtXc&playsinline=1&rel=0&modestbranding=1"
-                title="Twillful featured video"
-                allow="autoplay; encrypted-media; picture-in-picture"
-                allowFullScreen
-              />
+            </div>
+
+            <div className="absolute left-[4%] top-[24%] w-[31%]">
+              <div className="relative aspect-square w-full">
+                <div className="phone-screen">
+                  <iframe
+                    className="phone-video"
+                    src="https://www.youtube.com/embed/__MMPLvXtXc?autoplay=1&mute=1&controls=0&loop=1&playlist=__MMPLvXtXc&playsinline=1&rel=0&modestbranding=1"
+                    title="Twillful featured video"
+                    allow="autoplay; encrypted-media; picture-in-picture"
+                    allowFullScreen
+                    tabIndex="-1"
+                  />
+                </div>
+                <img
+                  src="assets/header-design-elements/iphone-mockup.svg"
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute inset-0 h-full w-full select-none"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -306,28 +363,28 @@
       return (
         <div className="hero-decor absolute inset-0">
           <img
-            src="assets/stars.png"
+            src="assets/header-design-elements/stars.svg"
             alt=""
             aria-hidden="true"
-            className="decor-c absolute left-[32%] top-[8%] w-10 opacity-75 sm:w-14"
+            className="decor-c absolute left-[31%] top-[7%] w-10 opacity-80 sm:w-14"
           />
           <img
-            src="assets/scribble.png"
+            src="assets/header-design-elements/content-creation-underline-scribble.svg"
             alt=""
             aria-hidden="true"
-            className="decor-a absolute left-[14%] top-[36%] hidden w-40 opacity-70 sm:block md:w-48"
+            className="decor-a absolute left-[3%] top-[37%] hidden w-44 opacity-78 sm:block md:w-56"
           />
           <img
-            src="assets/circle-scribble.png"
+            src="assets/header-design-elements/web-design-circle-scribble.svg"
             alt=""
             aria-hidden="true"
-            className="decor-b absolute right-[14%] top-[25%] hidden w-44 opacity-65 sm:block md:w-56"
+            className="decor-b absolute right-[3%] top-[22%] hidden w-44 opacity-70 sm:block md:w-56"
           />
           <img
-            src="assets/underline-scribble.png"
+            src="assets/header-design-elements/digital-asset-production-scribble.svg"
             alt=""
             aria-hidden="true"
-            className="decor-a absolute right-[12%] top-[57%] hidden w-40 opacity-72 sm:block md:w-52"
+            className="decor-a absolute right-[2%] top-[62%] hidden w-56 opacity-76 sm:block md:w-72"
           />
         </div>
       );
@@ -375,10 +432,10 @@
 
             <main id="top" className="relative z-10 flex min-h-0 flex-1 flex-col justify-center px-6 pb-8 pt-2 md:px-10 md:pb-10 lg:px-16">
               <div className="relative mx-auto flex w-full max-w-[1600px] flex-1 flex-col justify-center">
-                <div className="mx-auto -mt-12 text-center sm:-mt-14 md:-mt-20">
+                <div className="mx-auto -mt-8 text-center sm:-mt-12 md:-mt-16">
                   <HeroDecor />
-                  <PhoneMockupScene />
-                  <p className="mx-auto mt-8 max-w-3xl text-balance px-2 text-base font-medium leading-7 text-white/88 sm:text-lg md:text-xl md:leading-9">
+                  <HeaderMockupScene />
+                  <p className="mx-auto mt-5 max-w-3xl text-balance px-2 text-base font-medium leading-7 text-white/88 sm:mt-6 sm:text-lg md:text-xl md:leading-9">
                     Every brand has a story — Twillful brings it to life with creative content and immersive digital experiences.
                   </p>
                 </div>

@@ -74,9 +74,11 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.16), transparent 18%);
+        radial-gradient(circle at 48% 46%, rgba(255, 255, 255, 0.2), transparent 20%),
+        radial-gradient(circle at 72% 36%, rgba(235, 245, 223, 0.14), transparent 26%);
       pointer-events: none;
-      opacity: 0.95;
+      opacity: 0.98;
+      animation: hero-ambient 12s ease-in-out infinite;
     }
 
     .hero-shell::after {
@@ -125,6 +127,16 @@
       animation: float-arrow 2.6s ease-in-out infinite;
     }
 
+    @keyframes hero-ambient {
+      0%,
+      100% {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+      50% {
+        transform: translate3d(-1.4%, 0.8%, 0) scale(1.03);
+      }
+    }
+
     @keyframes phone-float {
       0%,
       100% {
@@ -137,6 +149,59 @@
 
     .phone-scene {
       animation: phone-float 7.5s ease-in-out infinite;
+    }
+
+    @keyframes decor-float-a {
+      0%,
+      100% {
+        transform: translateY(0) rotate(-2deg);
+        opacity: 0.68;
+      }
+      50% {
+        transform: translateY(-8px) rotate(1deg);
+        opacity: 0.95;
+      }
+    }
+
+    @keyframes decor-float-b {
+      0%,
+      100% {
+        transform: translateY(0) rotate(1deg);
+        opacity: 0.55;
+      }
+      50% {
+        transform: translateY(6px) rotate(-2deg);
+        opacity: 0.86;
+      }
+    }
+
+    @keyframes decor-float-c {
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.62;
+      }
+      50% {
+        transform: translateY(-5px) rotate(3deg);
+        opacity: 0.9;
+      }
+    }
+
+    .hero-decor {
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .decor-a {
+      animation: decor-float-a 7.2s ease-in-out infinite;
+    }
+
+    .decor-b {
+      animation: decor-float-b 8.1s ease-in-out infinite;
+    }
+
+    .decor-c {
+      animation: decor-float-c 6.6s ease-in-out infinite;
     }
 
     .iphone-shell {
@@ -237,6 +302,37 @@
       );
     }
 
+    function HeroDecor() {
+      return (
+        <div className="hero-decor absolute inset-0">
+          <img
+            src="assets/stars.png"
+            alt=""
+            aria-hidden="true"
+            className="decor-c absolute left-[32%] top-[8%] w-10 opacity-75 sm:w-14"
+          />
+          <img
+            src="assets/scribble.png"
+            alt=""
+            aria-hidden="true"
+            className="decor-a absolute left-[14%] top-[36%] hidden w-40 opacity-70 sm:block md:w-48"
+          />
+          <img
+            src="assets/circle-scribble.png"
+            alt=""
+            aria-hidden="true"
+            className="decor-b absolute right-[14%] top-[25%] hidden w-44 opacity-65 sm:block md:w-56"
+          />
+          <img
+            src="assets/underline-scribble.png"
+            alt=""
+            aria-hidden="true"
+            className="decor-a absolute right-[12%] top-[57%] hidden w-40 opacity-72 sm:block md:w-52"
+          />
+        </div>
+      );
+    }
+
     function TwillfulSite() {
       return (
         <div>
@@ -280,6 +376,7 @@
             <main id="top" className="relative z-10 flex min-h-0 flex-1 flex-col justify-center px-6 pb-8 pt-2 md:px-10 md:pb-10 lg:px-16">
               <div className="relative mx-auto flex w-full max-w-[1600px] flex-1 flex-col justify-center">
                 <div className="mx-auto -mt-12 text-center sm:-mt-14 md:-mt-20">
+                  <HeroDecor />
                   <PhoneMockupScene />
                   <p className="mx-auto mt-8 max-w-3xl text-balance px-2 text-base font-medium leading-7 text-white/88 sm:text-lg md:text-xl md:leading-9">
                     Every brand has a story — Twillful brings it to life with creative content and immersive digital experiences.

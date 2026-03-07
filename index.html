@@ -211,12 +211,12 @@
 
     .desktop-screen {
       position: absolute;
-      left: 15.3%;
+      left: 15.2%;
       top: 24.1%;
-      width: 69.5%;
-      height: 40.7%;
+      width: 69.6%;
+      height: 40.85%;
       overflow: hidden;
-      border-radius: 0.35rem;
+      border-radius: 0.25rem;
       background: #f4f4f4;
     }
 
@@ -231,21 +231,22 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 118%;
-      transform: translateY(-2.5%);
+      width: 182%;
+      height: 182%;
+      transform: scale(0.5495);
+      transform-origin: top left;
       border: 0;
       pointer-events: none;
     }
 
     .phone-screen {
       position: absolute;
-      left: 32.2%;
-      top: 13.4%;
-      width: 35.6%;
-      height: 77.1%;
+      left: 31.6%;
+      top: 12%;
+      width: 37.4%;
+      height: 80.2%;
       overflow: hidden;
-      border-radius: 1.8rem;
+      border-radius: 2.05rem;
       background: #000;
     }
 
@@ -253,9 +254,9 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 100%;
+      width: 178%;
       height: 100%;
-      transform: translate(-50%, -50%) scale(1.42);
+      transform: translate(-50%, -50%);
       transform-origin: center;
       border: 0;
       pointer-events: none;
@@ -305,9 +306,9 @@
 
     function HeaderMockupScene() {
       return (
-        <div className="mockup-stage relative mx-auto w-full max-w-[40rem] sm:max-w-[46rem] lg:max-w-[54rem]">
+        <div className="mockup-stage relative mx-auto w-full max-w-[42rem] sm:max-w-[49rem] lg:max-w-[58rem]">
           <div className="relative mx-auto aspect-[1000/760] w-full">
-            <div className="absolute left-[18%] top-[7%] w-[72%]">
+            <div className="absolute left-[17.5%] top-[6.5%] w-[72.5%]">
               <div className="relative aspect-square w-full">
                 <div className="desktop-screen">
                   <div className="desktop-scroll-track">
@@ -329,7 +330,7 @@
               </div>
             </div>
 
-            <div className="absolute left-[8%] top-[20%] w-[34%]">
+            <div className="absolute left-[9%] top-[26%] w-[37%]">
               <div className="relative aspect-square w-full">
                 <div className="phone-screen">
                   <iframe
@@ -367,19 +368,19 @@
             src="assets/header-design-elements/content-creation-underline-scribble.png"
             alt=""
             aria-hidden="true"
-            className="decor-a absolute left-[3%] top-[37%] hidden w-44 opacity-78 sm:block md:w-56"
+            className="decor-a absolute left-[9%] top-[45%] hidden w-44 opacity-78 sm:block md:w-56"
           />
           <img
             src="assets/header-design-elements/web-design-circle-scribble.png"
             alt=""
             aria-hidden="true"
-            className="decor-b absolute right-[3%] top-[22%] hidden w-44 opacity-70 sm:block md:w-56"
+            className="decor-b absolute right-[10%] top-[28%] hidden w-44 opacity-70 sm:block md:w-56"
           />
           <img
             src="assets/header-design-elements/digital-asset-production-scribble.png"
             alt=""
             aria-hidden="true"
-            className="decor-a absolute right-[2%] top-[62%] hidden w-56 opacity-76 sm:block md:w-72"
+            className="decor-a absolute right-[11%] top-[77%] hidden w-56 opacity-76 sm:block md:w-72"
           />
         </div>
       );

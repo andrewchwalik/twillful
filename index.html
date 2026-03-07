@@ -137,18 +137,8 @@
       }
     }
 
-    @keyframes stage-float {
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(5px);
-      }
-    }
-
     .mockup-stage {
-      animation: stage-float 8s ease-in-out infinite;
+      transform: translateY(0);
     }
 
     @keyframes decor-float-a {
@@ -221,12 +211,12 @@
 
     .desktop-screen {
       position: absolute;
-      left: 3.73%;
-      top: 13.33%;
-      width: 92.53%;
-      height: 73.33%;
+      left: 15.3%;
+      top: 24.1%;
+      width: 69.5%;
+      height: 40.7%;
       overflow: hidden;
-      border-radius: 0.55rem;
+      border-radius: 0.35rem;
       background: #f4f4f4;
     }
 
@@ -238,30 +228,35 @@
     }
 
     .desktop-iframe {
-      width: 220%;
-      height: 220%;
-      transform: scale(0.455);
-      transform-origin: top left;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 118%;
+      transform: translateY(-2.5%);
       border: 0;
       pointer-events: none;
     }
 
     .phone-screen {
       position: absolute;
-      left: 27.73%;
-      top: 3.8%;
-      width: 44.55%;
-      height: 92.4%;
+      left: 32.2%;
+      top: 13.4%;
+      width: 35.6%;
+      height: 77.1%;
       overflow: hidden;
-      border-radius: 2.3rem;
+      border-radius: 1.8rem;
       background: #000;
     }
 
     .phone-video {
-      width: 220%;
-      height: 220%;
-      transform: scale(0.455);
-      transform-origin: top left;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      transform: translate(-50%, -50%) scale(1.42);
+      transform-origin: center;
       border: 0;
       pointer-events: none;
     }
@@ -310,9 +305,9 @@
 
     function HeaderMockupScene() {
       return (
-        <div className="mockup-stage relative mx-auto w-full max-w-[36rem] sm:max-w-[42rem] lg:max-w-[47rem]">
+        <div className="mockup-stage relative mx-auto w-full max-w-[40rem] sm:max-w-[46rem] lg:max-w-[54rem]">
           <div className="relative mx-auto aspect-[1000/760] w-full">
-            <div className="absolute left-[20%] top-[8%] w-[72%]">
+            <div className="absolute left-[18%] top-[7%] w-[72%]">
               <div className="relative aspect-square w-full">
                 <div className="desktop-screen">
                   <div className="desktop-scroll-track">
@@ -334,7 +329,7 @@
               </div>
             </div>
 
-            <div className="absolute left-[4%] top-[24%] w-[31%]">
+            <div className="absolute left-[8%] top-[20%] w-[34%]">
               <div className="relative aspect-square w-full">
                 <div className="phone-screen">
                   <iframe
@@ -432,10 +427,10 @@
 
             <main id="top" className="relative z-10 flex min-h-0 flex-1 flex-col justify-center px-6 pb-8 pt-2 md:px-10 md:pb-10 lg:px-16">
               <div className="relative mx-auto flex w-full max-w-[1600px] flex-1 flex-col justify-center">
-                <div className="mx-auto -mt-8 text-center sm:-mt-12 md:-mt-16">
+                <div className="mx-auto -mt-4 text-center sm:-mt-8 md:-mt-10">
                   <HeroDecor />
                   <HeaderMockupScene />
-                  <p className="mx-auto mt-5 max-w-3xl text-balance px-2 text-base font-medium leading-7 text-white/88 sm:mt-6 sm:text-lg md:text-xl md:leading-9">
+                  <p className="mx-auto mt-6 max-w-[56rem] text-balance px-3 text-base font-medium leading-7 text-white/88 sm:mt-7 sm:text-lg md:text-xl md:leading-9">
                     Every brand has a story — Twillful brings it to life with creative content and immersive digital experiences.
                   </p>
                 </div>

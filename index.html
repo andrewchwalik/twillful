@@ -183,11 +183,11 @@
     }
 
     .decor-a {
-      animation: decor-float-a 7.2s ease-in-out infinite;
+      animation: none;
     }
 
     .decor-b {
-      animation: decor-float-b 8.1s ease-in-out infinite;
+      animation: none;
     }
 
     .decor-c {
@@ -353,20 +353,21 @@
             alt=""
             aria-hidden="true"
             className="decor-a absolute left-[16%] top-[50%] hidden w-44 opacity-78 sm:block md:w-56"
+            style={{ left: "calc(16% - 220px)" }}
           />
           <img
             src="assets/header-design-elements/web-design-circle-scribble.png"
             alt=""
             aria-hidden="true"
             className="decor-b absolute right-[14%] top-[36%] hidden w-44 opacity-70 sm:block md:w-56"
-            style={{ right: "calc(14% - 73px)", top: "calc(36% - 249px)" }}
+            style={{ right: "calc(14% - 83px)", top: "calc(36% - 268px)" }}
           />
           <img
             src="assets/header-design-elements/digital-asset-production-scribble.png"
             alt=""
             aria-hidden="true"
             className="decor-a absolute right-[14%] top-[67%] hidden w-56 opacity-76 sm:block md:w-72"
-            style={{ right: "calc(14% - 124px)", top: "calc(67% - 145px)" }}
+            style={{ right: "calc(14% - 124px)", top: "calc(67% - 61px)" }}
           />
         </div>
       );

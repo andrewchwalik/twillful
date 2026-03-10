@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Syne:wght@500;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Beth+Ellen&family=Manrope:wght@400;500;600;700;800&family=Syne:wght@500;700;800&display=swap"
     rel="stylesheet"
   />
 
@@ -390,6 +390,52 @@
     }
 
     function TwillfulSite() {
+      const [formStatus, setFormStatus] = React.useState({ state: "idle", message: "" });
+      const CONTACT_RELAY_URL = "https://REPLACE_WITH_YOUR_WORKER_URL/contact";
+
+      async function handleContactSubmit(event) {
+        event.preventDefault();
+        const form = event.currentTarget;
+        const formData = new FormData(form);
+        const name = String(formData.get("name") || "").trim();
+        const email = String(formData.get("email") || "").trim();
+        const company = String(formData.get("company") || "").trim();
+        const details = String(formData.get("details") || "").trim();
+
+        if (!name || !email || !details) {
+          setFormStatus({ state: "error", message: "Please add name, email, and project details." });
+          return;
+        }
+
+        setFormStatus({ state: "loading", message: "Sending..." });
+
+        try {
+          if (CONTACT_RELAY_URL.includes("REPLACE_WITH_YOUR_WORKER_URL")) {
+            throw new Error("Relay URL not configured");
+          }
+
+          const response = await fetch(CONTACT_RELAY_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name,
+              email,
+              company,
+              details
+            })
+          });
+
+          if (!response.ok) {
+            throw new Error("Webhook request failed");
+          }
+
+          form.reset();
+          setFormStatus({ state: "success", message: "Inquiry sent. We will follow up soon." });
+        } catch (error) {
+          setFormStatus({ state: "error", message: "Submission failed. Please try again." });
+        }
+      }
+
       return (
         <div>
           <section className="hero-shell relative flex h-[100svh] flex-col overflow-hidden">
@@ -479,7 +525,7 @@
                   className="mt-4 font-display text-3xl font-extrabold tracking-[-0.03em] text-white md:text-5xl"
                   style={{ fontFamily: '"Canva Sans", "Manrope", sans-serif', fontWeight: 800 }}
                 >
-                  Every brand has a story — twillful brings it to life with creative content and immersive digital experiences.
+                  Every brand has a <span style={{ fontFamily: '"Beth Ellen", cursive', color: "#95b475", fontWeight: 400 }}>story</span> — twillful brings it to life with creative content and immersive digital experiences.
                 </h2>
               </div>
 
@@ -502,7 +548,10 @@
             <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_1.1fr]">
               <div>
                 <div className="text-xs font-bold uppercase tracking-[0.42em] text-olive">Why Twillful</div>
-                <h2 className="mt-4 font-accent text-4xl font-bold tracking-tight md:text-5xl">
+                <h2
+                  className="mt-4 font-display text-4xl font-extrabold tracking-[-0.03em] md:text-5xl"
+                  style={{ fontFamily: '"Canva Sans", "Manrope", sans-serif', fontWeight: 800 }}
+                >
                   The goal is not more content. The goal is better presence.
                 </h2>
                 <p className="mt-6 max-w-xl text-lg leading-8 text-olive">
@@ -530,7 +579,10 @@
             <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr]">
               <div className="section-panel rounded-[2rem] bg-white/8 p-8 text-white backdrop-blur">
                 <div className="text-xs font-bold uppercase tracking-[0.42em] text-white/55">Contact</div>
-                <h2 className="mt-4 font-accent text-4xl font-bold tracking-tight md:text-5xl">
+                <h2
+                  className="mt-4 font-display text-4xl font-extrabold tracking-[-0.03em] md:text-5xl"
+                  style={{ fontFamily: '"Canva Sans", "Manrope", sans-serif', fontWeight: 800 }}
+                >
                   Ready for a site and content system that feel more intentional?
                 </h2>
                 <p className="mt-6 max-w-xl text-lg leading-8 text-white/72">
@@ -539,31 +591,48 @@
               </div>
 
               <div className="section-panel rounded-[2rem] bg-brandDeep/55 p-8 backdrop-blur">
-                <form className="grid gap-4 md:grid-cols-2">
+                <form className="grid gap-4 md:grid-cols-2" onSubmit={handleContactSubmit}>
                   <input
+                    name="name"
+                    required
                     className="rounded-2xl border border-white/12 bg-white px-4 py-3 text-sm text-ink outline-none transition focus:border-brandDeep"
                     placeholder="Name"
                   />
                   <input
+                    name="email"
                     type="email"
+                    required
                     className="rounded-2xl border border-white/12 bg-white px-4 py-3 text-sm text-ink outline-none transition focus:border-brandDeep"
                     placeholder="Email"
                   />
                   <input
+                    name="company"
                     className="rounded-2xl border border-white/12 bg-white px-4 py-3 text-sm text-ink outline-none transition focus:border-brandDeep md:col-span-2"
                     placeholder="Brand or company"
                   />
                   <textarea
+                    name="details"
+                    required
                     rows="6"
                     className="rounded-2xl border border-white/12 bg-white px-4 py-3 text-sm text-ink outline-none transition focus:border-brandDeep md:col-span-2"
                     placeholder="What are you trying to improve?"
                   />
                   <button
-                    type="button"
+                    type="submit"
+                    disabled={formStatus.state === "loading"}
                     className="rounded-full bg-white px-6 py-3 text-sm font-extrabold uppercase tracking-[0.18em] text-brandDeep transition hover:bg-mist md:col-span-2"
                   >
-                    Send Inquiry
+                    {formStatus.state === "loading" ? "Sending..." : "Send Inquiry"}
                   </button>
+                  {formStatus.message && (
+                    <p
+                      className={`text-sm md:col-span-2 ${
+                        formStatus.state === "error" ? "text-[#ffd2d2]" : "text-white/80"
+                      }`}
+                    >
+                      {formStatus.message}
+                    </p>
+                  )}
                 </form>
               </div>
             </div>

@@ -1,0 +1,6 @@
+name = "twillful-contact-relay"
+main = "worker.js"
+compatibility_date = "2026-03-10"
+
+[vars]
+ALLOWED_ORIGINS = "https://twillful.ooo,https://www.twillful.ooo"

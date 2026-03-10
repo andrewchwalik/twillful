@@ -391,7 +391,7 @@
 
     function TwillfulSite() {
       const [formStatus, setFormStatus] = React.useState({ state: "idle", message: "" });
-      const CONTACT_RELAY_URL = "https://REPLACE_WITH_YOUR_WORKER_URL/contact";
+      const CONTACT_RELAY_URL = "https://twillful-contact-relay.chwalik.workers.dev/contact";
 
       async function handleContactSubmit(event) {
         event.preventDefault();

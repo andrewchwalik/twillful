@@ -84,3 +84,41 @@ test('compiled reduced-motion CSS retains visible content and disables motion', 
   assert.match(text, /flex-wrap:wrap/);
   assert.match(text, /aria-hidden=true/);
 });
+
+test('logo strip reserves geometry and waits for decoded images, including failed assets', async () => {
+  const dom = new JSDOM(html, { url: 'https://example.invalid/', runScripts: 'outside-only', pretendToBeVisual: true });
+  const { window } = dom;
+  const pending = [];
+  window.matchMedia = () => ({ matches: false, addEventListener() {}, removeEventListener() {} });
+  window.IntersectionObserver = class { constructor(callback) { this.callback = callback; } observe() { this.callback([{ isIntersecting: true }]); } disconnect() {} };
+  window.Element.prototype.getAnimations = () => [];
+  window.Element.prototype.animate = () => ({ cancel() {} });
+  window.HTMLImageElement.prototype.decode = function () {
+    return new Promise((resolve, reject) => pending.push({ resolve, reject }));
+  };
+  window.eval(js);
+  try {
+    await settle(() => pending.length === 36);
+    const track = window.document.querySelector('.trust-track');
+    assert.equal(track.dataset.ready, 'false');
+    const images = [...track.querySelectorAll('img')];
+    assert.ok(images.every(image => image.getAttribute('width') === '500' && image.getAttribute('height') === '500'));
+    pending.slice(0, -1).forEach(item => item.resolve());
+    await new Promise(resolve => setTimeout(resolve, 20));
+    assert.equal(track.dataset.ready, 'false', 'strip must not start before the final image settles');
+    pending.at(-1).reject(new Error('mock image unavailable'));
+    await settle(() => track.dataset.ready === 'true');
+  } finally { window.close(); }
+  const ast = postcss.parse(css);
+  const declarations = selector => {
+    const values = {};
+    ast.walkRules(selector, rule => { if (rule.parent.type === 'root') rule.walkDecls(d => { values[d.prop] = d.value; }); });
+    return values;
+  };
+  assert.equal(declarations('.trust-track')['animation-play-state'], 'paused');
+  assert.equal(declarations('.trust-track[data-ready=true]')['animation-play-state'], 'running');
+  assert.equal(declarations('.trust-logo').width, '3.75rem');
+  assert.equal(declarations('.trust-logo-image').width, '3.75rem');
+  assert.equal(declarations('.trust-marquee')['mask-image'], undefined);
+  assert.equal(declarations('.trust-reveal').filter, undefined);
+});

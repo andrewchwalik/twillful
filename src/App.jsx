@@ -381,6 +381,16 @@ import React from "react";
       const [contactChatStarted, setContactChatStarted] = React.useState(false);
       const CONTACT_RELAY_URL = "https://twillful-contact-relay.chwalik.workers.dev/contact";
       const trustRef = React.useRef(null);
+      const [logosReady, setLogosReady] = React.useState(false);
+
+      React.useEffect(() => {
+        let active = true;
+        const images = [...trustRef.current.querySelectorAll(".trust-logo-image")];
+        // Reserve geometry in CSS and only move the strip after image decoding.
+        Promise.all(images.map(image => image.decode ? image.decode().catch(() => {}) : Promise.resolve()))
+          .then(() => { if (active) setLogosReady(true); });
+        return () => { active = false; };
+      }, []);
       const contactSectionRef = React.useRef(null);
       const contactChatIntentRef = React.useRef(false);
 
@@ -531,10 +541,10 @@ import React from "react";
               </div>
 
               <div className="trust-marquee" tabIndex={0} role="region" aria-label="Client logos; focus to pause scrolling">
-                <div className="trust-track">
+                <div className="trust-track" data-ready={logosReady}>
                   {[...trustLogos, ...trustLogos].map((logo, index) => (
                     <div key={`${logo.name}-${index}`} className="trust-logo" aria-hidden={index >= trustLogos.length ? true : undefined}>
-                      <img src={logo.src} alt={logo.name} className="trust-logo-image" />
+                      <img src={logo.src} alt={logo.name} width="500" height="500" className="trust-logo-image" />
                     </div>
                   ))}
                 </div>

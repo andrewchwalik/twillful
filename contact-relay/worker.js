@@ -2,104 +2,97 @@ const DEFAULT_ALLOWED_ORIGINS = [
   "https://twillful.ooo",
   "https://www.twillful.ooo"
 ];
+const MAX_BODY_BYTES = 8192;
+const FIELD_LIMITS = { name: 100, company: 160, website: 500, phone: 50 };
 
-function getCorsHeaders(origin, allowedOrigins) {
-  const allowOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
-  return {
-    "Access-Control-Allow-Origin": allowOrigin,
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type"
-  };
-}
-
-function sanitizeLine(value) {
-  return String(value || "").replace(/\r?\n/g, " ").trim();
+async function readPayload(request) {
+  if (!request.body) throw new Error("Invalid JSON payload");
+  const reader = request.body.getReader();
+  const chunks = [];
+  let size = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      size += value.byteLength;
+      if (size > MAX_BODY_BYTES) {
+        await reader.cancel();
+        throw new RangeError("Request body too large");
+      }
+      chunks.push(value);
+    }
+  } finally {
+    reader.releaseLock();
+  }
+  const bytes = new Uint8Array(size);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return JSON.parse(new TextDecoder().decode(bytes));
 }
 
 export default {
   async fetch(request, env) {
     const origin = request.headers.get("Origin") || "";
-    const allowedOrigins = (env.ALLOWED_ORIGINS || "")
-      .split(",")
-      .map((item) => item.trim())
-      .filter(Boolean);
-    const effectiveAllowedOrigins = allowedOrigins.length ? allowedOrigins : DEFAULT_ALLOWED_ORIGINS;
-    const corsHeaders = getCorsHeaders(origin, effectiveAllowedOrigins);
+    const configuredOrigins = (env.ALLOWED_ORIGINS || "").split(",").map(item => item.trim()).filter(Boolean);
+    const allowedOrigins = configuredOrigins.length ? configuredOrigins : DEFAULT_ALLOWED_ORIGINS;
+    const originAllowed = allowedOrigins.includes(origin);
+    const headers = {
+      "Content-Type": "application/json",
+      "Vary": "Origin",
+      ...(originAllowed ? {
+        "Access-Control-Allow-Origin": origin,
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type"
+      } : {})
+    };
+    const respond = (status, error) => new Response(JSON.stringify(error ? { ok: false, error } : { ok: true }), { status, headers });
 
-    if (request.method === "OPTIONS") {
-      return new Response(null, { status: 204, headers: corsHeaders });
-    }
-
-    if (request.method !== "POST") {
-      return new Response(JSON.stringify({ ok: false, error: "Method not allowed" }), {
-        status: 405,
-        headers: { "Content-Type": "application/json", ...corsHeaders }
-      });
-    }
-
-    const url = new URL(request.url);
-    if (url.pathname !== "/contact") {
-      return new Response(JSON.stringify({ ok: false, error: "Not found" }), {
-        status: 404,
-        headers: { "Content-Type": "application/json", ...corsHeaders }
-      });
-    }
-
-    if (!env.DISCORD_WEBHOOK_URL) {
-      return new Response(JSON.stringify({ ok: false, error: "Missing webhook secret" }), {
-        status: 500,
-        headers: { "Content-Type": "application/json", ...corsHeaders }
-      });
+    if (new URL(request.url).pathname !== "/contact") return respond(404, "Not found");
+    if (!["POST", "OPTIONS"].includes(request.method)) return respond(405, "Method not allowed");
+    // Browser-origin policy, not authentication: non-browser clients can spoof Origin.
+    if (!originAllowed) return respond(403, "Origin not allowed");
+    if (request.method === "OPTIONS") return new Response(null, { status: 204, headers });
+    if (request.headers.get("Content-Type")?.split(";")[0].trim().toLowerCase() !== "application/json") {
+      return respond(415, "Expected application/json");
     }
 
     let payload;
     try {
-      payload = await request.json();
-    } catch {
-      return new Response(JSON.stringify({ ok: false, error: "Invalid JSON payload" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json", ...corsHeaders }
-      });
+      payload = await readPayload(request);
+    } catch (error) {
+      return respond(error instanceof RangeError ? 413 : 400, error instanceof RangeError ? "Request body too large" : "Invalid JSON payload");
     }
+    if (!payload || typeof payload !== "object" || Array.isArray(payload)) return respond(400, "Expected a JSON object");
 
-    const name = sanitizeLine(payload.name);
-    const company = sanitizeLine(payload.company);
-    const website = sanitizeLine(payload.website);
-    const phone = sanitizeLine(payload.phone);
-
-    if (!name || !company || !phone) {
-      return new Response(JSON.stringify({ ok: false, error: "Missing required fields" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json", ...corsHeaders }
-      });
+    const fields = {};
+    for (const [field, limit] of Object.entries(FIELD_LIMITS)) {
+      const value = payload[field] === undefined && field === "website" ? "" : payload[field];
+      if (typeof value !== "string") return respond(400, `Invalid ${field}`);
+      if (value.length > limit) return respond(400, `${field} is too long (maximum ${limit} characters)`);
+      fields[field] = value.replace(/[\r\n\t]+/g, " ").trim();
+      if (field !== "website" && !fields[field]) return respond(400, "Missing required fields");
+      if (/[\u0000-\u001f\u007f]/.test(fields[field])) return respond(400, `Invalid ${field}`);
     }
-
+    if (!env.DISCORD_WEBHOOK_URL) return respond(500, "Contact service unavailable");
+    const { name, company, website, phone } = fields;
     const discordBody = {
-      content:
-        "New Twillful contact form submission\n\n" +
-        `Name: ${name}\n` +
-        `Business Name: ${company}\n` +
-        `Current Website: ${website || "N/A"}\n` +
-        `Phone Number: ${phone}`,
+      content: "New Twillful contact form submission\n\n" +
+        `Name: ${name}\nBusiness Name: ${company}\nCurrent Website: ${website || "N/A"}\nPhone Number: ${phone}`,
       allowed_mentions: { parse: [] }
     };
-
-    const discordResponse = await fetch(env.DISCORD_WEBHOOK_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(discordBody)
-    });
-
-    if (!discordResponse.ok) {
-      return new Response(JSON.stringify({ ok: false, error: "Discord webhook request failed" }), {
-        status: 502,
-        headers: { "Content-Type": "application/json", ...corsHeaders }
+    try {
+      const response = await fetch(env.DISCORD_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(discordBody)
       });
+      if (!response.ok) return respond(502, "Contact service unavailable");
+    } catch {
+      return respond(502, "Contact service unavailable");
     }
-
-    return new Response(JSON.stringify({ ok: true }), {
-      status: 200,
-      headers: { "Content-Type": "application/json", ...corsHeaders }
-    });
+    return respond(200);
   }
 };

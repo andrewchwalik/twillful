@@ -619,6 +619,25 @@
       animation-play-state: paused;
     }
 
+    /* Freeze and expose the canonical row while keyboard users navigate it. */
+    .gallery-wave:has(.gallery-mini-card:focus-visible) {
+      overflow-x: auto;
+    }
+
+    .gallery-track:has(.gallery-mini-card:focus-visible) {
+      animation: none;
+      transform: none;
+    }
+
+    .gallery-track:has(.gallery-mini-card:focus-visible) .gallery-mini-card {
+      animation-play-state: paused;
+    }
+
+    .gallery-mini-card:focus-visible {
+      outline: 3px solid #61774d;
+      outline-offset: 4px;
+    }
+
     .gallery-track--reverse {
       animation-name: gallery-scroll-right;
       animation-duration: 50s;
@@ -658,7 +677,6 @@
       translate: 0 -8px;
       scale: 1.08;
       z-index: 4;
-      outline: none;
     }
 
     .gallery-mini-card-art {
@@ -1133,7 +1151,7 @@
 
     const galleryCardsTop = [
       { label: "Bluebird", company: "Bluebird", url: "https://bluebird.ooo/", background: "#29486e", image: "assets/client-cards/bluebird.jpg", offset: 8, delay: "0s" },
-      { label: "Lakeside", company: "Lakeside Laundromat", background: "#9c6f4e", image: "assets/client-cards/lakeside-laundromat.jpg", offset: 15, delay: "0.4s" },
+      { label: "Lakeside", company: "Lakeside Laundromat", url: "https://lakesidelaundromat.com/", background: "#9c6f4e", image: "assets/client-cards/lakeside-laundromat.jpg", offset: 15, delay: "0.4s" },
       { label: "Launch", background: "linear-gradient(160deg, #5f8f4f 0%, #88ba73 46%, #e6f3dc 100%)", offset: 5, delay: "0.8s" },
       { label: "Caption Lab", company: "The Caption Lab", url: "https://www.thecaptionlab.com/", background: "#574070", image: "assets/client-cards/the-caption-lab.jpg", offset: 14, delay: "1.2s" },
       { label: "Wash Co", company: "The Wash Company", background: "#8e6048", image: "assets/client-cards/the-wash-company.jpg", offset: 7, delay: "1.6s" },
@@ -1149,7 +1167,7 @@
       { label: "Campaign", background: "linear-gradient(160deg, #f47e53 0%, #ffb06e 44%, #fff0d7 100%)", offset: 5, delay: "0.6s" },
       { label: "Bluebird", company: "Bluebird", url: "https://bluebird.ooo/", background: "#29486e", image: "assets/client-cards/bluebird.jpg", offset: 12, delay: "1s" },
       { label: "Social", background: "linear-gradient(160deg, #6aafe5 0%, #a6d6f6 42%, #f4d576 100%)", offset: 7, delay: "1.4s" },
-      { label: "Lakeside", company: "Lakeside Laundromat", background: "#9c6f4e", image: "assets/client-cards/lakeside-laundromat.jpg", offset: 14, delay: "1.8s" },
+      { label: "Lakeside", company: "Lakeside Laundromat", url: "https://lakesidelaundromat.com/", background: "#9c6f4e", image: "assets/client-cards/lakeside-laundromat.jpg", offset: 14, delay: "1.8s" },
       { label: "Caption Lab", company: "The Caption Lab", url: "https://www.thecaptionlab.com/", background: "#574070", image: "assets/client-cards/the-caption-lab.jpg", offset: 6, delay: "2.2s" },
       { label: "Digital", background: "linear-gradient(160deg, #05050a 0%, #101628 42%, #5464ed 100%)", offset: 10, delay: "2.6s" },
       { label: "Wash Co", company: "The Wash Company", background: "#8e6048", image: "assets/client-cards/the-wash-company.jpg", offset: 4, delay: "3s" },
@@ -1530,6 +1548,14 @@
           return;
         }
 
+        const limits = { name: 100, company: 160, website: 500, phone: 50 };
+        for (const [field, value] of Object.entries({ name, company, website, phone })) {
+          if (value.length > limits[field]) {
+            setFormStatus({ state: "error", message: `${field} is too long (maximum ${limits[field]} characters).` });
+            return;
+          }
+        }
+
         setFormStatus({ state: "loading", message: "Sending..." });
 
         try {
@@ -1595,13 +1621,16 @@
                 <div className="gallery-wave py-4">
                   <div className="gallery-track gallery-track--offset">
                     {[...galleryCardsTop, ...galleryCardsTop, ...galleryCardsTop, ...galleryCardsTop].map((card, index) => {
-                      const CardTag = card.url ? "a" : "button";
+                      const isDuplicate = index >= galleryCardsTop.length;
+                      const CardTag = card.url ? "a" : "div";
                       return (
                         <CardTag
                           key={`top-${card.label}-${index}`}
+                          aria-hidden={isDuplicate ? true : undefined}
+                          tabIndex={card.url && isDuplicate ? -1 : undefined}
                           {...(card.url
                             ? { href: card.url, target: "_blank", rel: "noreferrer noopener" }
-                            : { type: "button" })}
+                            : {})}
                           className={`gallery-mini-card ${card.url ? "gallery-mini-card--linked" : ""}`}
                           style={{
                             background: card.background,
@@ -1635,20 +1664,23 @@
                     Our portfolio is an art gallery.
                   </h2>
                   <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-[#5a6855] md:text-lg">
-                    Select any of the cards in our gallery of art to see our work in action.
+                    Select a linked project in our gallery of art to see our work in action.
                   </p>
                 </div>
 
                 <div className="gallery-wave py-4">
                   <div className="gallery-track gallery-track--reverse">
                     {[...galleryCardsBottom, ...galleryCardsBottom, ...galleryCardsBottom, ...galleryCardsBottom].map((card, index) => {
-                      const CardTag = card.url ? "a" : "button";
+                      const isDuplicate = index >= galleryCardsBottom.length || (card.url && galleryCardsTop.some(item => item.url === card.url));
+                      const CardTag = card.url ? "a" : "div";
                       return (
                         <CardTag
                           key={`bottom-${card.label}-${index}`}
+                          aria-hidden={isDuplicate ? true : undefined}
+                          tabIndex={card.url && isDuplicate ? -1 : undefined}
                           {...(card.url
                             ? { href: card.url, target: "_blank", rel: "noreferrer noopener" }
-                            : { type: "button" })}
+                            : {})}
                           className={`gallery-mini-card ${card.url ? "gallery-mini-card--linked" : ""}`}
                           style={{
                             background: card.background,
@@ -1739,6 +1771,7 @@
                       </span>
                       <input
                         name="name"
+                        maxLength={100}
                         required
                         className="w-full border-0 border-b border-[#cfd7c9] bg-transparent px-0 py-3 text-[1rem] text-ink outline-none transition focus:border-[#95b475]"
                         placeholder=""
@@ -1751,6 +1784,7 @@
                       </span>
                       <input
                         name="company"
+                        maxLength={160}
                         required
                         className="w-full border-0 border-b border-[#cfd7c9] bg-transparent px-0 py-3 text-[1rem] text-ink outline-none transition focus:border-[#95b475]"
                         placeholder=""
@@ -1763,6 +1797,7 @@
                       </span>
                       <input
                         name="website"
+                        maxLength={500}
                         type="text"
                         className="w-full border-0 border-b border-[#cfd7c9] bg-transparent px-0 py-3 text-[1rem] text-ink outline-none transition focus:border-[#95b475]"
                         placeholder=""
@@ -1775,6 +1810,7 @@
                       </span>
                       <input
                         name="phone"
+                        maxLength={50}
                         type="tel"
                         required
                         className="w-full border-0 border-b border-[#cfd7c9] bg-transparent px-0 py-3 text-[1rem] text-ink outline-none transition focus:border-[#95b475]"
@@ -1791,15 +1827,16 @@
                         {formStatus.state === "loading" ? "Sending..." : "Send Inquiry"}
                       </button>
 
-                      {formStatus.message && (
-                        <p
-                          className={`text-sm ${
-                            formStatus.state === "error" ? "text-[#a34848]" : "text-[#5a6855]"
-                          }`}
-                        >
-                          {formStatus.message}
-                        </p>
-                      )}
+                      <p
+                        role="status"
+                        aria-live="polite"
+                        aria-atomic="true"
+                        className={`text-sm ${
+                          formStatus.state === "error" ? "text-[#a34848]" : "text-[#5a6855]"
+                        }`}
+                      >
+                        {formStatus.message}
+                      </p>
                     </div>
                   </form>
                 </div>
@@ -1809,7 +1846,7 @@
 
           <footer className="bg-white px-6 pb-10 text-sm text-brand md:px-10 lg:px-16">
             <div className="mx-auto flex max-w-7xl flex-col gap-3 pt-8 md:flex-row md:items-center md:justify-between">
-              <div>© <span id="year"></span> twillful.</div>
+              <div>© <span id="year">{new Date().getFullYear()}</span> twillful.</div>
               <div className="flex items-center gap-5">
                 <a href="#about" className="transition hover:text-brandDeep">Portfolio</a>
                 <a href="/zaptap/" className="transition hover:text-brandDeep">ZapTap</a>
@@ -1823,7 +1860,6 @@
 
     const root = ReactDOM.createRoot(document.getElementById("root"));
     root.render(<TwillfulSite />);
-    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
 </html>

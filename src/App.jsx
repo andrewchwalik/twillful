@@ -218,7 +218,25 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
     function AnimatedHeroHeader() {
       const heroCardRefs = React.useRef({});
       const heroRef = React.useRef(null);
+      const fanRef = React.useRef(null);
       const prefersReducedMotion = useReducedMotion();
+
+      React.useEffect(() => {
+        const fan = fanRef.current;
+        const scene = fan.querySelector(".hero-fan-scene");
+        const fitFan = () => {
+          if (!fan.clientWidth || !scene.offsetWidth) return;
+          fan.style.setProperty("--fan-scale", Math.min(1, fan.clientWidth / scene.offsetWidth));
+        };
+        fitFan();
+        const observer = typeof ResizeObserver !== "undefined" ? new ResizeObserver(fitFan) : null;
+        observer?.observe(fan);
+        window.addEventListener("resize", fitFan);
+        return () => {
+          observer?.disconnect();
+          window.removeEventListener("resize", fitFan);
+        };
+      }, []);
 
       React.useEffect(() => {
         let active = true;
@@ -242,7 +260,9 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
         });
         Promise.all(decoded).then(() => {
           if (!active) return;
-          const belowFold = Math.max(420, window.innerHeight - elements[0].getBoundingClientRect().top + 140);
+          const fanScale = parseFloat(getComputedStyle(fanRef.current).getPropertyValue("--fan-scale")) || 1;
+          // Coordinates belong to the unscaled scene, including the below-screen start.
+          const belowFold = Math.max(420, (window.innerHeight - elements[0].getBoundingClientRect().top + 140) / fanScale);
           const startTime = document.timeline?.currentTime;
           heroRef.current.classList.add("is-ready");
           heroCards.forEach(card => {
@@ -305,7 +325,8 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
                   </h1>
                 </div>
 
-                <div className="relative h-[252px] w-full max-w-[980px] sm:h-[278px] md:h-[300px]" style={{ marginTop: "calc(-4rem - 10px)", transform: "translateX(-62px)" }}>
+                <div ref={fanRef} className="hero-fan relative h-[252px] w-full max-w-[980px] sm:h-[278px] md:h-[300px]">
+                  <div className="hero-fan-scene">
                   {heroCards.map((card) => {
                     const CardTag = card.url ? "a" : "div";
 
@@ -343,7 +364,7 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
                       </CardTag>
                     );
                   })}
-
+                  </div>
                 </div>
 
                 <p className="hero-subcopy mx-auto mt-[68px] max-w-2xl text-[0.95rem] leading-7 text-[#4f5c4e] sm:mt-[76px] sm:text-base">

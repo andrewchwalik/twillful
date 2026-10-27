@@ -329,10 +329,26 @@
       animation-delay: 1.85s;
     }
 
+    .hero-fan {
+      --fan-scale: 1;
+      margin-top: calc(-4rem - 10px);
+    }
+
+    /* One canonical drawing keeps card sizes, spacing and animation paths in sync. */
+    .hero-fan-scene {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 752px;
+      height: 300px;
+      transform: translate(-50%, -50%) scale(var(--fan-scale));
+      transform-origin: center;
+    }
+
     .hero-card {
       position: absolute;
       display: block;
-      left: 50%;
+      left: calc(50% - 62px);
       top: 48%;
       width: 184px;
       aspect-ratio: 1 / 1;
@@ -1030,23 +1046,25 @@
         min-height: clamp(620px, 74svh, 720px);
       }
 
-      .hero-card {
-        width: 142px;
-        top: 50%;
+      .hero-fan {
+        --fan-scale: 0.7;
       }
 
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 639px) {
       .saas-stage {
         width: calc(100vw - 22px);
         min-height: 720px;
         margin: 0 auto;
       }
 
-      .hero-card {
-        width: 116px;
-        top: 51%;
+      .hero-fan {
+        --fan-scale: 0.3;
+      }
+
+      .hero-subcopy {
+        margin-top: clamp(16px, calc(30vw - 130px), 76px);
       }
 
       .hero-hover-pill {

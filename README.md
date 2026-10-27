@@ -31,13 +31,19 @@ The build creates fingerprinted WebP images in `assets/optimized/` and a generat
 The five hero images are preloaded and decoded before the shared entrance timeline
 starts. Other images load lazily; the logo strip prepares when near the viewport.
 
-`npm run test:browser` uses installed Google Chrome to check 390px through 7680px
+`npm run test:browser` uses installed Google Chrome to check 320px through 7680px
 viewports, loop boundaries and multiple cycles, hover labels, tab return, image
 loading, the hero sequence, and reduced motion. Screenshots go to
 `/tmp/twillful-checks/`. Set `BROWSER_CHANNEL` to use another installed channel.
 Each gallery loop has two identical groups, each filled to at least the viewport
 width plus overscan. A ResizeObserver updates the repeat count and constant-speed
 duration after resizing; there is no fixed upper limit on viewport coverage.
+
+The header fan uses one 752px drawing space, scaled as a unit to its available
+width with ResizeObserver. Do not shrink individual cards while keeping desktop
+animation offsets: that spreads the cards outside phone screens. The entrance's
+below-fold starting distance also accounts for the scene scale. Browser checks
+cover narrow phones, breakpoint edges, the mobile entrance, and phone rotation.
 
 Tests use mocked network requests and do not submit real inquiries. The contact
 Worker is deployed separately; see `contact-relay/README.md`. Do not submit the

@@ -35,6 +35,60 @@ try {
   await page.evaluate(() => window.heroAnimations.forEach(animation => animation?.finish()));
   await page.waitForTimeout(150);
   assert.equal(await page.locator('.contact-bubble--incoming').count(), 0, 'contact chat should not start at page load');
+  for (const width of [320, 360, 390, 430, 480, 540, 620, 639, 640, 768, 900, 1440]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.waitForTimeout(80);
+    const fan = await page.evaluate(() => {
+      const cards = [...document.querySelectorAll('.hero-card')].map(card => card.getBoundingClientRect());
+      return { count: cards.length, left: Math.min(...cards.map(card => card.left)), right: Math.max(...cards.map(card => card.right)),
+        top: Math.min(...cards.map(card => card.top)), bottom: Math.max(...cards.map(card => card.bottom)),
+        heading: document.querySelector('h1').getBoundingClientRect().bottom,
+        description: document.querySelector('.hero-subcopy').getBoundingClientRect().top };
+    });
+    assert.equal(fan.count, 5);
+    assert.ok(fan.left >= 8 && fan.right <= width - 8, `header cards leave the screen at ${width}px: ${JSON.stringify(fan)}`);
+    assert.ok(Math.abs((fan.left + fan.right) / 2 - width / 2) < 8, `header fan is not centered at ${width}px`);
+    assert.ok(fan.top > fan.heading + 12, `header cards overlap the title at ${width}px`);
+    assert.ok(fan.bottom + 4 < fan.description, `header cards overlap the description at ${width}px`);
+    await page.screenshot({ path: `/tmp/twillful-checks/header-${width}.png` });
+    console.log(`All five header cards fit and stay centered at ${width}px.`);
+  }
+  const mobile = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 });
+  mobile.on('pageerror', error => errors.push(error.message));
+  await mobile.goto(base);
+  await mobile.waitForSelector('.saas-hero-shell.is-ready');
+  await mobile.evaluate(() => {
+    window.heroAnimations = [...document.querySelectorAll('.hero-card')].map(card => card.getAnimations()[0]);
+    window.heroAnimations.forEach(animation => animation?.pause());
+  });
+  for (const time of [0, 350, 700, 1100, 1600, 2199]) {
+    await mobile.evaluate(time => window.heroAnimations.forEach(animation => { if (animation) animation.currentTime = time; }), time);
+    await mobile.waitForTimeout(20);
+    const bounds = await mobile.evaluate(() => [...document.querySelectorAll('.hero-card')].map(card => {
+      const rect = card.getBoundingClientRect();
+      return { left: rect.left, right: rect.right, top: rect.top };
+    }));
+    assert.ok(bounds.every(rect => rect.left >= 8 && rect.right <= 382), `mobile entrance leaves the screen at ${time}ms`);
+    if (time === 0) assert.ok(bounds.every(rect => rect.top > 844), 'mobile cards must still begin below the fold');
+  }
+  await mobile.evaluate(() => window.heroAnimations.forEach(animation => animation?.finish()));
+  await mobile.waitForTimeout(2800);
+  await mobile.screenshot({ path: '/tmp/twillful-checks/mobile-header-final.png' });
+  await mobile.setViewportSize({ width: 844, height: 390 });
+  await mobile.waitForTimeout(100);
+  assert.ok(await mobile.evaluate(() => [...document.querySelectorAll('.hero-card')].every(card => {
+    const rect = card.getBoundingClientRect();
+    return rect.left >= 8 && rect.right <= innerWidth - 8;
+  })), 'cards must stay together when the phone rotates');
+  await mobile.emulateMedia({ reducedMotion: 'reduce' });
+  await mobile.setViewportSize({ width: 320, height: 740 });
+  await mobile.waitForTimeout(100);
+  assert.ok(await mobile.evaluate(() => [...document.querySelectorAll('.hero-card')].every(card => {
+    const rect = card.getBoundingClientRect();
+    return rect.left >= 8 && rect.right <= innerWidth - 8;
+  })), 'reduced-motion cards must also fit the mobile viewport');
+  await mobile.close();
+  console.log('Mobile entrance, phone rotation, and reduced-motion fan verified.');
   for (const width of [390, 1440, 2560, 5120, 7680]) {
     await page.setViewportSize({ width, height: 1000 });
     await page.mouse.move(0, 0);

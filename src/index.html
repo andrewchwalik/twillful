@@ -6,29 +6,19 @@
   <title>twillful</title>
   <meta
     name="description"
-    content="Twillful is a creative marketing studio focused on content creation and website design for brands that want sharper digital presence."
+    content="Twillful is a web design agency turning websites into works of art for brands that want more attention."
   />
   <meta name="theme-color" content="#95b475" />
   <link rel="icon" type="image/png" href="assets/twillful-favicon.png" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Beth+Ellen&family=Manrope:wght@400;500;600;700;800&family=Syne:wght@500;700;800&display=swap"
-    rel="stylesheet"
-  />
+  <link rel="preload" href="/assets/fonts/manrope-latin-variable.woff2" as="font" type="font/woff2" crossorigin />
 
   <!-- BUILD_CSS -->
+  <!-- BUILD_PRELOADS -->
+  <noscript><style>.hero-copy,.hero-subcopy,.hero-actions,.trust-reveal{opacity:1;transform:none}.hero-card{opacity:1;transform:translate(var(--card-x),var(--card-y)) rotate(var(--card-rotate))}</style></noscript>
 </head>
 <body>
-  <div id="root">
-    <div class="initial-loader" aria-hidden="true">
-      <div class="initial-loader-mark">
-        <div class="initial-loader-word">twillful.</div>
-        <div class="initial-loader-dot"></div>
-      </div>
-    </div>
-  </div>
+  <div id="root"><!-- BUILD_HTML --></div>
 
   <!-- BUILD_JS -->
 </body>

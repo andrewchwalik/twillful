@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+    @font-face {
+      font-family: "Manrope";
+      font-style: normal;
+      font-weight: 400 800;
+      font-display: swap;
+      src: url("/assets/fonts/manrope-latin-variable.woff2") format("woff2");
+    }
+
     :root {
       --brand: #95b475;
       --brand-bright: #bfd4a7;
@@ -302,18 +310,23 @@
     .hero-copy {
       opacity: 0;
       transform: translateY(22px);
-      animation: copy-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.72s;
+      animation: copy-rise 1s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.15s;
     }
 
     .hero-subcopy,
     .hero-actions {
       opacity: 0;
       transform: translateY(16px);
-      animation: copy-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards 2.05s;
+      animation: none;
     }
 
-    .hero-actions {
-      animation-delay: 2.2s;
+    .is-ready .hero-subcopy,
+    .is-ready .hero-actions {
+      animation: copy-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards 1.7s;
+    }
+
+    .is-ready .hero-actions {
+      animation-delay: 1.85s;
     }
 
     .hero-card {
@@ -556,6 +569,7 @@
 
     .gallery-wave {
       position: relative;
+      width: 100%;
       overflow: visible;
       padding-top: 4rem;
       padding-bottom: 4rem;
@@ -565,16 +579,19 @@
       display: flex;
       width: max-content;
       align-items: center;
-      gap: 1rem;
       will-change: transform;
-      animation: gallery-scroll-left 46s linear infinite;
+      animation: gallery-scroll-left var(--gallery-duration, 46s) linear infinite;
     }
 
-    .gallery-track--offset {
-      animation-delay: -15.5s;
+    .gallery-group {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      gap: 1rem;
+      padding-right: 1rem;
     }
 
-    .gallery-track:hover {
+    .gallery-track[data-paused="true"] {
       animation-play-state: paused;
     }
 
@@ -599,7 +616,6 @@
 
     .gallery-track--reverse {
       animation-name: gallery-scroll-right;
-      animation-duration: 50s;
     }
 
     .gallery-mini-card {
@@ -623,7 +639,7 @@
       text-decoration: none;
     }
 
-    .gallery-track:hover .gallery-mini-card {
+    .gallery-track[data-paused="true"] .gallery-mini-card {
       animation-play-state: paused;
     }
 
@@ -944,13 +960,13 @@
         transform: translateX(0);
       }
       to {
-        transform: translateX(calc(-25% - 0.75rem));
+        transform: translateX(-50%);
       }
     }
 
     @keyframes gallery-scroll-right {
       from {
-        transform: translateX(calc(-25% - 0.75rem));
+        transform: translateX(-50%);
       }
       to {
         transform: translateX(0);
@@ -1051,8 +1067,11 @@
   .hero-copy, .hero-subcopy, .hero-actions, .trust-reveal {
     opacity: 1; transform: none; filter: none;
   }
+  .hero-card { opacity: 1; transform: translate(var(--card-x), var(--card-y)) rotate(var(--card-rotate)); }
   .trust-marquee { overflow: visible; mask-image: none; -webkit-mask-image: none; }
   .trust-track, .gallery-track { width: 100%; flex-wrap: wrap; justify-content: center; transform: none; }
+  .gallery-group { flex-wrap: wrap; justify-content: center; width: 100%; padding: 0; }
+  .gallery-group[aria-hidden="true"] { display: none; }
   .trust-logo[aria-hidden="true"], .gallery-mini-card[aria-hidden="true"] { display: none; }
   .gallery-mini-card { transform: none; }
   .contact-bubble--typing, .contact-bubble--typing-first { display: none; }

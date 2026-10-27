@@ -1,4 +1,10 @@
 import React from "react";
+import { CardImage } from "./CardImage.jsx";
+import { GalleryRow } from "./GalleryRow.jsx";
+import { entranceFrames, finalCardTransform } from "./motion.js";
+
+const adamhProject = { label: "ADAMH", company: "ADAMH", url: "https://andrewchwalik.github.io/adamh-header-prototype/", image: "assets/client-cards/adamh.svg", background: "#91a986" };
+const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "https://andrewchwalik.com/", image: "assets/client-cards/andrew-chwalik.svg", background: "#496958" };
 
     const services = [
       {
@@ -57,9 +63,9 @@ import React from "react";
     const galleryCardsTop = [
       { label: "Bluebird", company: "Bluebird", url: "https://bluebird.ooo/", background: "#29486e", image: "assets/client-cards/bluebird.jpg", offset: 8, delay: "0s" },
       { label: "Lakeside", company: "Lakeside Laundromat", url: "https://lakesidelaundromat.com/", background: "#9c6f4e", image: "assets/client-cards/lakeside-laundromat.jpg", offset: 15, delay: "0.4s" },
-      { label: "Launch", background: "linear-gradient(160deg, #5f8f4f 0%, #88ba73 46%, #e6f3dc 100%)", offset: 5, delay: "0.8s" },
+      { ...personalProject, offset: 5, delay: "0.8s" },
       { label: "Caption Lab", company: "The Caption Lab", url: "https://www.thecaptionlab.com/", background: "#574070", image: "assets/client-cards/the-caption-lab.jpg", offset: 14, delay: "1.2s" },
-      { label: "Wash Co", company: "The Wash Company", background: "#8e6048", image: "assets/client-cards/the-wash-company.jpg", offset: 7, delay: "1.6s" },
+      { ...adamhProject, offset: 7, delay: "1.6s" },
       { label: "UX", background: "linear-gradient(160deg, #c8ced8 0%, #e4d7d1 46%, #f7f4ef 100%)", offset: 13, delay: "2s" },
       { label: "Identity", background: "linear-gradient(160deg, #e28b8b 0%, #d43e3e 42%, #76b6e5 100%)", offset: 4, delay: "2.4s" },
       { label: "Firelands", company: "Firelands United", url: "https://firelandsunited.com/", background: "#334164", image: "assets/client-cards/firelands-united.jpg", offset: 11, delay: "2.8s" },
@@ -74,8 +80,8 @@ import React from "react";
       { label: "Social", background: "linear-gradient(160deg, #6aafe5 0%, #a6d6f6 42%, #f4d576 100%)", offset: 7, delay: "1.4s" },
       { label: "Lakeside", company: "Lakeside Laundromat", url: "https://lakesidelaundromat.com/", background: "#9c6f4e", image: "assets/client-cards/lakeside-laundromat.jpg", offset: 14, delay: "1.8s" },
       { label: "Caption Lab", company: "The Caption Lab", url: "https://www.thecaptionlab.com/", background: "#574070", image: "assets/client-cards/the-caption-lab.jpg", offset: 6, delay: "2.2s" },
-      { label: "Digital", background: "linear-gradient(160deg, #05050a 0%, #101628 42%, #5464ed 100%)", offset: 10, delay: "2.6s" },
-      { label: "Wash Co", company: "The Wash Company", background: "#8e6048", image: "assets/client-cards/the-wash-company.jpg", offset: 4, delay: "3s" },
+      { ...personalProject, offset: 10, delay: "2.6s" },
+      { ...adamhProject, offset: 4, delay: "3s" },
       { label: "Firelands", company: "Firelands United", url: "https://firelandsunited.com/", background: "#334164", image: "assets/client-cards/firelands-united.jpg", offset: 13, delay: "3.4s" },
       { label: "Studio", background: "linear-gradient(160deg, #5d2fa0 0%, #8a55d6 42%, #f2b3ff 100%)", offset: 8, delay: "3.8s" }
     ];
@@ -89,7 +95,7 @@ import React from "react";
           "--card-y": "22px",
           "--card-rotate": "6deg"
         },
-        company: "The Wash Company",
+        ...adamhProject,
         motion: {
           start: { x: -40, y: 280, scale: 0.9, rotate: 7 },
           cp1: { x: 36, y: 176 },
@@ -98,7 +104,7 @@ import React from "react";
           duration: 1520,
           delay: 140
         },
-        image: "assets/client-cards/the-wash-company.jpg",
+        image: adamhProject.image,
         circle: { left: "16px", top: "16px", background: "rgba(241, 246, 235, 0.92)" },
         title: "twillful",
         accent: "site"
@@ -198,7 +204,7 @@ import React from "react";
     ];
 
     function useReducedMotion() {
-      const [reduced, setReduced] = React.useState(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+      const [reduced, setReduced] = React.useState(false);
       React.useEffect(() => {
         const query = window.matchMedia("(prefers-reduced-motion: reduce)");
         const update = () => setReduced(query.matches);
@@ -211,73 +217,58 @@ import React from "react";
 
     function AnimatedHeroHeader() {
       const heroCardRefs = React.useRef({});
+      const heroRef = React.useRef(null);
       const prefersReducedMotion = useReducedMotion();
 
       React.useEffect(() => {
-
-        function cubicPoint(p0, p1, p2, p3, t) {
-          const mt = 1 - t;
-          return (
-            mt * mt * mt * p0 +
-            3 * mt * mt * t * p1 +
-            3 * mt * t * t * p2 +
-            t * t * t * p3
-          );
-        }
-
-        function smoothstep(t) {
-          return t * t * (3 - 2 * t);
-        }
-
-        heroCards.forEach((card) => {
+        let active = true;
+        const animations = [];
+        const elements = Object.values(heroCardRefs.current).filter(Boolean);
+        const finish = () => heroCards.forEach(card => {
           const element = heroCardRefs.current[card.key];
-          const motion = card.motion;
-          if (!element || !motion) return;
-
-          const finalTransform = `translate(${motion.end.x}px, ${motion.end.y}px) scale(${motion.end.scale}) rotate(${motion.end.rotate}deg)`;
-          element.getAnimations().forEach((animation) => animation.cancel());
-
-          if (prefersReducedMotion) {
-            element.style.opacity = "1";
-            element.style.transform = finalTransform;
-            return;
-          }
-
-          const steps = 48;
-          const keyframes = Array.from({ length: steps + 1 }, (_, index) => {
-            const progress = index / steps;
-            const t = smoothstep(progress);
-            const x = cubicPoint(motion.start.x, motion.cp1.x, motion.cp2.x, motion.end.x, t);
-            const y = cubicPoint(motion.start.y, motion.cp1.y, motion.cp2.y, motion.end.y, t);
-            const rotate = motion.start.rotate + (motion.end.rotate - motion.start.rotate) * t;
-            const scale = motion.start.scale + (motion.end.scale - motion.start.scale) * t;
-            const opacity = progress < 0.12 ? progress / 0.12 : 1;
-
-            return {
-              opacity,
-              transform: `translate(${x}px, ${y}px) scale(${scale}) rotate(${rotate}deg)`
+          element.style.opacity = "1";
+          element.style.transform = finalCardTransform(card.motion.end);
+          element.style.willChange = "auto";
+        });
+        if (prefersReducedMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          finish();
+          heroRef.current.classList.add("is-ready");
+          return;
+        }
+        // Decode only the five priority hero images, not the offscreen gallery/logos.
+        const decoded = elements.map(element => {
+          const image = element.querySelector("img");
+          return image?.decode ? image.decode().catch(() => {}) : Promise.resolve();
+        });
+        Promise.all(decoded).then(() => {
+          if (!active) return;
+          const belowFold = Math.max(420, window.innerHeight - elements[0].getBoundingClientRect().top + 140);
+          const startTime = document.timeline?.currentTime;
+          heroRef.current.classList.add("is-ready");
+          heroCards.forEach(card => {
+            const element = heroCardRefs.current[card.key];
+            element.style.willChange = "transform, opacity";
+            const animation = element.animate(entranceFrames(card.motion.end, belowFold), {
+              duration: 2200, easing: "linear", fill: "both"
+            });
+            if (startTime != null) animation.startTime = startTime;
+            animations.push(animation);
+            animation.onfinish = () => {
+              element.style.opacity = "1";
+              element.style.transform = finalCardTransform(card.motion.end);
+              element.style.willChange = "auto";
+              animation.cancel();
             };
           });
-
-          const animation = element.animate(keyframes, {
-            duration: motion.duration,
-            delay: motion.delay,
-            easing: "linear",
-            fill: "forwards"
-          });
-
-          animation.onfinish = () => {
-            element.style.opacity = "1";
-            element.style.transform = finalTransform;
-          };
         });
-        return () => Object.values(heroCardRefs.current).forEach(element => {
-          element?.getAnimations().forEach(animation => animation.cancel());
-        });
+        return () => {
+          active = false;
+          animations.forEach(animation => animation.cancel());
+        };
       }, [prefersReducedMotion]);
 
       return (
-        <section className="saas-hero-shell">
+        <section ref={heroRef} className="saas-hero-shell">
           <div className="saas-stage">
             <div className="flex h-full min-h-[720px] flex-col px-7 pt-7 sm:px-10 sm:pt-9 lg:px-12">
               <div className="flex items-center justify-between gap-6">
@@ -332,7 +323,7 @@ import React from "react";
                       >
                         <div className="hero-hover-pill">{card.company}</div>
                         <div className="hero-card-art">
-                          {card.image && <img src={card.image} alt={card.company || card.label || card.title} className="hero-card-image" />}
+                          {card.image && <CardImage src={card.image} hero fetchpriority={card.key === "lead" ? "high" : "auto"} alt={card.company || card.label || card.title} className="hero-card-image" />}
                           {!card.image && (
                             <>
                               <div className="hero-card-grid" />
@@ -386,10 +377,17 @@ import React from "react";
       React.useEffect(() => {
         let active = true;
         const images = [...trustRef.current.querySelectorAll(".trust-logo-image")];
-        // Reserve geometry in CSS and only move the strip after image decoding.
-        Promise.all(images.map(image => image.decode ? image.decode().catch(() => {}) : Promise.resolve()))
-          .then(() => { if (active) setLogosReady(true); });
-        return () => { active = false; };
+        const observer = new IntersectionObserver(([entry]) => {
+          if (!entry.isIntersecting) return;
+          observer.disconnect();
+          // Once near the section, load the full strip, including offscreen logos.
+          // Leaving those lazy would deadlock the decode gate as the strip is paused.
+          images.forEach(image => { image.loading = "eager"; });
+          Promise.all(images.map(image => image.decode ? image.decode().catch(() => {}) : Promise.resolve()))
+            .then(() => { if (active) setLogosReady(true); });
+        }, { rootMargin: "400px" });
+        observer.observe(trustRef.current);
+        return () => { active = false; observer.disconnect(); };
       }, []);
       const contactSectionRef = React.useRef(null);
       const contactChatIntentRef = React.useRef(false);
@@ -544,7 +542,7 @@ import React from "react";
                 <div className="trust-track" data-ready={logosReady}>
                   {[...trustLogos, ...trustLogos].map((logo, index) => (
                     <div key={`${logo.name}-${index}`} className="trust-logo" aria-hidden={index >= trustLogos.length ? true : undefined}>
-                      <img src={logo.src} alt={logo.name} width="500" height="500" className="trust-logo-image" />
+                      <CardImage src={logo.src} alt={logo.name} className="trust-logo-image" />
                     </div>
                   ))}
                 </div>
@@ -552,46 +550,10 @@ import React from "react";
             </div>
           </section>
 
-          <section id="about" className="gallery-section px-6 py-20 md:px-10 md:py-24 lg:px-16">
-            <div className="mx-auto max-w-7xl">
+          <section id="about" className="gallery-section py-20 md:py-24">
+            <div>
               <div className="px-0 py-6 sm:py-8 md:py-10">
-                <div className="gallery-wave py-4">
-                  <div className="gallery-track gallery-track--offset">
-                    {[...galleryCardsTop, ...galleryCardsTop, ...galleryCardsTop, ...galleryCardsTop].map((card, index) => {
-                      const isDuplicate = index >= galleryCardsTop.length;
-                      const CardTag = card.url ? "a" : "div";
-                      return (
-                        <CardTag
-                          key={`top-${card.label}-${index}`}
-                          aria-hidden={isDuplicate ? true : undefined}
-                          tabIndex={card.url && isDuplicate ? -1 : undefined}
-                          {...(card.url
-                            ? { href: card.url, target: "_blank", rel: "noreferrer noopener" }
-                            : {})}
-                          className={`gallery-mini-card ${card.url ? "gallery-mini-card--linked" : ""}`}
-                          style={{
-                            background: card.background,
-                            "--wave-offset": card.offset,
-                            "--wave-delay": card.delay
-                          }}
-                        >
-                          <span className="gallery-hover-pill">{card.company || card.label}</span>
-                          <span className="gallery-mini-card-art" aria-hidden="true">
-                            {card.image && <img src={card.image} alt="" className="gallery-mini-card-image" />}
-                            {!card.image && (
-                              <>
-                                <span className="gallery-mini-card-grid" />
-                                <span className="gallery-mini-card-line" />
-                                <span className="gallery-mini-card-circle" />
-                                <span className="gallery-mini-card-label">{card.label}</span>
-                              </>
-                            )}
-                          </span>
-                        </CardTag>
-                      );
-                    })}
-                  </div>
-                </div>
+                <GalleryRow cards={galleryCardsTop} />
 
                 <div className="mx-auto max-w-2xl px-4 py-14 text-center md:py-16">
                   <h2
@@ -605,43 +567,7 @@ import React from "react";
                   </p>
                 </div>
 
-                <div className="gallery-wave py-4">
-                  <div className="gallery-track gallery-track--reverse">
-                    {[...galleryCardsBottom, ...galleryCardsBottom, ...galleryCardsBottom, ...galleryCardsBottom].map((card, index) => {
-                      const isDuplicate = index >= galleryCardsBottom.length || galleryCardsTop.some(item => item.label === card.label);
-                      const CardTag = card.url ? "a" : "div";
-                      return (
-                        <CardTag
-                          key={`bottom-${card.label}-${index}`}
-                          aria-hidden={isDuplicate ? true : undefined}
-                          tabIndex={card.url && isDuplicate ? -1 : undefined}
-                          {...(card.url
-                            ? { href: card.url, target: "_blank", rel: "noreferrer noopener" }
-                            : {})}
-                          className={`gallery-mini-card ${card.url ? "gallery-mini-card--linked" : ""}`}
-                          style={{
-                            background: card.background,
-                            "--wave-offset": card.offset,
-                            "--wave-delay": card.delay
-                          }}
-                        >
-                          <span className="gallery-hover-pill gallery-hover-pill--bottom">{card.company || card.label}</span>
-                          <span className="gallery-mini-card-art" aria-hidden="true">
-                            {card.image && <img src={card.image} alt="" className="gallery-mini-card-image" />}
-                            {!card.image && (
-                              <>
-                                <span className="gallery-mini-card-grid" />
-                                <span className="gallery-mini-card-line" />
-                                <span className="gallery-mini-card-circle" />
-                                <span className="gallery-mini-card-label">{card.label}</span>
-                              </>
-                            )}
-                          </span>
-                        </CardTag>
-                      );
-                    })}
-                  </div>
-                </div>
+                <GalleryRow cards={galleryCardsBottom} reverse hiddenLabels={galleryCardsTop.map(card => card.label)} />
               </div>
             </div>
           </section>

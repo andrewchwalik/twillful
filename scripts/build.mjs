@@ -4,10 +4,12 @@ import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
 import { createHash } from 'node:crypto';
 import { readFile, writeFile, mkdir, readdir, unlink } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import path from 'node:path';
+import { optimizeImages } from './images.mjs';
 const root = fileURLToPath(new URL('../', import.meta.url));
 process.chdir(root);
+const images = await optimizeImages();
 const output = path.join(root, 'assets/build');
 const js = await build({
   entryPoints: ['src/main.jsx'], bundle: true, write: false, minify: true,
@@ -27,7 +29,26 @@ for (const [extension, contents] of [['js', js.outputFiles[0].text], ['css', min
   files.push(name);
 }
 const template = await readFile('src/index.html', 'utf8');
+const serverFile = path.join(output, 'render.mjs');
+await build({
+  entryPoints: ['src/server.jsx'], bundle: true, outfile: serverFile,
+  format: 'esm', platform: 'node', packages: 'external',
+  define: { 'process.env.NODE_ENV': '"production"' }
+});
+let markup;
+try {
+  ({ html: markup } = await import(pathToFileURL(serverFile).href));
+} finally {
+  await unlink(serverFile);
+}
+const heroSources = ['adamh.svg', 'lakeside-laundromat.jpg', 'bluebird.jpg', 'the-caption-lab.jpg', 'firelands-united.jpg'];
+const preloads = heroSources.map(file => {
+  const versions = images[`assets/client-cards/${file}`];
+  return `<link rel="preload" as="image" href="${versions.at(-1).src}" imagesrcset="${versions.map(image => `${image.src} ${image.width}w`).join(', ')}" imagesizes="(max-width: 640px) 116px, (max-width: 900px) 142px, 184px" />`;
+}).join('\n  ');
 await writeFile('index.html', template
+  .replace('<!-- BUILD_HTML -->', markup)
+  .replace('<!-- BUILD_PRELOADS -->', preloads)
   .replace('<!-- BUILD_CSS -->', `<link rel="stylesheet" href="/assets/build/${files[1]}" />`)
   .replace('<!-- BUILD_JS -->', `<script type="module" src="/assets/build/${files[0]}"></script>`));
 // Only remove obsolete files owned by this build; preserve all other site assets.

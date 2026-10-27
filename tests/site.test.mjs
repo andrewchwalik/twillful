@@ -45,8 +45,8 @@ test('rendered site supports motion changes, canonical links, and live feedback'
     assert.equal(document.querySelectorAll('.trust-logo:not([aria-hidden="true"])').length, 18);
     assert.equal(document.querySelectorAll('#about button').length, 0);
     const links = [...document.querySelectorAll('#about a')].filter(link => link.tabIndex >= 0);
-    assert.equal(links.length, 4);
-    assert.equal(new Set(links.map(link => link.href)).size, 4);
+    assert.equal(links.length, 6);
+    assert.equal(new Set(links.map(link => link.href)).size, 6);
     assert.ok(links.every(link => !link.closest('[aria-hidden="true"]')));
     assert.equal(document.querySelectorAll('main').length, 1);
     assert.equal(document.querySelector('.skip-link').hash, '#main');
@@ -94,6 +94,7 @@ test('logo strip reserves geometry and waits for decoded images, including faile
   window.Element.prototype.getAnimations = () => [];
   window.Element.prototype.animate = () => ({ cancel() {} });
   window.HTMLImageElement.prototype.decode = function () {
+    if (!this.classList.contains('trust-logo-image')) return Promise.resolve();
     return new Promise((resolve, reject) => pending.push({ resolve, reject }));
   };
   window.eval(js);

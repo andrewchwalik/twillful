@@ -1,6 +1,7 @@
 # Twillful
 
-The homepage uses React 18 with precompiled, locally hosted JavaScript and CSS.
+The homepage uses React 18 with prerendered HTML and locally hosted JavaScript,
+CSS, fonts, and optimized images. Visitors see the page before React hydrates it.
 GitHub Pages continues serving the root of `main`; no hosting configuration changes
 are required. ZapTap, its support/privacy pages, CNAME, robots.txt and sitemap remain
 separate static files.
@@ -10,7 +11,7 @@ separate static files.
 Use Node.js 22.12+ and the checked-in package lock:
 
 ```sh
-npm ci --ignore-scripts
+npm ci
 npm run check
 python3 -m http.server 8765 --bind 127.0.0.1
 ```
@@ -20,7 +21,23 @@ The build writes root `index.html` and fingerprinted assets under `assets/build/
 Commit both source and generated output together. Do not edit generated files.
 The build is deterministic; consecutive builds with the same sources and lockfile
 produce identical output. React is bundled in production mode; Babel and Tailwind
-no longer run in visitors' browsers. Google Fonts remains the existing font source.
+no longer run in visitors' browsers. Manrope is self-hosted with its font license
+under `assets/fonts/`, so initial loading requires no third-party services.
+
+The build creates fingerprinted WebP images in `assets/optimized/` and a generated
+`src/images.json` manifest from the originals in `assets/client-cards/` and
+`assets/client-logos/`. Edit originals, not generated images. Cards get separate
+160px gallery and 384px hero versions; logos get 120px versions for 2x displays.
+The five hero images are preloaded and decoded before the shared entrance timeline
+starts. Other images load lazily; the logo strip prepares when near the viewport.
+
+`npm run test:browser` uses installed Google Chrome to check 390px through 7680px
+viewports, loop boundaries and multiple cycles, hover labels, tab return, image
+loading, the hero sequence, and reduced motion. Screenshots go to
+`/tmp/twillful-checks/`. Set `BROWSER_CHANNEL` to use another installed channel.
+Each gallery loop has two identical groups, each filled to at least the viewport
+width plus overscan. A ResizeObserver updates the repeat count and constant-speed
+duration after resizing; there is no fixed upper limit on viewport coverage.
 
 Tests use mocked network requests and do not submit real inquiries. The contact
 Worker is deployed separately; see `contact-relay/README.md`. Do not submit the
@@ -34,15 +51,11 @@ hero text immediately, lays out the canonical logos/cards without motion, and sh
 the decorative chat's final messages. Preference changes are handled while open.
 Form feedback is announced through a persistent live status region.
 
-## Dependency audit limitation
+## Dependencies
 
-The runtime-only audit reports no known vulnerabilities as of this change.
-The full audit reports five high-severity package entries stemming from the same
-unpatched `braces <=3.0.3` build-time denial-of-service advisory:
-https://github.com/advisories/GHSA-vfj7-8cjw-p6xm . Tailwind 3 depends on that glob
-parser. This build accepts only repository-controlled source paths, not visitor
-input, and the parser is not shipped in browser assets. A Tailwind 4 migration is
-outside this design-preserving pass. Recheck the advisory before updating tooling.
+Image processing and browser testing dependencies are development-only and are
+not shipped in the browser bundle. Run `npm audit` when updating dependencies;
+the image optimizer is pinned to a patched release in the package lock.
 
 ## Potential spam protection (not enabled)
 

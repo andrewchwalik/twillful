@@ -1,0 +1,170 @@
+{
+  "assets/client-cards/adamh.svg": [
+    {
+      "width": 160,
+      "src": "/assets/optimized/adamh-160-f7b814e3d1.webp"
+    },
+    {
+      "width": 384,
+      "src": "/assets/optimized/adamh-384-b8208735cd.webp"
+    }
+  ],
+  "assets/client-cards/andrew-chwalik.svg": [
+    {
+      "width": 160,
+      "src": "/assets/optimized/andrew-chwalik-160-b76600358c.webp"
+    },
+    {
+      "width": 384,
+      "src": "/assets/optimized/andrew-chwalik-384-9898623916.webp"
+    }
+  ],
+  "assets/client-cards/bluebird.jpg": [
+    {
+      "width": 160,
+      "src": "/assets/optimized/bluebird-160-82ecb1b261.webp"
+    },
+    {
+      "width": 384,
+      "src": "/assets/optimized/bluebird-384-3f1ca16505.webp"
+    }
+  ],
+  "assets/client-cards/firelands-united.jpg": [
+    {
+      "width": 160,
+      "src": "/assets/optimized/firelands-united-160-1f7efaa71d.webp"
+    },
+    {
+      "width": 384,
+      "src": "/assets/optimized/firelands-united-384-b2de2ddc0b.webp"
+    }
+  ],
+  "assets/client-cards/lakeside-laundromat.jpg": [
+    {
+      "width": 160,
+      "src": "/assets/optimized/lakeside-laundromat-160-264151a6e7.webp"
+    },
+    {
+      "width": 384,
+      "src": "/assets/optimized/lakeside-laundromat-384-0e346d994c.webp"
+    }
+  ],
+  "assets/client-cards/the-caption-lab.jpg": [
+    {
+      "width": 160,
+      "src": "/assets/optimized/the-caption-lab-160-4694978e8b.webp"
+    },
+    {
+      "width": 384,
+      "src": "/assets/optimized/the-caption-lab-384-12b984b52a.webp"
+    }
+  ],
+  "assets/client-logos/adamh-logo.png": [
+    {
+      "width": 120,
+      "src": "/assets/optimized/adamh-logo-120-7a2105b68f.webp"
+    }
+  ],
+  "assets/client-logos/ascend-music-academy-logo.png": [
+    {
+      "width": 120,
+      "src": "/assets/optimized/ascend-music-academy-logo-120-7c71607507.webp"
+    }
+  ],
+  "assets/client-logos/delaware-rising-logo.png": [
+    {
+      "width": 120,
+      "src": "/assets/optimized/delaware-rising-logo-120-324c6f3602.webp"
+    }
+  ],
+  "assets/client-logos/firelands-united-logo.png": [
+    {
+      "width": 120,
+      "src": "/assets/optimized/firelands-united-logo-120-32b3cd292f.webp"
+    }
+  ],
+  "assets/client-logos/greater-firelands-logo.png": [
+    {
+      "width": 120,
+      "src": "/assets/optimized/greater-firelands-logo-120-7b3639639e.webp"
+    }
+  ],
+  "assets/client-logos/homebuys-logo.png": [
+    {
+      "width": 120,
+      "src": "/assets/optimized/homebuys-logo-120-a413542d16.webp"
+    }
+  ],
+  "assets/client-logos/instinct-identity-logo.png": [
+    {
+      "width": 120,
+      "src": "/assets/optimized/instinct-identity-logo-120-bfe89a8f6b.webp"
+    }
+  ],
+  "assets/client-logos/keller-williams-logo.png": [
+    {
+      "width": 120,
+      "src": "/assets/optimized/keller-williams-logo-120-9d87a77ef7.webp"
+    }
+  ],
+  "assets/client-logos/main-squeeze-logo.png": [
+    {
+      "width": 120,
+      "src": "/assets/optimized/main-squeeze-logo-120-a738b1b88d.webp"
+    }
+  ],
+  "assets/client-logos/marion-crawford-prevention-programs-logo.png": [
+    {
+      "width": 120,
+      "src": "/assets/optimized/marion-crawford-prevention-programs-logo-120-89a20f750d.webp"
+    }
+  ],
+  "assets/client-logos/nucamp-logo.png": [
+    {
+      "width": 120,
+      "src": "/assets/optimized/nucamp-logo-120-6b11330723.webp"
+    }
+  ],
+  "assets/client-logos/pure-life-health-logo.png": [
+    {
+      "width": 120,
+      "src": "/assets/optimized/pure-life-health-logo-120-a6ea6655b5.webp"
+    }
+  ],
+  "assets/client-logos/reflektions-logo.png": [
+    {
+      "width": 120,
+      "src": "/assets/optimized/reflektions-logo-120-6f506d3a73.webp"
+    }
+  ],
+  "assets/client-logos/retie-logo.png": [
+    {
+      "width": 120,
+      "src": "/assets/optimized/retie-logo-120-1eedf975ce.webp"
+    }
+  ],
+  "assets/client-logos/sauced-pizza-logo.png": [
+    {
+      "width": 120,
+      "src": "/assets/optimized/sauced-pizza-logo-120-116d99f4f3.webp"
+    }
+  ],
+  "assets/client-logos/st-andrews-logo.png": [
+    {
+      "width": 120,
+      "src": "/assets/optimized/st-andrews-logo-120-088ba0ba33.webp"
+    }
+  ],
+  "assets/client-logos/terra-state-logo.png": [
+    {
+      "width": 120,
+      "src": "/assets/optimized/terra-state-logo-120-5e3158657a.webp"
+    }
+  ],
+  "assets/client-logos/topped-logo.png": [
+    {
+      "width": 120,
+      "src": "/assets/optimized/topped-logo-120-fcc538cc99.webp"
+    }
+  ]
+}

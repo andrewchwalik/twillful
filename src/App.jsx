@@ -3,8 +3,8 @@ import { CardImage } from "./CardImage.jsx";
 import { GalleryRow } from "./GalleryRow.jsx";
 import { entranceFrames, finalCardTransform } from "./motion.js";
 
-const adamhProject = { label: "ADAMH", company: "ADAMH", url: "https://andrewchwalik.github.io/adamh-header-prototype/", image: "assets/client-cards/adamh.svg", background: "#91a986" };
-const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "https://andrewchwalik.com/", image: "assets/client-cards/andrew-chwalik.svg", background: "#496958" };
+const adamhProject = { label: "ADAMH", company: "ADAMH", url: "https://andrewchwalik.github.io/adamh-header-prototype/", image: "assets/client-cards/adamh-painting.png", background: "#91a986" };
+const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "https://andrewchwalik.com/", image: "assets/client-cards/andrew-chwalik-painting.png", background: "#496958" };
 
     const services = [
       {
@@ -68,7 +68,7 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
       { ...adamhProject, offset: 7, delay: "1.6s" },
       { label: "UX", background: "linear-gradient(160deg, #c8ced8 0%, #e4d7d1 46%, #f7f4ef 100%)", offset: 13, delay: "2s" },
       { label: "Identity", background: "linear-gradient(160deg, #e28b8b 0%, #d43e3e 42%, #76b6e5 100%)", offset: 4, delay: "2.4s" },
-      { label: "Firelands", company: "Firelands United", url: "https://firelandsunited.com/", background: "#334164", image: "assets/client-cards/firelands-united.jpg", offset: 11, delay: "2.8s" },
+      { label: "Firelands", company: "Firelands United", url: "https://firelandsunited.com/", background: "#334164", image: "assets/client-cards/firelands-united-textile.png", offset: 11, delay: "2.8s" },
       { label: "Website", background: "linear-gradient(160deg, #fad046 0%, #f9f68a 38%, #ffb03b 100%)", offset: 6, delay: "3.2s" },
       { label: "Studio", background: "linear-gradient(160deg, #d96932 0%, #f48c5a 42%, #6a271c 100%)", offset: 12, delay: "3.6s" }
     ];
@@ -82,7 +82,7 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
       { label: "Caption Lab", company: "The Caption Lab", url: "https://www.thecaptionlab.com/", background: "#574070", image: "assets/client-cards/the-caption-lab.jpg", offset: 6, delay: "2.2s" },
       { ...personalProject, offset: 10, delay: "2.6s" },
       { ...adamhProject, offset: 4, delay: "3s" },
-      { label: "Firelands", company: "Firelands United", url: "https://firelandsunited.com/", background: "#334164", image: "assets/client-cards/firelands-united.jpg", offset: 13, delay: "3.4s" },
+      { label: "Firelands", company: "Firelands United", url: "https://firelandsunited.com/", background: "#334164", image: "assets/client-cards/firelands-united-textile.png", offset: 13, delay: "3.4s" },
       { label: "Studio", background: "linear-gradient(160deg, #5d2fa0 0%, #8a55d6 42%, #f2b3ff 100%)", offset: 8, delay: "3.8s" }
     ];
 
@@ -196,7 +196,7 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
           duration: 1500,
           delay: 1320
         },
-        image: "assets/client-cards/firelands-united.jpg",
+        image: "assets/client-cards/firelands-united-textile.png",
         circle: { left: "18px", top: "18px", background: "rgba(255,255,255,0.2)" },
         title: "launch",
         accent: "fast"
@@ -713,7 +713,6 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
               <div>© <span id="year">{new Date().getFullYear()}</span> twillful.</div>
               <div className="flex items-center gap-5">
                 <a href="#about" className="transition hover:text-brandDeep">Portfolio</a>
-                <a href="/zaptap/" className="transition hover:text-brandDeep">ZapTap</a>
                 <a href="#contact" className="transition hover:text-brandDeep">Hire Us</a>
               </div>
             </div>

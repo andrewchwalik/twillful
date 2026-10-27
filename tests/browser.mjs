@@ -87,6 +87,18 @@ try {
   await page.mouse.move(0, 0);
   await page.locator('#services').scrollIntoViewIfNeeded();
   await page.waitForFunction(() => document.querySelector('.trust-track').dataset.ready === 'true');
+  const logos = page.locator('.trust-marquee');
+  const logoBounds = await logos.boundingBox();
+  await page.mouse.move(logoBounds.x + logoBounds.width / 2, logoBounds.y + logoBounds.height / 2);
+  assert.equal(await page.locator('.trust-track').evaluate(track => getComputedStyle(track).animationPlayState), 'paused');
+  await page.mouse.click(logoBounds.x + logoBounds.width / 2, logoBounds.y + logoBounds.height / 2);
+  await page.mouse.move(0, 0);
+  assert.equal(await page.locator('.trust-track').evaluate(track => getComputedStyle(track).animationPlayState), 'running', 'pointer focus must not leave the client logos permanently paused');
+  const beforeResume = await page.locator('.trust-track').evaluate(track => track.getBoundingClientRect().x);
+  await page.waitForTimeout(200);
+  const afterResume = await page.locator('.trust-track').evaluate(track => track.getBoundingClientRect().x);
+  assert.ok(Math.abs(beforeResume - afterResume) > 1, 'logos must actually move after pointer leaves');
+  assert.equal(await page.locator('footer a[href="/zaptap/"]').count(), 0);
   const broken = await page.evaluate(() => [...document.images].filter(image => image.complete && !image.naturalWidth).map(image => image.src));
   assert.deepEqual(broken, []);
   await page.emulateMedia({ reducedMotion: 'reduce' });

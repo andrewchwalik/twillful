@@ -12,7 +12,7 @@ export async function optimizeImages() {
   let after = 0;
   for (const folder of ['client-cards', 'client-logos']) {
     for (const file of (await readdir(`assets/${folder}`)).sort()) {
-      if (!/\.(jpg|png|svg)$/i.test(file) || file === 'the-wash-company.jpg') continue;
+      if (!/\.(jpg|png|svg)$/i.test(file) || ['the-wash-company.jpg', 'firelands-united.jpg'].includes(file)) continue;
       const source = `assets/${folder}/${file}`;
       const original = await readFile(source);
       before += original.length;

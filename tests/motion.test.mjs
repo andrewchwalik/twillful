@@ -26,6 +26,7 @@ test('generated page includes real content and early responsive image discovery'
   assert.doesNotMatch(html, /the-wash-company\.jpg/);
   assert.match(html, /https:\/\/andrewchwalik\.github\.io\/adamh-header-prototype\//);
   assert.match(html, /https:\/\/andrewchwalik\.com\//);
+  assert.doesNotMatch(html, /href="\/zaptap\/"/);
 });
 
 test('all portfolio and logo images have lightweight generated versions', async () => {

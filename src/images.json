@@ -1,22 +1,22 @@
 {
-  "assets/client-cards/adamh.svg": [
+  "assets/client-cards/adamh-painting.png": [
     {
       "width": 160,
-      "src": "/assets/optimized/adamh-160-f7b814e3d1.webp"
+      "src": "/assets/optimized/adamh-painting-160-6b68f24bfd.webp"
     },
     {
       "width": 384,
-      "src": "/assets/optimized/adamh-384-b8208735cd.webp"
+      "src": "/assets/optimized/adamh-painting-384-3c49b18aca.webp"
     }
   ],
-  "assets/client-cards/andrew-chwalik.svg": [
+  "assets/client-cards/andrew-chwalik-painting.png": [
     {
       "width": 160,
-      "src": "/assets/optimized/andrew-chwalik-160-b76600358c.webp"
+      "src": "/assets/optimized/andrew-chwalik-painting-160-d898d8d87a.webp"
     },
     {
       "width": 384,
-      "src": "/assets/optimized/andrew-chwalik-384-9898623916.webp"
+      "src": "/assets/optimized/andrew-chwalik-painting-384-754d0e0bc7.webp"
     }
   ],
   "assets/client-cards/bluebird.jpg": [
@@ -29,14 +29,14 @@
       "src": "/assets/optimized/bluebird-384-3f1ca16505.webp"
     }
   ],
-  "assets/client-cards/firelands-united.jpg": [
+  "assets/client-cards/firelands-united-textile.png": [
     {
       "width": 160,
-      "src": "/assets/optimized/firelands-united-160-1f7efaa71d.webp"
+      "src": "/assets/optimized/firelands-united-textile-160-e90d56c840.webp"
     },
     {
       "width": 384,
-      "src": "/assets/optimized/firelands-united-384-b2de2ddc0b.webp"
+      "src": "/assets/optimized/firelands-united-textile-384-ef744aa582.webp"
     }
   ],
   "assets/client-cards/lakeside-laundromat.jpg": [

@@ -41,7 +41,7 @@ try {
 } finally {
   await unlink(serverFile);
 }
-const heroSources = ['adamh.svg', 'lakeside-laundromat.jpg', 'bluebird.jpg', 'the-caption-lab.jpg', 'firelands-united.jpg'];
+const heroSources = ['adamh-painting.png', 'lakeside-laundromat.jpg', 'bluebird.jpg', 'the-caption-lab.jpg', 'firelands-united-textile.png'];
 const preloads = heroSources.map(file => {
   const versions = images[`assets/client-cards/${file}`];
   return `<link rel="preload" as="image" href="${versions.at(-1).src}" imagesrcset="${versions.map(image => `${image.src} ${image.width}w`).join(', ')}" imagesizes="(max-width: 640px) 116px, (max-width: 900px) 142px, 184px" />`;

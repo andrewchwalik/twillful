@@ -1058,8 +1058,9 @@
 .skip-link { position: fixed; top: 1rem; left: 1rem; z-index: 100; padding: .75rem 1rem; background: white; color: #142012; transform: translateY(-200%); }
 .skip-link:focus { transform: none; }
 .trust-marquee:focus-visible { outline: 3px solid #61774d; outline-offset: 6px; }
+/* Keyboard focus pauses the strip; focus left behind by a pointer click must not. */
 .trust-marquee:hover .trust-track,
-.trust-marquee:focus-within .trust-track { animation-play-state: paused; }
+.trust-marquee:focus-visible .trust-track { animation-play-state: paused; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

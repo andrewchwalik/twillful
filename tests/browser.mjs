@@ -35,6 +35,28 @@ try {
   await page.evaluate(() => window.heroAnimations.forEach(animation => animation?.finish()));
   await page.waitForTimeout(150);
   assert.equal(await page.locator('.contact-bubble--incoming').count(), 0, 'contact chat should not start at page load');
+  await page.waitForFunction(() => document.querySelectorAll('.hero-card[data-highlighted="true"]').length === 1);
+  await page.waitForTimeout(350);
+  const firstHighlight = await page.locator('.hero-card[data-highlighted="true"]').getAttribute('data-card-key');
+  assert.equal(await page.locator('.hero-card[data-highlighted="true"] .hero-hover-pill').evaluate(pill => getComputedStyle(pill).opacity), '1');
+  await page.waitForFunction(key => {
+    const cards = document.querySelectorAll('.hero-card[data-highlighted="true"]');
+    return cards.length === 1 && cards[0].dataset.cardKey !== key;
+  }, firstHighlight, { timeout: 3500 });
+  const manualCard = page.locator('.hero-card[data-card-key="c"]');
+  const manualPoint = await manualCard.evaluate(card => {
+    const rect = card.getBoundingClientRect();
+    return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+  });
+  await page.mouse.move(manualPoint.x, manualPoint.y);
+  await page.waitForFunction(() => document.querySelector('.hero-card[data-highlighted="true"]')?.dataset.cardKey === 'c');
+  await page.waitForTimeout(2400);
+  assert.equal(await page.locator('.hero-card[data-highlighted="true"]').count(), 1);
+  assert.equal(await page.locator('.hero-card[data-highlighted="true"]').getAttribute('data-card-key'), 'c', 'manual hover must hold past the automatic interval');
+  await page.screenshot({ path: '/tmp/twillful-checks/header-spotlight-hover.png' });
+  await page.mouse.move(0, 0);
+  await page.waitForFunction(() => document.querySelector('.hero-card[data-highlighted="true"]')?.dataset.cardKey === 'd', null, { timeout: 1500 });
+  console.log('Automatic header spotlight, single-label hover override, and resume verified.');
   for (const width of [320, 360, 390, 430, 480, 540, 620, 639, 640, 768, 900, 1440]) {
     await page.setViewportSize({ width, height: 1000 });
     await page.waitForTimeout(80);
@@ -73,6 +95,35 @@ try {
   }
   await mobile.evaluate(() => window.heroAnimations.forEach(animation => animation?.finish()));
   await mobile.waitForTimeout(2800);
+  await mobile.waitForFunction(() => document.querySelectorAll('.hero-card[data-highlighted="true"]').length === 1);
+  for (const labelWidth of [320, 390]) {
+    await mobile.setViewportSize({ width: labelWidth, height: 844 });
+    await mobile.waitForTimeout(80);
+    for (let i = 0; i < 5; i++) {
+    await mobile.evaluate(key => {
+      const card = document.querySelector(`.hero-card[data-card-key="${key}"]`);
+      card.focus();
+      // Use a mouse-type pointer event to inspect each responsive callout without navigating.
+      card.dispatchEvent(new PointerEvent('pointerover', { bubbles: true, pointerType: 'mouse' }));
+    }, ['a', 'b', 'c', 'd', 'lead'][i]);
+    await mobile.waitForTimeout(320);
+    const label = await mobile.locator('.hero-card[data-highlighted="true"] .hero-hover-pill').evaluate(pill => {
+      const rect = pill.getBoundingClientRect();
+      return { left: rect.left, right: rect.right, top: rect.top, heading: document.querySelector('h1').getBoundingClientRect().bottom,
+        opacity: getComputedStyle(pill).opacity, height: rect.height };
+    });
+    assert.ok(label.left >= 0 && label.right <= labelWidth, `mobile company label leaves the screen: ${JSON.stringify(label)}`);
+    assert.ok(label.top > label.heading + 4, `mobile company label overlaps the title: ${JSON.stringify(label)}`);
+    assert.equal(label.opacity, '1');
+    assert.ok(label.height >= 20, 'mobile labels must remain readable');
+    if (i === 0) await mobile.screenshot({ path: `/tmp/twillful-checks/mobile-spotlight-${labelWidth}.png` });
+    await mobile.evaluate(() => {
+      const card = document.querySelector('.hero-card[data-highlighted="true"]');
+      card.dispatchEvent(new PointerEvent('pointerout', { bubbles: true, pointerType: 'mouse', relatedTarget: document.body }));
+      card.blur();
+    });
+    }
+  }
   await mobile.screenshot({ path: '/tmp/twillful-checks/mobile-header-final.png' });
   await mobile.setViewportSize({ width: 844, height: 390 });
   await mobile.waitForTimeout(100);

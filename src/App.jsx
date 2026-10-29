@@ -2,6 +2,7 @@ import React from "react";
 import { CardImage } from "./CardImage.jsx";
 import { GalleryRow } from "./GalleryRow.jsx";
 import { entranceFrames, finalCardTransform } from "./motion.js";
+import { useHeroSpotlight } from "./useHeroSpotlight.js";
 
 const adamhProject = { label: "ADAMH", company: "ADAMH", url: "https://andrewchwalik.github.io/adamh-header-prototype/", image: "assets/client-cards/adamh-painting.png", background: "#91a986" };
 const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "https://andrewchwalik.com/", image: "assets/client-cards/andrew-chwalik-painting.png", background: "#496958" };
@@ -203,6 +204,8 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
       }
     ];
 
+    const heroSpotlightKeys = [...heroCards].sort((a, b) => a.motion.end.x - b.motion.end.x).map(card => card.key);
+
     function useReducedMotion() {
       const [reduced, setReduced] = React.useState(false);
       React.useEffect(() => {
@@ -220,6 +223,8 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
       const heroRef = React.useRef(null);
       const fanRef = React.useRef(null);
       const prefersReducedMotion = useReducedMotion();
+      const [settled, setSettled] = React.useState(false);
+      const spotlight = useHeroSpotlight({ keys: heroSpotlightKeys, settled, reducedMotion: prefersReducedMotion, heroRef });
 
       React.useEffect(() => {
         const fan = fanRef.current;
@@ -240,6 +245,8 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
 
       React.useEffect(() => {
         let active = true;
+        let remaining = heroCards.length;
+        setSettled(false);
         const animations = [];
         const elements = Object.values(heroCardRefs.current).filter(Boolean);
         const finish = () => heroCards.forEach(card => {
@@ -251,6 +258,7 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
         if (prefersReducedMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
           finish();
           heroRef.current.classList.add("is-ready");
+          setSettled(true);
           return;
         }
         // Decode only the five priority hero images, not the offscreen gallery/logos.
@@ -278,6 +286,8 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
               element.style.transform = finalCardTransform(card.motion.end);
               element.style.willChange = "auto";
               animation.cancel();
+              remaining -= 1;
+              if (active && remaining === 0) setSettled(true);
             };
           });
         });
@@ -288,7 +298,7 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
       }, [prefersReducedMotion]);
 
       return (
-        <section ref={heroRef} className="saas-hero-shell">
+        <section ref={heroRef} className="saas-hero-shell" data-cards-settled={settled}>
           <div className="saas-stage">
             <div className="flex h-full min-h-[720px] flex-col px-7 pt-7 sm:px-10 sm:pt-9 lg:px-12">
               <div className="flex items-center justify-between gap-6">
@@ -341,8 +351,14 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
                           : {})}
                         className={card.className}
                         style={card.style}
+                        data-card-key={card.key}
+                        data-highlighted={spotlight.activeKey === card.key}
+                        onPointerEnter={event => spotlight.pointerEnter(card.key, event)}
+                        onPointerLeave={() => spotlight.pointerLeave(card.key)}
+                        onFocus={event => spotlight.focus(card.key, event)}
+                        onBlur={() => spotlight.blur(card.key)}
                       >
-                        <div className="hero-hover-pill">{card.company}</div>
+                        <div className="hero-hover-pill" aria-hidden="true">{card.company}</div>
                         <div className="hero-card-art">
                           {card.image && <CardImage src={card.image} hero fetchpriority={card.key === "lead" ? "high" : "auto"} alt={card.company || card.label || card.title} className="hero-card-image" />}
                           {!card.image && (

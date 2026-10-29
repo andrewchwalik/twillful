@@ -460,8 +460,8 @@
       opacity: 0;
       pointer-events: none;
       left: 50%;
-      top: -48px;
-      transform: translate(-50%, 14px) scale(0.96);
+      bottom: calc(100% + 12px);
+      transform: translate(var(--pill-align, -50%), 14px) scale(0.96);
       transition:
         opacity 0.22s ease,
         transform 0.22s ease;
@@ -483,16 +483,15 @@
       border-bottom: 1px solid rgba(149, 180, 117, 0.28);
     }
 
-    .hero-card:hover .hero-hover-pill,
-    .hero-card:focus-within .hero-hover-pill {
+    .hero-card[data-highlighted="true"] .hero-hover-pill {
       opacity: 1;
-      transform: translate(-50%, 0) scale(1);
+      transform: translate(var(--pill-align, -50%), 0) scale(1);
     }
 
-    .hero-card:hover,
-    .hero-card:focus-within {
+    .hero-card[data-highlighted="true"] {
       translate: 0 -10px;
       scale: 1.028;
+      z-index: 20;
     }
 
     .hero-card:focus-visible {
@@ -1068,7 +1067,22 @@
       }
 
       .hero-hover-pill {
-        display: none;
+        font-size: clamp(13px, calc(12px / var(--fan-scale)), 40px);
+      }
+
+      .hero-card--a .hero-hover-pill {
+        left: 0;
+        --pill-align: 0%;
+      }
+
+      .hero-card--a .hero-hover-pill::after {
+        left: 20%;
+      }
+
+      .hero-card--lead .hero-hover-pill {
+        left: auto;
+        right: 0;
+        --pill-align: 0%;
       }
     }
   

@@ -45,6 +45,13 @@ animation offsets: that spreads the cards outside phone screens. The entrance's
 below-fold starting distance also accounts for the scene scale. Browser checks
 cover narrow phones, breakpoint edges, the mobile entrance, and phone rotation.
 
+After all five entrance animations finish, the header spotlights one card for
+2 seconds, lowers it for 300ms, then advances left to right. Pointer hover and
+keyboard focus take priority; leaving resumes with the following card. Cycling
+pauses when the header or tab is hidden and is disabled for reduced motion.
+`tests/hero-spotlight.test.mjs` verifies timing with controlled timers; browser
+checks cover hover takeover and readable, unclipped mobile labels.
+
 Tests use mocked network requests and do not submit real inquiries. The contact
 Worker is deployed separately; see `contact-relay/README.md`. Do not submit the
 local preview form to test delivery.

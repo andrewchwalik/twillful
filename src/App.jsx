@@ -164,8 +164,8 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
           "--card-y": "12px",
           "--card-rotate": "-1deg"
         },
-        company: "The Caption Lab",
-        url: "https://www.thecaptionlab.com/",
+        company: "SweatyThumb",
+        url: "https://sweatythumb.com/",
         motion: {
           start: { x: 224, y: 24, scale: 0.97, rotate: 6 },
           cp1: { x: 184, y: 22 },
@@ -174,7 +174,7 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
           duration: 1480,
           delay: 1260
         },
-        image: "assets/client-cards/the-caption-lab.jpg",
+        image: "assets/client-cards/sweatythumb-abstract.png",
         circle: { right: "18px", bottom: "18px", background: "rgba(255,255,255,0.45)" },
         title: "copy",
         accent: "voice"

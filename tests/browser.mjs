@@ -44,6 +44,9 @@ try {
     return cards.length === 1 && cards[0].dataset.cardKey !== key;
   }, firstHighlight, { timeout: 3500 });
   const manualCard = page.locator('.hero-card[data-card-key="c"]');
+  assert.equal(await manualCard.getAttribute('href'), 'https://sweatythumb.com/');
+  assert.equal(await manualCard.locator('.hero-hover-pill').textContent(), 'SweatyThumb');
+  assert.ok(await manualCard.locator('img').evaluate(image => image.complete && image.naturalWidth > 0 && image.currentSrc.includes('sweatythumb-abstract')));
   const manualPoint = await manualCard.evaluate(card => {
     const rect = card.getBoundingClientRect();
     return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };

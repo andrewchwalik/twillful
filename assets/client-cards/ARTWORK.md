@@ -13,6 +13,7 @@ materials, and compatible colors, not by repeating the same medium.
 | ADAMH | Botanical watercolor and ink | A thriving plant, light, and growth | `adamh-painting.png` |
 | Andrew Chwalik | Linocut / lithographic travel print | A hiker pursuing a mountain summit | `andrew-chwalik-painting.png` |
 | Firelands United | Woven and embroidered textile | Football players and supporters | `firelands-united-textile.png` |
+| SweatyThumb | Abstract acrylic mixed media | An athlete in motion, repetitions and momentum | `sweatythumb-abstract.png` |
 
 The three PNGs were created with the built-in image generator on October 27, 2026.
 They are original conceptual illustrations, not photographs of client premises
@@ -20,6 +21,20 @@ or screenshots of the projects. Existing artwork and initial generated drafts
 served as subject references. The final art directions and exact final prompts
 are recorded below. Large originals stay here for editing; visitors receive only
 the build's optimized 160px and 384px WebP versions.
+
+## SweatyThumb
+
+Output: `sweatythumb-abstract.png`. Created with the built-in image generator on October 29, 2026, without image references. Brand direction came from https://sweatythumb.com/: workout reps earn screen time; midnight navy, electric lime, teal and ivory. Replaces The Caption Lab only in the header, including the company pill and destination link. The Caption Lab remains in the portfolio gallery. The build serves optimized 160px and 384px WebP derivatives, not the original PNG.
+
+Final prompt:
+
+Use case: stylized-concept.
+Asset type: original square full-bleed artwork for the SweatyThumb fitness app's card in a premium web-design agency's art-gallery portfolio.
+Primary request: Create a sophisticated ABSTRACT FITNESS artwork, a dynamic semi-abstract athlete performing an energetic squat/lunge with arms reaching through a sweeping circular movement arc. Suggest strength, repetition, momentum, and a healthier relationship with screen time through the movement, not a literal app interface.
+Style/medium: contemporary abstract mixed-media painting, confident fractured cubist anatomy, interlocking expressive color planes, broad matte acrylic gestures, charcoal contour fragments, scraped pigment and subtle canvas grain. Recognizably athletic yet intentionally abstract; beautiful gallery art, not a flat icon, stock fitness ad, or generic geometric placeholder.
+Composition: one bold athletic figure dominates the center and fills the square, strong bent legs and curved arms create an immediately legible movement silhouette. Rhythm of three offset gestural arcs and a few small sweat-like marks. Layered navy negative spaces, luminous lime body/movement planes and teal accents. Balanced, uncluttered, visually striking even as a small thumbnail. Keep the primary subject in the central 75 percent so rounded corners and neighboring card overlap do not obscure it.
+Color palette: SweatyThumb brand midnight navy #080f30, electric lime #d1fa14, teal #00a9ac, warm ivory #fffdf4; restrained proportions with a rich navy and ivory field and vivid lime focal point.
+Constraints: square image, edge-to-edge artwork with pigment reaching every edge. No text, letters, numbers, logos, border, rounded corners, frame, mat, wall mockup, cards, phones, UI, or watermarks. No oil impasto, watercolor botanical art, embroidery, newspaper collage, photorealism or glossy 3D. The result should feel art-directed, hand-crafted, fluid and premium, with the physicality of athletic effort.
 
 ## ADAMH
 

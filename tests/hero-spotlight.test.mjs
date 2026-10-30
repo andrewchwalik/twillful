@@ -76,12 +76,12 @@ test('hero spotlight waits for all cards, cycles for two seconds, and yields to 
     point(lead, 'pointerover');
     await settle(() => activeKey() === 'lead' && timers.size === 0);
     assert.equal(highlighted().length, 1, 'manual hover must lower the automatic card');
-    const caption = window.document.querySelector('[data-card-key="c"]');
-    point(lead, 'pointerout', caption);
-    point(caption, 'pointerover', lead);
+    const sweaty = window.document.querySelector('[data-card-key="c"]');
+    point(lead, 'pointerout', sweaty);
+    point(sweaty, 'pointerover', lead);
     await settle(() => activeKey() === 'c' && timers.size === 0);
     assert.equal(highlighted().length, 1, 'moving between cards must not show two highlights');
-    point(caption, 'pointerout', window.document.body);
+    point(sweaty, 'pointerout', window.document.body);
     await settle(() => highlighted().length === 0 && timers.size === 1);
     fire(300);
     await settle(() => activeKey() === 'd');

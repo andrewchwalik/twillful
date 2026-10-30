@@ -24,6 +24,22 @@ test('production assets are local, minified, and reproducible', async () => {
   assert.equal(await readFile(new URL('..' + jsPath, import.meta.url), 'utf8'), js);
   assert.equal(await readFile(new URL('..' + cssPath, import.meta.url), 'utf8'), css);
 });
+test('SweatyThumb replaces only the Caption Lab header card with optimized artwork', async () => {
+  const document = new JSDOM(html).window.document;
+  const cards = document.querySelectorAll('.hero-card');
+  assert.equal(cards.length, 5);
+  const sweaty = document.querySelector('.hero-card[data-card-key="c"]');
+  assert.equal(sweaty.getAttribute('href'), 'https://sweatythumb.com/');
+  assert.equal(sweaty.getAttribute('target'), '_blank');
+  assert.equal(sweaty.querySelector('.hero-hover-pill').textContent, 'SweatyThumb');
+  const image = sweaty.querySelector('img');
+  assert.equal(image.alt, 'SweatyThumb');
+  assert.match(image.getAttribute('src'), /\/assets\/optimized\/sweatythumb-abstract-384-[a-f0-9]+\.webp$/);
+  assert.match(image.getAttribute('srcset'), /sweatythumb-abstract-160-/);
+  await access(new URL('..' + image.getAttribute('src'), import.meta.url));
+  assert.equal(document.querySelector('.saas-hero-shell a[href="https://www.thecaptionlab.com/"]'), null);
+  assert.ok(document.querySelector('#about a[href="https://www.thecaptionlab.com/"]'), 'Caption Lab remains in the portfolio');
+});
 test('rendered site supports motion changes, canonical links, and live feedback', async () => {
   const dom = new JSDOM(html, { url: 'https://example.invalid/', runScripts: 'outside-only', pretendToBeVisual: true });
   const { window } = dom;

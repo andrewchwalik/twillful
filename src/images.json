@@ -49,6 +49,16 @@
       "src": "/assets/optimized/lakeside-laundromat-384-0e346d994c.webp"
     }
   ],
+  "assets/client-cards/sweatythumb-abstract.png": [
+    {
+      "width": 160,
+      "src": "/assets/optimized/sweatythumb-abstract-160-961bc98646.webp"
+    },
+    {
+      "width": 384,
+      "src": "/assets/optimized/sweatythumb-abstract-384-edf7c5bfd6.webp"
+    }
+  ],
   "assets/client-cards/the-caption-lab.jpg": [
     {
       "width": 160,

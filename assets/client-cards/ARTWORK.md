@@ -5,6 +5,11 @@ that client's brand. Do not make the whole collection oil paintings. Preserve a
 cohesive gallery through square full-bleed crops, considered compositions, tactile
 materials, and compatible colors, not by repeating the same medium.
 
+Every site card belongs in the portfolio, including new additions. Register each
+project's artwork, company name and URL in `src/projects.js`; both portfolio rows
+automatically include all registered projects. The header selects a subset of the
+same catalog. Keep existing projects in the portfolio when replacing header cards.
+
 | Client | Art form | Brand-related subject | Source |
 | --- | --- | --- | --- |
 | Bluebird | Impasto oil painting | Cafe sandwich | `bluebird.jpg` |
@@ -24,7 +29,7 @@ the build's optimized 160px and 384px WebP versions.
 
 ## SweatyThumb
 
-Output: `sweatythumb-abstract.png`. Created with the built-in image generator on October 29, 2026, without image references. Brand direction came from https://sweatythumb.com/: workout reps earn screen time; midnight navy, electric lime, teal and ivory. Replaces The Caption Lab only in the header, including the company pill and destination link. The Caption Lab remains in the portfolio gallery. The build serves optimized 160px and 384px WebP derivatives, not the original PNG.
+Output: `sweatythumb-abstract.png`. Created with the built-in image generator on October 29, 2026, without image references. Brand direction came from https://sweatythumb.com/: workout reps earn screen time; midnight navy, electric lime, teal and ivory. Replaces The Caption Lab in the header, including the company pill and destination link, and also appears in both portfolio rows. The Caption Lab remains in the portfolio gallery. The build serves optimized 160px and 384px WebP derivatives, not the original PNG.
 
 Final prompt:
 

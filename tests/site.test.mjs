@@ -4,6 +4,7 @@ import { readFile, access } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
 import { JSDOM } from 'jsdom';
 import postcss from 'postcss';
+import { siteProjects } from '../src/projects.js';
 const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
 const jsPath = html.match(/src="(\/assets\/build\/[^" ]+\.js)"/)[1];
 const cssPath = html.match(/href="(\/assets\/build\/[^" ]+\.css)"/)[1];
@@ -40,6 +41,26 @@ test('SweatyThumb replaces only the Caption Lab header card with optimized artwo
   assert.equal(document.querySelector('.saas-hero-shell a[href="https://www.thecaptionlab.com/"]'), null);
   assert.ok(document.querySelector('#about a[href="https://www.thecaptionlab.com/"]'), 'Caption Lab remains in the portfolio');
 });
+test('both portfolio rows contain every registered project and every header site', () => {
+  const dom = new JSDOM(html);
+  try {
+    const document = dom.window.document;
+    const rows = document.querySelectorAll('#about .gallery-track');
+    assert.equal(rows.length, 2);
+    for (const row of rows) {
+      for (const project of Object.values(siteProjects)) {
+        const card = row.querySelector(`a[href="${project.url}"]`);
+        assert.ok(card, `${project.company} is missing from a portfolio row`);
+        assert.equal(card.querySelector('.gallery-hover-pill').textContent, project.company);
+        assert.equal(card.target, '_blank');
+        assert.ok(card.querySelector('img'));
+      }
+      for (const headerCard of document.querySelectorAll('.hero-card[href]')) {
+        assert.ok(row.querySelector(`a[href="${headerCard.getAttribute('href')}"]`), 'header sites must also be in the portfolio');
+      }
+    }
+  } finally { dom.window.close(); }
+});
 test('rendered site supports motion changes, canonical links, and live feedback', async () => {
   const dom = new JSDOM(html, { url: 'https://example.invalid/', runScripts: 'outside-only', pretendToBeVisual: true });
   const { window } = dom;
@@ -61,8 +82,8 @@ test('rendered site supports motion changes, canonical links, and live feedback'
     assert.equal(document.querySelectorAll('.trust-logo:not([aria-hidden="true"])').length, 18);
     assert.equal(document.querySelectorAll('#about button').length, 0);
     const links = [...document.querySelectorAll('#about a')].filter(link => link.tabIndex >= 0);
-    assert.equal(links.length, 6);
-    assert.equal(new Set(links.map(link => link.href)).size, 6);
+    assert.equal(links.length, Object.keys(siteProjects).length);
+    assert.equal(new Set(links.map(link => link.href)).size, Object.keys(siteProjects).length);
     assert.ok(links.every(link => !link.closest('[aria-hidden="true"]')));
     assert.equal(document.querySelectorAll('main').length, 1);
     assert.equal(document.querySelector('.skip-link').hash, '#main');

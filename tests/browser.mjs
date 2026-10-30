@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
 import { readFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
+import { siteProjects } from '../src/projects.js';
 
 const root = process.cwd();
 const types = { '.html': 'text/html', '.css': 'text/css', '.js': 'application/javascript', '.webp': 'image/webp', '.woff2': 'font/woff2', '.png': 'image/png' };
@@ -143,6 +144,11 @@ try {
   })), 'reduced-motion cards must also fit the mobile viewport');
   await mobile.close();
   console.log('Mobile entrance, phone rotation, and reduced-motion fan verified.');
+  for (const row of await page.locator('#about .gallery-track').all()) {
+    for (const project of Object.values(siteProjects)) {
+      assert.ok(await row.locator(`a[href="${project.url}"]`).count(), `${project.company} must appear in both portfolio rows`);
+    }
+  }
   for (const width of [390, 1440, 2560, 5120, 7680]) {
     await page.setViewportSize({ width, height: 1000 });
     await page.mouse.move(0, 0);

@@ -3,9 +3,9 @@ import { CardImage } from "./CardImage.jsx";
 import { GalleryRow } from "./GalleryRow.jsx";
 import { entranceFrames, finalCardTransform } from "./motion.js";
 import { useHeroSpotlight } from "./useHeroSpotlight.js";
+import { siteProjects, includeAllProjects } from "./projects.js";
 
-const adamhProject = { label: "ADAMH", company: "ADAMH", url: "https://andrewchwalik.github.io/adamh-header-prototype/", image: "assets/client-cards/adamh-painting.png", background: "#91a986" };
-const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "https://andrewchwalik.com/", image: "assets/client-cards/andrew-chwalik-painting.png", background: "#496958" };
+const { adamh: adamhProject, personal: personalProject } = siteProjects;
 
     const services = [
       {
@@ -61,31 +61,31 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
       { name: "Topped", src: "assets/client-logos/topped-logo.png" }
     ];
 
-    const galleryCardsTop = [
-      { label: "Bluebird", company: "Bluebird", url: "https://bluebird.ooo/", background: "#29486e", image: "assets/client-cards/bluebird.jpg", offset: 8, delay: "0s" },
-      { label: "Lakeside", company: "Lakeside Laundromat", url: "https://lakesidelaundromat.com/", background: "#9c6f4e", image: "assets/client-cards/lakeside-laundromat.jpg", offset: 15, delay: "0.4s" },
+    const galleryCardsTop = includeAllProjects([
+      { ...siteProjects.bluebird, offset: 8, delay: "0s" },
+      { ...siteProjects.lakeside, offset: 15, delay: "0.4s" },
       { ...personalProject, offset: 5, delay: "0.8s" },
-      { label: "Caption Lab", company: "The Caption Lab", url: "https://www.thecaptionlab.com/", background: "#574070", image: "assets/client-cards/the-caption-lab.jpg", offset: 14, delay: "1.2s" },
+      { ...siteProjects.captionLab, offset: 14, delay: "1.2s" },
       { ...adamhProject, offset: 7, delay: "1.6s" },
       { label: "UX", background: "linear-gradient(160deg, #c8ced8 0%, #e4d7d1 46%, #f7f4ef 100%)", offset: 13, delay: "2s" },
       { label: "Identity", background: "linear-gradient(160deg, #e28b8b 0%, #d43e3e 42%, #76b6e5 100%)", offset: 4, delay: "2.4s" },
-      { label: "Firelands", company: "Firelands United", url: "https://firelandsunited.com/", background: "#334164", image: "assets/client-cards/firelands-united-textile.png", offset: 11, delay: "2.8s" },
+      { ...siteProjects.firelands, offset: 11, delay: "2.8s" },
       { label: "Website", background: "linear-gradient(160deg, #fad046 0%, #f9f68a 38%, #ffb03b 100%)", offset: 6, delay: "3.2s" },
       { label: "Studio", background: "linear-gradient(160deg, #d96932 0%, #f48c5a 42%, #6a271c 100%)", offset: 12, delay: "3.6s" }
-    ];
+    ]);
 
-    const galleryCardsBottom = [
+    const galleryCardsBottom = includeAllProjects([
       { label: "Content", background: "linear-gradient(160deg, #58a8aa 0%, #9fe3d9 44%, #f5f0d4 100%)", offset: 11, delay: "0.2s" },
       { label: "Campaign", background: "linear-gradient(160deg, #f47e53 0%, #ffb06e 44%, #fff0d7 100%)", offset: 5, delay: "0.6s" },
-      { label: "Bluebird", company: "Bluebird", url: "https://bluebird.ooo/", background: "#29486e", image: "assets/client-cards/bluebird.jpg", offset: 12, delay: "1s" },
+      { ...siteProjects.bluebird, offset: 12, delay: "1s" },
       { label: "Social", background: "linear-gradient(160deg, #6aafe5 0%, #a6d6f6 42%, #f4d576 100%)", offset: 7, delay: "1.4s" },
-      { label: "Lakeside", company: "Lakeside Laundromat", url: "https://lakesidelaundromat.com/", background: "#9c6f4e", image: "assets/client-cards/lakeside-laundromat.jpg", offset: 14, delay: "1.8s" },
-      { label: "Caption Lab", company: "The Caption Lab", url: "https://www.thecaptionlab.com/", background: "#574070", image: "assets/client-cards/the-caption-lab.jpg", offset: 6, delay: "2.2s" },
+      { ...siteProjects.lakeside, offset: 14, delay: "1.8s" },
+      { ...siteProjects.captionLab, offset: 6, delay: "2.2s" },
       { ...personalProject, offset: 10, delay: "2.6s" },
       { ...adamhProject, offset: 4, delay: "3s" },
-      { label: "Firelands", company: "Firelands United", url: "https://firelandsunited.com/", background: "#334164", image: "assets/client-cards/firelands-united-textile.png", offset: 13, delay: "3.4s" },
+      { ...siteProjects.firelands, offset: 13, delay: "3.4s" },
       { label: "Studio", background: "linear-gradient(160deg, #5d2fa0 0%, #8a55d6 42%, #f2b3ff 100%)", offset: 8, delay: "3.8s" }
-    ];
+    ]);
 
     const heroCards = [
       {
@@ -118,8 +118,7 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
           "--card-y": "24px",
           "--card-rotate": "-11deg"
         },
-        company: "Lakeside Laundromat",
-        url: "https://lakesidelaundromat.com/",
+        ...siteProjects.lakeside,
         motion: {
           start: { x: 224, y: 24, scale: 0.97, rotate: 6 },
           cp1: { x: 168, y: 28 },
@@ -128,7 +127,6 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
           duration: 1440,
           delay: 1140
         },
-        image: "assets/client-cards/lakeside-laundromat.jpg",
         circle: { right: "18px", top: "18px", background: "rgba(255,255,255,0.42)" },
         title: "ux",
         accent: "flow"
@@ -141,8 +139,7 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
           "--card-y": "16px",
           "--card-rotate": "-5deg"
         },
-        company: "Bluebird",
-        url: "https://bluebird.ooo/",
+        ...siteProjects.bluebird,
         motion: {
           start: { x: 224, y: 24, scale: 0.97, rotate: 6 },
           cp1: { x: 176, y: 24 },
@@ -151,7 +148,6 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
           duration: 1460,
           delay: 1200
         },
-        image: "assets/client-cards/bluebird.jpg",
         circle: { left: "22px", bottom: "18px", background: "rgba(255,244,225,0.65)" },
         title: "brand",
         accent: "story"
@@ -164,8 +160,7 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
           "--card-y": "12px",
           "--card-rotate": "-1deg"
         },
-        company: "SweatyThumb",
-        url: "https://sweatythumb.com/",
+        ...siteProjects.sweatyThumb,
         motion: {
           start: { x: 224, y: 24, scale: 0.97, rotate: 6 },
           cp1: { x: 184, y: 22 },
@@ -174,7 +169,6 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
           duration: 1480,
           delay: 1260
         },
-        image: "assets/client-cards/sweatythumb-abstract.png",
         circle: { right: "18px", bottom: "18px", background: "rgba(255,255,255,0.45)" },
         title: "copy",
         accent: "voice"
@@ -187,8 +181,7 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
           "--card-y": "16px",
           "--card-rotate": "2deg"
         },
-        company: "Firelands United",
-        url: "https://firelandsunited.com/",
+        ...siteProjects.firelands,
         motion: {
           start: { x: 224, y: 24, scale: 0.97, rotate: 6 },
           cp1: { x: 214, y: 22 },
@@ -197,7 +190,6 @@ const personalProject = { label: "Andrew", company: "Andrew Chwalik", url: "http
           duration: 1500,
           delay: 1320
         },
-        image: "assets/client-cards/firelands-united-textile.png",
         circle: { left: "18px", top: "18px", background: "rgba(255,255,255,0.2)" },
         title: "launch",
         accent: "fast"

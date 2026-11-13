@@ -350,7 +350,9 @@ const { adamh: adamhProject, personal: personalProject } = siteProjects;
                         onFocus={event => spotlight.focus(card.key, event)}
                         onBlur={() => spotlight.blur(card.key)}
                       >
-                        <div className="hero-hover-pill" aria-hidden="true">{card.company}</div>
+                        <div className="hero-label-anchor" aria-hidden="true">
+                          <div className="hero-hover-pill">{card.company}</div>
+                        </div>
                         <div className="hero-card-art">
                           {card.image && <CardImage src={card.image} hero fetchpriority={card.key === "lead" ? "high" : "auto"} alt={card.company || card.label || card.title} className="hero-card-image" />}
                           {!card.image && (

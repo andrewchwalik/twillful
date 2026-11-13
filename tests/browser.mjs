@@ -17,7 +17,7 @@ await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const base = `http://127.0.0.1:${server.address().port}`;
 let browser;
 try {
-  browser = await chromium.launch({ channel: process.env.BROWSER_CHANNEL || 'chrome', headless: true });
+  browser = await chromium.launch({ ...(process.env.BROWSER_EXECUTABLE ? { executablePath: process.env.BROWSER_EXECUTABLE } : { channel: process.env.BROWSER_CHANNEL || 'chrome' }), headless: true });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
@@ -37,7 +37,7 @@ try {
   await page.waitForTimeout(150);
   assert.equal(await page.locator('.contact-bubble--incoming').count(), 0, 'contact chat should not start at page load');
   await page.waitForFunction(() => document.querySelectorAll('.hero-card[data-highlighted="true"]').length === 1);
-  await page.waitForTimeout(350);
+  await page.waitForTimeout(450);
   const firstHighlight = await page.locator('.hero-card[data-highlighted="true"]').getAttribute('data-card-key');
   assert.equal(await page.locator('.hero-card[data-highlighted="true"] .hero-hover-pill').evaluate(pill => getComputedStyle(pill).opacity), '1');
   await page.waitForFunction(key => {
@@ -100,7 +100,7 @@ try {
   await mobile.evaluate(() => window.heroAnimations.forEach(animation => animation?.finish()));
   await mobile.waitForTimeout(2800);
   await mobile.waitForFunction(() => document.querySelectorAll('.hero-card[data-highlighted="true"]').length === 1);
-  for (const labelWidth of [320, 390]) {
+  for (const labelWidth of [320, 390, 639]) {
     await mobile.setViewportSize({ width: labelWidth, height: 844 });
     await mobile.waitForTimeout(80);
     for (let i = 0; i < 5; i++) {
@@ -110,15 +110,18 @@ try {
       // Use a mouse-type pointer event to inspect each responsive callout without navigating.
       card.dispatchEvent(new PointerEvent('pointerover', { bubbles: true, pointerType: 'mouse' }));
     }, ['a', 'b', 'c', 'd', 'lead'][i]);
-    await mobile.waitForTimeout(320);
+    await mobile.waitForTimeout(450);
     const label = await mobile.locator('.hero-card[data-highlighted="true"] .hero-hover-pill').evaluate(pill => {
       const rect = pill.getBoundingClientRect();
       return { left: rect.left, right: rect.right, top: rect.top, heading: document.querySelector('h1').getBoundingClientRect().bottom,
-        opacity: getComputedStyle(pill).opacity, height: rect.height };
+        opacity: getComputedStyle(pill).opacity, height: rect.height,
+        center: rect.left + rect.width / 2,
+        cardCenter: (() => { const card = pill.closest('.hero-card').getBoundingClientRect(); return card.left + card.width / 2; })() };
     });
     assert.ok(label.left >= 0 && label.right <= labelWidth, `mobile company label leaves the screen: ${JSON.stringify(label)}`);
     assert.ok(label.top > label.heading + 4, `mobile company label overlaps the title: ${JSON.stringify(label)}`);
     assert.equal(label.opacity, '1');
+    assert.ok(Math.abs(label.center - label.cardCenter) < 1, `mobile title must center over its card: ${JSON.stringify(label)}`);
     assert.ok(label.height >= 20, 'mobile labels must remain readable');
     if (i === 0) await mobile.screenshot({ path: `/tmp/twillful-checks/mobile-spotlight-${labelWidth}.png` });
     await mobile.evaluate(() => {

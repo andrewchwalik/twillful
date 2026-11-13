@@ -1090,6 +1090,11 @@
         bottom: calc(100% + 12px);
       }
 
+      .hero-card--a .hero-hover-pill {
+        line-height: 1.15;
+        padding-block: 6px;
+      }
+
     }
   
 /* Accessible controls keep the existing appearance until focused. */

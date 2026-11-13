@@ -63,7 +63,7 @@ try {
   console.log('Automatic header spotlight, single-label hover override, and resume verified.');
   for (const width of [320, 360, 390, 430, 480, 540, 620, 639, 640, 768, 900, 1440]) {
     await page.setViewportSize({ width, height: 1000 });
-    await page.waitForTimeout(80);
+    await page.waitForTimeout(450);
     const fan = await page.evaluate(() => {
       const cards = [...document.querySelectorAll('.hero-card')].map(card => card.getBoundingClientRect());
       return { count: cards.length, left: Math.min(...cards.map(card => card.left)), right: Math.max(...cards.map(card => card.right)),
